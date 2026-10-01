@@ -1,0 +1,552 @@
+{
+  "name": "Gerador de Atividade v2 (Form)",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Gerador de Atividades — DocenteIA",
+        "formDescription": "Preencha os dados abaixo para gerar sua atividade ilustrada. O arquivo DOCX chegará no seu WhatsApp.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Série / Turma",
+              "placeholder": "Ex: 2º ano A",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Disciplina",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Matemática"
+                  },
+                  {
+                    "option": "Língua Portuguesa"
+                  },
+                  {
+                    "option": "História"
+                  },
+                  {
+                    "option": "Geografia"
+                  },
+                  {
+                    "option": "Ciências"
+                  },
+                  {
+                    "option": "Inglês"
+                  },
+                  {
+                    "option": "Física"
+                  },
+                  {
+                    "option": "Química"
+                  },
+                  {
+                    "option": "Biologia"
+                  },
+                  {
+                    "option": "Educação Física"
+                  },
+                  {
+                    "option": "Arte"
+                  },
+                  {
+                    "option": "AEE / Educação Especial"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Tema da atividade",
+              "placeholder": "Ex: Multiplicação, Civilizações antigas, Fato vs Opinião, Simple Past...",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Descrição / contexto extra",
+              "fieldType": "textarea",
+              "placeholder": "Opcional — ex: foco em interpretação de texto; turma com alunos AEE; usar contexto de festa junina..."
+            },
+            {
+              "fieldLabel": "Ilustração preferida",
+              "placeholder": "Opcional — ex: corações, laranjas, mapas, dinossauros (deixe em branco para automático)"
+            },
+            {
+              "fieldLabel": "Número de questões",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "3 questões (rápida)"
+                  },
+                  {
+                    "option": "6 questões (padrão)"
+                  },
+                  {
+                    "option": "9 questões"
+                  },
+                  {
+                    "option": "12 questões (completa)"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Tipo de questões",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Mista (recomendado)"
+                  },
+                  {
+                    "option": "Múltipla escolha"
+                  },
+                  {
+                    "option": "Dissertativa"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Modo de acessibilidade",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Padrão — turma regular"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {
+          "path": "264be043-0dd4-4c15-a4d1-7adae09e946e"
+        }
+      },
+      "id": "81c0d18b-ac99-405a-97f4-b1bad1f22a2e",
+      "name": "📝 Form: Gerador de Atividades",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -1920,
+        208
+      ],
+      "webhookId": "264be043-0dd4-4c15-a4d1-7adae09e946e"
+    },
+    {
+      "parameters": {
+        "jsCode": "const form = $input.first().json;\nconst qp = form.formQueryParameters || {};\nconst instance = (qp.instancia || qp.instance || '').trim();\nconst remoteJid = (qp.whatsapp || qp.remoteJid || '').trim();\n\nconst serie = (form['Série / Turma'] || '').trim();\nconst disciplina = (form['Disciplina'] || '').trim();\nconst tema = (form['Tema da atividade'] || '').trim();\nconst descricao = (form['Descrição / contexto extra'] || '').trim();\nconst ilustracao = (form['Ilustração preferida'] || '').trim();\nconst numQ = (form['Número de questões'] || '6 questões (padrão)').trim();\nconst tipoQ = (form['Tipo de questões'] || 'Mista (recomendado)').trim();\nconst modoA = (form['Modo de acessibilidade'] || 'Padrão — turma regular').trim();\n\nconst num = parseInt(numQ) || 6;\nconst modo_acessivel = modoA.indexOf('Padrão') === 0 ? false : true;\nconst nivel_acessivel = modoA.indexOf('Completo') === 0 ? 'completo' : (modoA.indexOf('Leve') === 0 ? 'leve' : 'nenhum');\n\nif (!serie || !disciplina || !tema) {\n  throw new Error('Campos obrigatórios faltando: série, disciplina ou tema.');\n}\n\nreturn [{ json: { instance, remoteJid, serie, disciplina, tema, descricao, ilustracao, num_questoes: num, tipo_questoes: tipoQ, modo_acessivel, nivel_acessivel } }];"
+      },
+      "id": "16ca196f-4b4f-414a-8059-ea697fbc412d",
+      "name": "📦 Mapear Form → Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1680,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $json.instance }}",
+        "remoteJid": "={{ $json.remoteJid }}",
+        "messageText": "=⏳ Pedido recebido!\n\n📚 {{ $json.disciplina }} — {{ $json.tema }} ({{ $json.serie }})\n\nEstou gerando sua atividade com ilustrações. O arquivo DOCX chega aqui em instantes! ☕",
+        "options_message": {
+          "delay": 500
+        }
+      },
+      "id": "737a3d80-90e7-493b-91db-896888732246",
+      "name": "📨 Aviso: Processando",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -1440,
+        208
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Lê os dados do formulário mapeado (não do nó anterior de WhatsApp)\nconst d = $('📦 Mapear Form → Payload').first().json;\n\nconst system = `Você é o DocenteIA, especialista em atividades pedagógicas brasileiras alinhadas à BNCC (1º ao 9º ano, EM, EJA, AEE).\nVocê receberá um pedido ESTRUTURADO com campos separados (disciplina, serie, tema, descricao, ilustracao, num_questoes, tipo_questoes, nivel_acessivel).\n\n🚨 REGRAS ABSOLUTAS:\n1. A DISCIPLINA DEFINE O QUE A QUESTÃO AVALIA. O tema e a ilustração preferida definem APENAS a ilustração/contexto. NUNCA transforme História, Português ou outra disciplina em contagem/matemática por causa de um objeto contável na ilustração.\n2. O tipo \"grupos\" é EXCLUSIVO de Matemática (multiplicação/adição com objetos).\n3. alternativas = array de strings simples. NUNCA escreva [object Object].\n4. NUNCA use enigmas de transfusão de jarras. Nível 3 = situação-problema do cotidiano (receitas, mercado, consumo de água).\n5. Gramática PT-BR rigorosa (Quantas laranjas, nunca Quantos laranjas).\n6. Adequação de série: 1º-3º ano = vivências, família, escola, comunidade, objetos e memórias do passado. Civilizações antigas = 6º ano.\n7. nivel_acessivel leve ou completo => modo_acessivel: true. completo => linguagem MUITO simples, frases curtas, máx. 3 questões por nível, pictogramas quando fizer sentido (camera = FATO, coracao = OPINIÃO).\n8. Distribua num_questoes igualmente entre os 3 níveis (Básico, Intermediário, Desafio).\n9. tipo_questoes: Múltipla escolha = todas com 4 alternativas (A/B/C/D); Dissertativa = todas com linhas_resposta 3; Mista = combine as duas.\n\n🎨 ILUSTRAÇÕES — REGRA UNIVERSAL (TODAS as disciplinas):\n\n1º) SVG PRÓPRIO (sempre relevante, use quando existir para o conceito):\n- Matemática: grupos, reta_numerica, geometria, fracao, grafico, tabela_multiplos {num1, num2}\n- Física: circuito {tipo serie|paralelo}, atomo {modelo bohr|thomson}, estados_materia, escala_ph\n- Química: tabela_periodica {elementos}, estados_materia, escala_ph\n- Ed. Física: quadra {esporte}, tabela_pontos {times}\n- Inglês: dialogo {falas}, vocabulario {palavras}\n- AEE: pictograma {conceito}, grade_pictogramas {conceitos}\n\n2º) PIXABAY (SOMENTE se o tema for CONCRETO e desenhável):\n- Concreto = animal, objeto, lugar, pessoa, cena, fenômeno natural, evento histórico visível\n- termo_busca em inglês + \"outline line art black and white worksheet\"\n- Exemplo BOM: \"ancient roman coins outline line art worksheet\"\n- Exemplo BOM: \"dinosaur t-rex outline line art worksheet\"\n\n3º) NENHUMA (tema ABSTRATO sem SVG próprio):\n- tipo_ilustracao: \"nenhuma\"\n- Exemplo: MMC, MDC, álgebra, gramática, ética, cidadania, filosofia, ortografia\n- Abstrato = conceito, método, teoria, regra, valor, técnica\n\n🔒 REGRA DE OURO: É PROIBIDO usar imagem genérica (\"math worksheet\", \"education\", \"school\", \"learning\", \"abstract\") só para preencher espaço. Na dúvida entre imagem genérica e nenhuma imagem, escolha NENHUMA.\n\n📋 ESTRUTURA JSON (responda APENAS o JSON):\n{\"conteudo\":\"string\",\"disciplina\":\"string\",\"serie\":\"string\",\"habilidade_bncc\":\"string\",\"dica_inicial\":\"string\",\"detectado\":true,\"modo_acessivel\":false,\"niveis\":[{\"numero\":1,\"titulo\":\"Básico\",\"questoes\":[{\"numero\":1,\"enunciado\":\"string\",\"tipo_ilustracao\":\"string\",\"ilustracao_params\":{},\"termo_busca\":\"string\",\"alternativas\":[\"A) ...\"],\"linha_resposta\":\" \",\"linhas_resposta\":0}]}],\"gabarito\":[{\"numero\":1,\"resposta\":\"string\"}]}`;\n\nconst user = 'PEDIDO ESTRUTURADO:\\n- Disciplina: ' + d.disciplina + '\\n- Série: ' + d.serie + '\\n- Tema: ' + d.tema + (d.descricao ? '\\n- Contexto extra do professor: ' + d.descricao : '') + (d.ilustracao ? '\\n- Ilustração preferida: ' + d.ilustracao : '') + '\\n- Total de questões: ' + d.num_questoes + '\\n- Tipo de questões: ' + d.tipo_questoes + '\\n- Acessibilidade: ' + d.nivel_acessivel + '\\n\\nGere a atividade completa em JSON.';\n\nreturn [{ json: { system, user, _ctx: d } }];\n\n"
+      },
+      "id": "426c79f7-8b7a-4415-bf6b-43f3c9dfeab9",
+      "name": "🔧 Montar Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1200,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'gpt-4o', messages: [{role:'system',content:$json.system},{role:'user',content:$json.user}], temperature: 0.5, response_format: {type: 'json_object'}, max_tokens: 8000 }) }}",
+        "options": {}
+      },
+      "id": "543eeb01-629a-4f3a-9d93-9b966ce914eb",
+      "name": "🤖 OpenAI: Gerar Atividade",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -960,
+        208
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "wKQN5ZfmgHFPxzcF",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const ctx = $('📦 Mapear Form → Payload').first().json;\nconst resp = $input.first().json;\nconst content = resp.choices?.[0]?.message?.content || '{}';\nlet atv;\ntry { atv = JSON.parse(content); }\ncatch(e) {\n  const m = content.match(/\\{[\\s\\S]*\\}/);\n  atv = m ? JSON.parse(m[0]) : { detectado: false };\n}\n\nif (atv && atv.niveis) {\n  atv.niveis.forEach(n => (n.questoes||[]).forEach(q => {\n    if (q.alternativas && Array.isArray(q.alternativas)) {\n      q.alternativas = q.alternativas.map(a => typeof a === 'string' ? a : (a.texto||a.text||a.label||a.opcao||Object.values(a)[0]||'')).filter(x => String(x).trim() !== '');\n    }\n    if (q.linha_resposta && typeof q.linha_resposta !== 'string') q.linha_resposta = String(q.linha_resposta);\n    if (q.linhas_resposta !== undefined) q.linhas_resposta = parseInt(q.linhas_resposta)||0;\n  }));\n}\n\natv.instance = ctx.instance;\natv.remoteJid = ctx.remoteJid;\nif (atv.modo_acessivel === undefined) atv.modo_acessivel = ctx.modo_acessivel;\nif (atv.detectado === undefined) atv.detectado = true;\n\nreturn [{ json: atv }];"
+      },
+      "id": "024d98bd-9ef4-47af-b1f2-63ca7f4b1e0c",
+      "name": "⚙️ Parse + Sanitize",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -720,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.detectado }}",
+              "value2": true
+            }
+          ],
+          "combinator": "and",
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          }
+        },
+        "options": {}
+      },
+      "id": "9e2f0b90-b148-4763-834f-16b420ded9d0",
+      "name": "✅ Detectado?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -480,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://docenteia-n8n-docenteia-api.ur1nry.easypanel.host/gerar-atividade",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "88acf9bde87641ddb8a35786392fc18c"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "87ea985e-5c31-4717-9c22-4743a93102c7",
+      "name": "🔧 API DocenteIA — Gera DOCX",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -240,
+        112
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "operation": "send-document",
+        "instanceName": "={{ $('📦 Mapear Form → Payload').item.json.instance }}",
+        "remoteJid": "={{ $('📦 Mapear Form → Payload').item.json.remoteJid }}",
+        "media": "={{ $json.docx_base64 }}",
+        "caption": "=✅ Atividade pronta! 🎉\n\n📚 Conteúdo: {{ $json.conteudo }}\n🎓 Série: {{ $json.serie }}\n📋 BNCC: {{ $json.habilidade_bncc }}\n\n📎 Arquivo Word pronto para imprimir!\nGerado pelo DocenteIA 🌟",
+        "fileName": "={{ $json.nome_arquivo }}",
+        "options_message": {}
+      },
+      "id": "598faaff-37cb-412f-8167-8d95583d66cb",
+      "name": "📲 Envia DOCX",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -64
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "completionTitle": "Atividade em geração! 🎉",
+        "completionMessage": "Recebemos seu pedido. O arquivo DOCX chegará no seu WhatsApp em instantes! ☕",
+        "limitWaitTime": true,
+        "resumeUnit": "minutes",
+        "options": {}
+      },
+      "id": "8f9473d9-4cdf-461e-87a7-053bc1097438",
+      "name": "✅ Form: Conclusão",
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        240,
+        208
+      ],
+      "webhookId": "58455928-cf2b-4fa1-beda-0767ea1cb9b8"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('📦 Mapear Form → Payload').item.json.instance }}",
+        "remoteJid": "={{ $('📦 Mapear Form → Payload').item.json.remoteJid }}",
+        "messageText": "👋 Não consegui interpretar esse pedido. Tente preencher o formulário novamente com tema e disciplina mais específicos.",
+        "options_message": {}
+      },
+      "id": "4bf155f6-f8dc-4354-829f-de942a429c6f",
+      "name": "📲 Fallback",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        16,
+        464
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('📦 Mapear Form → Payload').item.json.instance }}",
+        "remoteJid": "={{ $('📦 Mapear Form → Payload').item.json.remoteJid }}",
+        "messageText": "❌ Ocorreu um erro ao gerar a atividade. Tente novamente em instantes.",
+        "options_message": {}
+      },
+      "id": "f9da0f95-85eb-4d39-b387-1499d05db424",
+      "name": "📲 Erro",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        0,
+        208
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "📝 Form: Gerador de Atividades": [
+      {
+        "json": {
+          "Série / Turma": "6 ano A",
+          "Disciplina": "História",
+          "Tema da atividade": "Roma antiga",
+          "Descrição / contexto extra": "",
+          "Ilustração preferida": "",
+          "Número de questões": "12 questões (completa)",
+          "Tipo de questões": "Múltipla escolha",
+          "Modo de acessibilidade": "Padrão — turma regular",
+          "submittedAt": "2026-08-24T14:53:24.194-03:00",
+          "formMode": "production",
+          "formQueryParameters": {
+            "instancia": "whtas",
+            "whatsapp": "5519982097357@s.whatsapp.net"
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "📝 Form: Gerador de Atividades": {
+      "main": [
+        [
+          {
+            "node": "📦 Mapear Form → Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📦 Mapear Form → Payload": {
+      "main": [
+        [
+          {
+            "node": "📨 Aviso: Processando",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📨 Aviso: Processando": {
+      "main": [
+        [
+          {
+            "node": "🔧 Montar Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔧 Montar Prompt": {
+      "main": [
+        [
+          {
+            "node": "🤖 OpenAI: Gerar Atividade",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🤖 OpenAI: Gerar Atividade": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Parse + Sanitize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Parse + Sanitize": {
+      "main": [
+        [
+          {
+            "node": "✅ Detectado?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✅ Detectado?": {
+      "main": [
+        [
+          {
+            "node": "🔧 API DocenteIA — Gera DOCX",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "📲 Fallback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔧 API DocenteIA — Gera DOCX": {
+      "main": [
+        [
+          {
+            "node": "📲 Envia DOCX",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "📲 Erro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📲 Envia DOCX": {
+      "main": [
+        [
+          {
+            "node": "✅ Form: Conclusão",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📲 Erro": {
+      "main": [
+        [
+          {
+            "node": "✅ Form: Conclusão",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📲 Fallback": {
+      "main": [
+        [
+          {
+            "node": "✅ Form: Conclusão",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "9a7811d7-075e-4069-b787-bc9cca37e75b",
+  "meta": {
+    "instanceId": "ea30732b7484dfb258074bf24d3a47b450ea4a84b2219075cce71f27330e65b9"
+  },
+  "nodeGroups": [],
+  "id": "tq37JmiBV9Ycq4GZ",
+  "tags": []
+}

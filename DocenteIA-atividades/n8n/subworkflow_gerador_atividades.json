@@ -1,0 +1,325 @@
+{
+  "name": "DocenteIA — Gerador de Atividades Ilustradas (Sub-Workflow)",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "bd734492-a1fd-468c-b6c1-2c467becdb13",
+      "name": "📥 Trigger (chamado pelo Orquestrador)",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [-32, 160],
+      "notes": "Recebe: instance, remoteJid, conversation (mensagem original do professor)"
+    },
+    {
+      "parameters": {
+        "jsCode": "=const input = $input.item.json;\n\nconst instance   = input.instance   || input.instancia   || input.instanceName || '';\nconst remoteJid  = input.remoteJid  || input.numero_whatsapp || input.phone || '';\nconst mensagem   = input.conversation || input.mensagem   || input.text || '';\n\nreturn { instance, remoteJid, mensagem };"
+      },
+      "id": "a2c88d28-affd-4822-adf0-83c0a5aa6d1e",
+      "name": "📌 Prepara Contexto",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [144, 160]
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('📌 Prepara Contexto').item.json.instance }}",
+        "remoteJid": "={{ $('📌 Prepara Contexto').item.json.remoteJid }}",
+        "messageText": "⏳ Gerando sua atividade com ilustrações... Aguarde um momento! 📚✨",
+        "options_message": {}
+      },
+      "id": "e1237bf0-e759-42b0-95fc-78b4aa863716",
+      "name": "📲 Avisa que está gerando",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [416, 48],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Você é o DocenteIA, assistente pedagógico da rede SEE-SP. Gere atividades pedagógicas completas e estruturadas para qualquer disciplina do currículo brasileiro.\n\nRetorne APENAS um JSON válido, sem markdown, sem texto fora do JSON.\n\n🚨 REGRAS DE OURO (OBRIGATÓRIAS):\n1. GRAMÁTICA: Revise rigorosamente a concordância nominal e verbal em português (ex: \"Quantas laranjas\", nunca \"Quantos laranjas\").\n2. PEDAGOGIA (NÍVEL 3 / DESAFIO): NUNCA crie problemas de lógica de transfusão de líquidos (ex: enigmas de jarras de 3L e 5L para obter 4L) ou enigmas abstratos de distribuição entre recipientes. Para o nível de desafio, use situações-problema do cotidiano: receitas culinárias, consumo de água, compras no supermercado, capacidade de caixas d'água.\n3. PIXABAY: Ao gerar o campo \"termo_busca\", ADICIONE OBRIGATORIAMENTE as palavras \"outline line art black and white worksheet\" ao final dos termos em inglês. O objetivo é gerar imagens de contorno adequadas para impressão em preto e branco.\n4. AEE (EDUCAÇÃO ESPECIAL): Para atividades de Fato vs Opinião ou conceitos abstratos, NÃO use alternativas \"SIM/NÃO\". Use os pictogramas \"camera\" (para FATO/realidade) e \"coracao\" (para OPINIÃO/sentimento), criando questões de associação visual.\n5. ALTERNATIVAS: As alternativas de múltipla escolha devem ser SEMPRE um array de strings simples, ex: [\"A) 3\", \"B) 4\", \"C) 5\", \"D) 6\"]. NUNCA use objetos dentro do array.\n\nESTRUTURA OBRIGATÓRIA:\n{\n   \"conteudo\": \"string\",\n   \"disciplina\": \"string\",\n   \"serie\": \"string\",\n   \"habilidade_bncc\": \"string\",\n   \"dica_inicial\": \"string curta e motivadora\",\n   \"detectado\": true,\n   \"modo_acessivel\": false,\n   \"niveis\": [\n    {\n       \"numero\": 1,\n       \"titulo\": \"string\",\n       \"questoes\": [\n        {\n           \"numero\": 1,\n           \"enunciado\": \"string\",\n           \"tipo_ilustracao\": \"ver regras abaixo\",\n           \"ilustracao_params\": {},\n           \"termo_busca\": \"english keywords outline line art black and white worksheet\",\n           \"alternativas\": [\"A) ...\", \"B) ...\", \"C) ...\", \"D) ...\"],\n           \"linha_resposta\": \" \",\n           \"linhas_resposta\": 0\n        }\n      ]\n    }\n  ],\n   \"gabarito\": [{ \"numero\": 1, \"resposta\": \"string\" }]\n}\n\nREGRAS DE ILUSTRAÇÃO POR DISCIPLINA:\n\nMATEMÁTICA:\n- Multiplicação/adição com objetos → tipo: \"grupos\", params: { emoji: \"laranja|maca|bola|estrela|livro|lapis|flor|peixe|banana|cenoura|carro|aviao|casa\", grupos: N, por_grupo: N }\n- Reta numérica → tipo: \"reta_numerica\", params: { inicio: 0, fim: N, passo: N }\n- Geometria → tipo: \"geometria\", params: { forma: \"triangulo|quadrado|retangulo|circulo|hexagono|pentagono|losango|trapezio\" }\n- Frações → tipo: \"fracao\", params: { numerador: N, denominador: N }\n- Gráfico de barras → tipo: \"grafico\", params: { titulo: \"string\", dados: [{label:\"string\", valor:N}] }\n\nFÍSICA:\n- Circuito elétrico → tipo: \"circuito\", params: { tipo: \"serie|paralelo\" }\n- Modelo atômico → tipo: \"atomo\", params: { modelo: \"bohr|thomson\" }\n- Estados da matéria → tipo: \"estados_materia\", params: {}\n- Escala de pH → tipo: \"escala_ph\", params: {}\n\nQUÍMICA:\n- Tabela periódica parcial → tipo: \"tabela_periodica\", params: { elementos: [{ simbolo:\"H\", nome:\"Hidrogênio\", numero:1, categoria:\"metais|nao-metais|gases-nobres|semimetais\" }] }\n- Estados da matéria → tipo: \"estados_materia\", params: {}\n- Escala de pH → tipo: \"escala_ph\", params: {}\n\nEDUCAÇÃO FÍSICA:\n- Quadra esportiva → tipo: \"quadra\", params: { esporte: \"futebol|basquete|volei\" }\n- Tabela de pontuação → tipo: \"tabela_pontos\", params: { times: [{nome:\"string\", vitorias:N, derrotas:N, pontos:N}] }\n\nLÍNGUA INGLESA:\n- Vocabulário ilustrado → tipo: \"vocabulario\", params: { palavras: [{en:\"word\", pt:\"palavra\", emoji:\"🔤\"}] }\n- Diálogo com balões → tipo: \"dialogo\", params: { falas: [{personagem:\"string\", texto:\"string\", lado:\"esquerda|direita\"}] }\n\nCIÊNCIAS, HISTÓRIA, GEOGRAFIA, PORTUGUÊS, ARTE:\n- Imagem do Pixabay → tipo: \"pixabay\", termo_busca: \"2-4 english keywords outline line art black and white worksheet\"\n\nEDUCAÇÃO ESPECIAL (quando a série for AEE, APAE, NEE, ou o professor pedir \"adaptada\"):\n- OBRIGATÓRIO: modo_acessivel: true\n- Pictograma único → tipo: \"pictograma\", params: { conceito: \"sim|nao|camera|coracao|comer|beber|dormir|banheiro|ajuda|feliz|triste|escola|casa|brincar\" }\n- Grade de pictogramas → tipo: \"grade_pictogramas\", params: { conceitos: [\"sim\",\"nao\",\"camera\",\"coracao\"] }\n- Use linguagem simples e direta\n- Máximo 3 questões por nível\n- Alternativas em letras maiúsculas e simples\n- Para Fato vs Opinião: use sempre os pictogramas \"camera\" e \"coracao\" em vez de SIM/NÃO\n\nREGRAS GERAIS:\n- Sempre 3 níveis: básico (com ilustração), intermediário, desafio/situação-problema\n- Padrão: quantidade de questões que o professor pedir ou padrão de 6 questões (2 por nível), salvo pedido diferente do professor\n- Múltipla escolha: 4 alternativas (A/B/C/D) como array de strings, sem linha_resposta, sem linhas_resposta\n- Dissertativa: linhas_resposta: 3, alternativas: [], sem linha_resposta\n- Matemática com conta: linha_resposta preenchida (ex: \"2 × 3 = ____\"), sem alternativas, linhas_resposta: 0\n- Habilidade BNCC sempre correta para a série e conteúdo informados\n- Gabarito sempre preenchido exceto Ed. Especial dissertativa\n- Se não for pedido pedagógico claro: { \"detectado\": false }",
+              "role": "system"
+            },
+            {
+              "content": "={{ $('📌 Prepara Contexto').item.json.mensagem }}",
+              "role": "user"
+            }
+          ]
+        },
+        "simplify": false,
+        "jsonOutput": true,
+        "options": {}
+      },
+      "id": "38308c14-3dad-4c11-85d4-1907a0bf55dc",
+      "name": "🧠 GPT-4o — Gera atividade completa",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [352, 240],
+      "credentials": {
+        "openAiApi": {
+          "id": "wKQN5ZfmgHFPxzcF",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "=// ── Lê o output do GPT ────────────────────────────────────────────────────────\nconst ctx   = $('📌 Prepara Contexto').item.json;\nconst input = $input.item.json;\n\nlet gptText = '';\n\nif (input?.message?.content) {\n  gptText = input.message.content;\n} else if (input?.choices?.[0]?.message?.content) {\n  gptText = input.choices[0].message.content;\n} else if (typeof input?.content === 'string') {\n  gptText = input.content;\n} else {\n  gptText = JSON.stringify(input);\n}\n\n// ── Parse do JSON (remove cercas de markdown) ─────────────────────────────────\nlet atividade;\ntry {\n  if (typeof gptText === 'object' && gptText !== null) {\n    atividade = gptText;\n  } else {\n    let raw = String(gptText).split('`').join('').trim();\n    if (raw.startsWith('json')) raw = raw.slice(4).trim();\n    atividade = JSON.parse(raw);\n  }\n} catch(e) {\n  return { detectado: false, instance: ctx.instance, remoteJid: ctx.remoteJid };\n}\n\n// ── Sanitiza alternativas que vieram como objetos ─────────────────────────────\nif (atividade.niveis) {\n  atividade.niveis.forEach(nivel => {\n    if (!nivel.questoes) return;\n    nivel.questoes.forEach(q => {\n      // Corrige [object Object] nas alternativas (aceita chaves PT e EN)\n      if (q.alternativas && Array.isArray(q.alternativas)) {\n        q.alternativas = q.alternativas.map(alt => {\n          if (typeof alt === 'string') return alt;\n          if (typeof alt === 'object' && alt !== null) {\n            return alt.texto || alt.text || alt.label || alt.descricao || alt.opcao || alt.value || alt.content || Object.values(alt)[0] || '';\n          }\n          return String(alt);\n        }).filter(alt => String(alt).trim() !== '');\n      }\n\n      if (q.linha_resposta && typeof q.linha_resposta !== 'string') {\n        q.linha_resposta = String(q.linha_resposta);\n      }\n\n      if (q.linhas_resposta !== undefined) {\n        q.linhas_resposta = parseInt(q.linhas_resposta) || 0;\n      }\n\n      if (q.tipo_ilustracao && typeof q.tipo_ilustracao !== 'string') {\n        q.tipo_ilustracao = null;\n      }\n    });\n  });\n}\n\n// ── Injeta contexto ───────────────────────────────────────────────────────────\natividade.instance    = ctx.instance;\natividade.remoteJid   = ctx.remoteJid;\n\n// 🔒 SEGURANÇA: a chave do Pixabay NÃO fica mais hardcoded aqui.\n// A API usa a variável PIXABAY_API_KEY do próprio arquivo .env dela.\n// Se quiser forçar pelo n8n, defina PIXABAY_API_KEY no servidor n8n e descomente:\n// atividade.pixabay_key = $env.PIXABAY_API_KEY || '';\n\nreturn atividade;"
+      },
+      "id": "9af283c6-d21a-4ba8-9864-a51281d04e99",
+      "name": "⚙️ Parse do JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [640, 240]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.detectado }}",
+              "value2": true
+            }
+          ],
+          "combinator": "and",
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          }
+        },
+        "options": {}
+      },
+      "id": "bc6afdac-2630-4525-82ff-41efdf06a4bf",
+      "name": "✅ Atividade detectada?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [848, 240]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://outlast-unvarying-prone.ngrok-free.dev/gerar-atividade",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "teste123"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($('⚙️ Parse do JSON').item.json) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "fe0be98d-6d33-425d-83df-b4e8db7cc617",
+      "name": "🔧 API DocenteIA — Gera DOCX",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1088, 112],
+      "onError": "continueErrorOutput",
+      "notes": "Chama a API no PC local via ngrok. Quando subir para VPS, troque a URL para http://SEU_IP_VPS:3001/gerar-atividade. ATENÇÃO: a URL do ngrok muda a cada reinício no plano gratuito."
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "operation": "send-document",
+        "instanceName": "={{ $('📌 Prepara Contexto').item.json.instance }}",
+        "remoteJid": "={{ $('📌 Prepara Contexto').item.json.remoteJid }}",
+        "media": "={{ $('🔧 API DocenteIA — Gera DOCX').item.json.docx_base64 }}",
+        "caption": "=✅ Atividade pronta! 🎉📚 Conteúdo: {{ $('🔧 API DocenteIA — Gera DOCX').item.json.conteudo }} 🎓 Série: {{ $('🔧 API DocenteIA — Gera DOCX').item.json.serie }} 📋 BNCC: {{ $('🔧 API DocenteIA — Gera DOCX').item.json.habilidade_bncc }} 📎 Arquivo Word pronto para imprimir! Gerado pelo DocenteIA 🌟",
+        "fileName": "={{ $('🔧 API DocenteIA — Gera DOCX').item.json.nome_arquivo }}",
+        "options_message": {}
+      },
+      "id": "0c5029cb-5ba6-4eb1-9bdc-fef02916356e",
+      "name": "📲 Envia DOCX pelo WhatsApp",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [1408, -16],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('📌 Prepara Contexto').item.json.instance }}",
+        "remoteJid": "={{ $('📌 Prepara Contexto').item.json.remoteJid }}",
+        "messageText": "👋 Não entendi muito bem o que você precisa. Para gerar uma atividade, me diga por exemplo: 📌 \"Atividade de multiplicação para o 3º ano com laranjas\" 📌 \"Prova de ciências sobre o sistema solar, 5º ano\" 📌 \"Lista de frações com múltipla escolha para o 4º ano\" 📌 \"Atividade adaptada de comunicação para AEE\" Pode falar do seu jeito! 😊",
+        "options_message": {}
+      },
+      "id": "eb3d9a29-8f50-45f6-b450-1f4d216108d6",
+      "name": "📲 Fallback — Não entendeu",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [1120, 416],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('📌 Prepara Contexto').item.json.instance }}",
+        "remoteJid": "={{ $('📌 Prepara Contexto').item.json.remoteJid }}",
+        "messageText": "❌ Ocorreu um erro ao gerar a atividade. Tente novamente em instantes.",
+        "options_message": {}
+      },
+      "id": "fe0adc52-2f61-419a-ac85-8221d11cc3fc",
+      "name": "📲 Erro na geração",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [1424, 272],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      },
+      "notes": "Saída de ERRO do nó API. Só dispara se a API falhar."
+    }
+  ],
+  "connections": {
+    "📥 Trigger (chamado pelo Orquestrador)": {
+      "main": [
+        [
+          {
+            "node": "📌 Prepara Contexto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📌 Prepara Contexto": {
+      "main": [
+        [
+          {
+            "node": "📲 Avisa que está gerando",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "🧠 GPT-4o — Gera atividade completa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🧠 GPT-4o — Gera atividade completa": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Parse do JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Parse do JSON": {
+      "main": [
+        [
+          {
+            "node": "✅ Atividade detectada?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✅ Atividade detectada?": {
+      "main": [
+        [
+          {
+            "node": "🔧 API DocenteIA — Gera DOCX",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "📲 Fallback — Não entendeu",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔧 API DocenteIA — Gera DOCX": {
+      "main": [
+        [
+          {
+            "node": "📲 Envia DOCX pelo WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "📲 Erro na geração",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📲 Fallback — Não entendeu": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "pinData": {
+    "📥 Trigger (chamado pelo Orquestrador)": [
+      {
+        "json": {
+          "instance": "whtas",
+          "remoteJid": "5519982097357@s.whatsapp.net",
+          "conversation": "Quero uma atividade de medidas de capacidade para o 3º ano com 6 questões sendo 3 múltipla escolha e 3 dissertativas"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ea30732b7484dfb258074bf24d3a47b450ea4a84b2219075cce71f27330e65b9"
+  },
+  "tags": []
+}

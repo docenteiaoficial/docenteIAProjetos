@@ -1,0 +1,286 @@
+{
+  "name": "DocenteIA — Gerador Checkout Stripe",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "gerar-checkout",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "da56ed7c-cf32-48b2-9e49-a21aaec1c1f0",
+      "name": "📥 Webhook Gerar Checkout",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        80,
+        368
+      ],
+      "webhookId": "gerar-checkout"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ checkout_url: $json.checkout_url }) }}",
+        "options": {}
+      },
+      "id": "5d0986b7-19c8-4b40-b290-2e83cb983188",
+      "name": "⚡ Retornar URL",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        368
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "professores",
+        "limit": 1,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $json.body.remoteJid }}"
+            }
+          ]
+        }
+      },
+      "id": "8f781ca8-d250-446e-a14e-88a936a6d947",
+      "name": "🔍 Buscar Professor",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        320,
+        368
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.stripe.com/v1/checkout/sessions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            },
+            {
+              "name": "Authorization",
+              "value": "SUA_CHAVE_SECRET_DO_STRIPE_AQUI"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "mode",
+              "value": "subscription"
+            },
+            {
+              "name": "line_items[0][price]",
+              "value": "price_1TxalVRtWBGZbQ7lJRg0Kn3m"
+            },
+            {
+              "name": "line_items[0][quantity]",
+              "value": "1"
+            },
+            {
+              "name": "customer_email",
+              "value": "={{ $('🔍 Buscar Professor').item.json.email || $('🔍 Buscar Professor').item.json['E-mail'] || '' }}"
+            },
+            {
+              "name": "success_url",
+              "value": "https://api.whatsapp.com/send/?phone=5514991743146&text=Ol%C3%A1%21+Quero+conhecer+o+DocenteIA.&type=phone_number&app_absent=0"
+            },
+            {
+              "name": "cancel_url",
+              "value": "https://n8n.docenteia.com.br/webhook/stripe-cancel"
+            },
+            {
+              "name": "metadata[telefone]",
+              "value": "={{ $('🔍 Buscar Professor').item.json.telefone }}"
+            },
+            {
+              "name": "metadata[professor_id]",
+              "value": "={{ $('🔍 Buscar Professor').item.json.id }}"
+            },
+            {
+              "name": "locale",
+              "value": "pt-BR"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8ec3a4ff-e373-4b02-bae8-6b9e59712942",
+      "name": "💳 Criar Sessão Stripe",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        560,
+        368
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "checkout_url",
+              "value": "={{ $json.url }}",
+              "type": "string"
+            },
+            {
+              "id": "a2",
+              "name": "session_id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f869e094-7d06-472a-a43a-952fca3b208e",
+      "name": "📋 Extrair URL",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        800,
+        368
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('📥 Webhook Gerar Checkout').item.json.body.instance }}",
+        "remoteJid": "={{ $('📥 Webhook Gerar Checkout').item.json.body.remoteJid }}",
+        "messageText": "=🔒 Olá {{ $('🔍 Buscar Professor').item.json.nome }}!\n\nSua assinatura precisa ser renovada para continuar usando o DocenteIA.\n\nClique no link abaixo para assinar com segurança via Stripe:\n👉 {{ $json.checkout_url }}\n\nO link expira em 24 horas. Plano mensal: R$ 79,90/mês 💳",
+        "options_message": {}
+      },
+      "id": "7de0cdc6-3141-43ab-ab1b-f2852f4b063e",
+      "name": "📨 Enviar Link Checkout",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        368
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "📥 Webhook Gerar Checkout": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.docenteia.com.br",
+            "user-agent": "n8n",
+            "content-length": "63",
+            "accept": "application/json,text/html,application/xhtml+xml,application/xml,text/*;q=0.9, image/*;q=0.8, */*;q=0.7",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "n8n.docenteia.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "b1c112de2b22",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "remoteJid": "5519982097357@s.whatsapp.net",
+            "instance": "whtas"
+          },
+          "webhookUrl": "https://n8n.docenteia.com.br/webhook/gerar-checkout",
+          "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "📥 Webhook Gerar Checkout": {
+      "main": [
+        [
+          {
+            "node": "🔍 Buscar Professor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔍 Buscar Professor": {
+      "main": [
+        [
+          {
+            "node": "💳 Criar Sessão Stripe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "💳 Criar Sessão Stripe": {
+      "main": [
+        [
+          {
+            "node": "📋 Extrair URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📋 Extrair URL": {
+      "main": [
+        [
+          {
+            "node": "📨 Enviar Link Checkout",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "⚡ Retornar URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "07284cba-ffbd-4f4b-9a2a-2b076acb357c",
+  "meta": {
+    "instanceId": "ea30732b7484dfb258074bf24d3a47b450ea4a84b2219075cce71f27330e65b9"
+  },
+  "nodeGroups": [],
+  "id": "WlRXOPUzMd1eP6Rc",
+  "tags": []
+}

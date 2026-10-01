@@ -1,0 +1,166 @@
+{
+  "name": "Atividade-form-trigger",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "instance"
+            },
+            {
+              "name": "remoteJid"
+            }
+          ]
+        }
+      },
+      "id": "9d3344f5-6951-4c1b-881e-7c3154f6cf1e",
+      "name": "▶️ Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\nconst instance = (input.instance || '').trim();\nconst remoteJid = (input.remoteJid || '').trim();\n\nif (!instance || !remoteJid) {\n  throw new Error('Parâmetros insuficientes — instance: ' + instance + ', remoteJid: ' + remoteJid);\n}\n\nreturn [{ json: { instance, remoteJid } }];"
+      },
+      "id": "be11d532-38ec-41ec-88f4-daa15f38ce62",
+      "name": "✅ Validar Inputs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        256,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "professores",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $json.remoteJid }}"
+            }
+          ]
+        }
+      },
+      "id": "aeb8340a-9610-4c05-9bdd-ddc1e63540bb",
+      "name": "🔍 Buscar Professor Supabase",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        496,
+        0
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $item(\"0\").$node[\"🔍 Buscar Professor Supabase\"].json[\"instancia\"] || $json.instance }}",
+        "remoteJid": "={{ $item(\"0\").$node[\"🔍 Buscar Professor Supabase\"].json[\"telefone\"] || $json.remoteJid }}",
+        "messageText": "=📚 Gerador de Atividades Ilustradas\n\nOlá, {{ $json.nome || 'Professor(a)' }}! 👋\n\nPara criar sua atividade, preencha o formulário abaixo:\n\n• Série / Turma\n• Disciplina\n• Tema da atividade\n• Descrição (contexto extra, opcional)\n• Ilustração preferida (opcional)\n• Número e tipo de questões\n• Modo de acessibilidade\n\nhttps://n8n.docenteia.com.br/form/264be043-0dd4-4c15-a4d1-7adae09e946e?instancia={{ encodeURIComponent($json.instancia || $json.instance) }}&whatsapp={{ encodeURIComponent($json.telefone || $json.remoteJid) }}\n\n⏱️ Leva menos de 1 minuto. Assim que enviar, sua atividade chegará aqui no WhatsApp! 📄",
+        "options_message": {
+          "delay": 500
+        }
+      },
+      "id": "9e85be1c-01a9-49f6-a145-02491a1390cc",
+      "name": "📨 Enviar Link WhatsApp",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        736,
+        0
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { output: 'Link do formulário de atividade enviado com sucesso via WhatsApp.' } }];"
+      },
+      "id": "dd27ba6d-1551-4b00-8a8f-e23582fc6910",
+      "name": "↩️ Retorno ao Orquestrador",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        976,
+        0
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "▶️ Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "✅ Validar Inputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✅ Validar Inputs": {
+      "main": [
+        [
+          {
+            "node": "🔍 Buscar Professor Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔍 Buscar Professor Supabase": {
+      "main": [
+        [
+          {
+            "node": "📨 Enviar Link WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📨 Enviar Link WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "↩️ Retorno ao Orquestrador",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "e43967fc-7ce2-4cb1-9e35-8d2fb1941b0f",
+  "meta": {
+    "instanceId": "ea30732b7484dfb258074bf24d3a47b450ea4a84b2219075cce71f27330e65b9"
+  },
+  "nodeGroups": [],
+  "id": "SKsneKPNEGeIQYM7",
+  "tags": []
+}

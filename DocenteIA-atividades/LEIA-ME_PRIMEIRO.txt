@@ -1,0 +1,22 @@
+═══════════════════════════════════════════════════════════
+  DOCENTEIA — PROJETO DE GERAÇÃO DE ATIVIDADES COM IA
+═══════════════════════════════════════════════════════════
+
+📁 ESTRUTURA:
+  01_ATUAL/              ← TRABALHE SEMPRE AQUI
+  02_VERSOES_ANTERIORES/ ← BACKUPS (não mexer)
+
+🔄 COMO VERSIONAR SEM GITHUB:
+  1. Antes de mudar algo grande:
+     → Copie a pasta 01_ATUAL inteira
+     → Cole em 02_VERSOES_ANTERIORES
+     → Renomeie para v2.X_AAAA-MM-DD
+  2. Atualize o CHANGELOG.md em 01_ATUAL/docs/
+
+🚀 PARA RODAR:
+  → Leia 01_ATUAL/docs/MANUAL_INSTALACAO.md
+
+⚠️ NUNCA COMMITAR/SALVAR:
+  → Arquivo .env (tem senhas)
+  → Pasta node_modules
+═══════════════════════════════════════════════════════════

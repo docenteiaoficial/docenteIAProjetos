@@ -1,0 +1,3523 @@
+{
+  "name": "Gerador de Rotina v4 - Batch Single Call (CORRIGIDO v6)",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "completion",
+        "completionTitle": "Formulário Recebido!",
+        "completionMessage": "Sua rotina está sendo processada. Você receberá o arquivo DOCX no WhatsApp em instantes! ☕",
+        "limitWaitTime": true,
+        "resumeAmount": 0.5,
+        "resumeUnit": "minutes",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "5e62e761-b659-4a6b-99d0-59304b7b2720",
+      "name": "Form",
+      "webhookId": "e5cc7ebf-3394-4615-992a-527c7bfe89d9"
+    },
+    {
+      "parameters": {
+        "formTitle": "Rotina Semanal — DocenteIA",
+        "formDescription": "Preencha as aulas da semana. Para cada aula ativa informe: disciplina, tema e se é continuação. Aulas vagas deixe em branco.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Semana (período)",
+              "placeholder": "Ex: 21/07 a 25/07",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Série / Turma",
+              "placeholder": "Ex: 3º ano A",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "━━━ SEGUNDA-FEIRA ━━━",
+              "placeholder": "Observação do dia (ex: FERIADO) — deixe em branco se normal"
+            },
+            {
+              "fieldLabel": "SEG — LEITURA DO DIA",
+              "placeholder": "Título do livro ou texto (ex: A lebre e a tartaruga) — deixe em branco se não houver"
+            },
+            {
+              "fieldLabel": "SEG — LEITURA | Autor",
+              "placeholder": "Ex: Esopo"
+            },
+            {
+              "fieldLabel": "SEG — LEITURA | Gênero textual",
+              "placeholder": "Ex: Fábula"
+            },
+            {
+              "fieldLabel": "SEG 1ª Aula 7h–7h50 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "SEG 1ª Aula 7h–7h50 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "SEG 1ª Aula 7h–7h50 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "SEG 1ª Aula 7h–7h50 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "SEG 2ª Aula 7h50–8h40 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "SEG 2ª Aula 7h50–8h40 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "SEG 2ª Aula 7h50–8h40 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "SEG 2ª Aula 7h50–8h40 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "SEG 3ª Aula 8h55–9h45 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "SEG 3ª Aula 8h55–9h45 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "SEG 3ª Aula 8h55–9h45 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "SEG 3ª Aula 8h55–9h45 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "SEG 4ª Aula 9h45–10h35 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "SEG 4ª Aula 9h45–10h35 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "SEG 4ª Aula 9h45–10h35 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "SEG 4ª Aula 9h45–10h35 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "SEG 5ª Aula 10h35–11h15 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "SEG 5ª Aula 10h35–11h15 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "SEG 5ª Aula 10h35–11h15 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "SEG 5ª Aula 10h35–11h15 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "SEG 6ª Aula 12h15–13h15 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "SEG 6ª Aula 12h15–13h15 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "SEG 6ª Aula 12h15–13h15 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "SEG 6ª Aula 12h15–13h15 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "SEG 7ª Aula 13h15–13h45 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "SEG 7ª Aula 13h15–13h45 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "SEG 7ª Aula 13h15–13h45 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "SEG 7ª Aula 13h15–13h45 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "━━━ TERÇA-FEIRA ━━━",
+              "placeholder": "Observação do dia (ex: FERIADO) — deixe em branco se normal"
+            },
+            {
+              "fieldLabel": "TER — LEITURA DO DIA",
+              "placeholder": "Título do livro ou texto (ex: A lebre e a tartaruga) — deixe em branco se não houver"
+            },
+            {
+              "fieldLabel": "TER — LEITURA | Autor",
+              "placeholder": "Ex: Esopo"
+            },
+            {
+              "fieldLabel": "TER — LEITURA | Gênero textual",
+              "placeholder": "Ex: Fábula"
+            },
+            {
+              "fieldLabel": "TER 1ª Aula 7h–7h50 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "TER 1ª Aula 7h–7h50 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "TER 1ª Aula 7h–7h50 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "TER 1ª Aula 7h–7h50 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "TER 2ª Aula 7h50–8h40 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "TER 2ª Aula 7h50–8h40 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "TER 2ª Aula 7h50–8h40 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "TER 2ª Aula 7h50–8h40 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "TER 3ª Aula 8h55–9h45 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "TER 3ª Aula 8h55–9h45 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "TER 3ª Aula 8h55–9h45 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "TER 3ª Aula 8h55–9h45 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "TER 4ª Aula 9h45–10h35 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "TER 4ª Aula 9h45–10h35 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "TER 4ª Aula 9h45–10h35 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "TER 4ª Aula 9h45–10h35 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "TER 5ª Aula 10h35–11h15 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "TER 5ª Aula 10h35–11h15 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "TER 5ª Aula 10h35–11h15 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "TER 5ª Aula 10h35–11h15 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "TER 6ª Aula 12h15–13h15 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "TER 6ª Aula 12h15–13h15 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "TER 6ª Aula 12h15–13h15 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "TER 6ª Aula 12h15–13h15 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "TER 7ª Aula 13h15–13h45 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "TER 7ª Aula 13h15–13h45 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "TER 7ª Aula 13h15–13h45 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "TER 7ª Aula 13h15–13h45 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "━━━ QUARTA-FEIRA ━━━",
+              "placeholder": "Observação do dia (ex: FERIADO) — deixe em branco se normal"
+            },
+            {
+              "fieldLabel": "QUA — LEITURA DO DIA",
+              "placeholder": "Título do livro ou texto (ex: A lebre e a tartaruga) — deixe em branco se não houver"
+            },
+            {
+              "fieldLabel": "QUA — LEITURA | Autor",
+              "placeholder": "Ex: Esopo"
+            },
+            {
+              "fieldLabel": "QUA — LEITURA | Gênero textual",
+              "placeholder": "Ex: Fábula"
+            },
+            {
+              "fieldLabel": "QUA 1ª Aula 7h–7h50 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "QUA 1ª Aula 7h–7h50 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "QUA 1ª Aula 7h–7h50 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "QUA 1ª Aula 7h–7h50 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "QUA 2ª Aula 7h50–8h40 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "QUA 2ª Aula 7h50–8h40 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "QUA 2ª Aula 7h50–8h40 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "QUA 2ª Aula 7h50–8h40 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "QUA 3ª Aula 8h55–9h45 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "QUA 3ª Aula 8h55–9h45 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "QUA 3ª Aula 8h55–9h45 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "QUA 3ª Aula 8h55–9h45 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "QUA 4ª Aula 9h45–10h35 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "QUA 4ª Aula 9h45–10h35 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "QUA 4ª Aula 9h45–10h35 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "QUA 4ª Aula 9h45–10h35 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "QUA 5ª Aula 10h35–11h15 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "QUA 5ª Aula 10h35–11h15 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "QUA 5ª Aula 10h35–11h15 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "QUA 5ª Aula 10h35–11h15 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "QUA 6ª Aula 12h15–13h15 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "QUA 6ª Aula 12h15–13h15 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "QUA 6ª Aula 12h15–13h15 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "QUA 6ª Aula 12h15–13h15 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "QUA 7ª Aula 13h15–13h45 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "QUA 7ª Aula 13h15–13h45 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "QUA 7ª Aula 13h15–13h45 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "QUA 7ª Aula 13h15–13h45 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "━━━ QUINTA-FEIRA ━━━",
+              "placeholder": "Observação do dia (ex: FERIADO) — deixe em branco se normal"
+            },
+            {
+              "fieldLabel": "QUI — LEITURA DO DIA",
+              "placeholder": "Título do livro ou texto (ex: A lebre e a tartaruga) — deixe em branco se não houver"
+            },
+            {
+              "fieldLabel": "QUI — LEITURA | Autor",
+              "placeholder": "Ex: Esopo"
+            },
+            {
+              "fieldLabel": "QUI — LEITURA | Gênero textual",
+              "placeholder": "Ex: Fábula"
+            },
+            {
+              "fieldLabel": "QUI 1ª Aula 7h–7h50 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "QUI 1ª Aula 7h–7h50 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "QUI 1ª Aula 7h–7h50 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "QUI 1ª Aula 7h–7h50 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "QUI 2ª Aula 7h50–8h40 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "QUI 2ª Aula 7h50–8h40 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "QUI 2ª Aula 7h50–8h40 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "QUI 2ª Aula 7h50–8h40 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "QUI 3ª Aula 8h55–9h45 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "QUI 3ª Aula 8h55–9h45 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "QUI 3ª Aula 8h55–9h45 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "QUI 3ª Aula 8h55–9h45 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "QUI 4ª Aula 9h45–10h35 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "QUI 4ª Aula 9h45–10h35 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "QUI 4ª Aula 9h45–10h35 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "QUI 4ª Aula 9h45–10h35 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "QUI 5ª Aula 10h35–11h15 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "QUI 5ª Aula 10h35–11h15 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "QUI 5ª Aula 10h35–11h15 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "QUI 5ª Aula 10h35–11h15 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "QUI 6ª Aula 12h15–13h15 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "QUI 6ª Aula 12h15–13h15 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "QUI 6ª Aula 12h15–13h15 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "QUI 6ª Aula 12h15–13h15 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "QUI 7ª Aula 13h15–13h45 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "QUI 7ª Aula 13h15–13h45 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "QUI 7ª Aula 13h15–13h45 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "QUI 7ª Aula 13h15–13h45 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "━━━ SEXTA-FEIRA ━━━",
+              "placeholder": "Observação do dia (ex: FERIADO) — deixe em branco se normal"
+            },
+            {
+              "fieldLabel": "SEX — LEITURA DO DIA",
+              "placeholder": "Título do livro ou texto (ex: A lebre e a tartaruga) — deixe em branco se não houver"
+            },
+            {
+              "fieldLabel": "SEX — LEITURA | Autor",
+              "placeholder": "Ex: Esopo"
+            },
+            {
+              "fieldLabel": "SEX — LEITURA | Gênero textual",
+              "placeholder": "Ex: Fábula"
+            },
+            {
+              "fieldLabel": "SEX 1ª Aula 7h–7h50 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "SEX 1ª Aula 7h–7h50 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "SEX 1ª Aula 7h–7h50 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "SEX 1ª Aula 7h–7h50 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "SEX 2ª Aula 7h50–8h40 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "SEX 2ª Aula 7h50–8h40 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "SEX 2ª Aula 7h50–8h40 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "SEX 2ª Aula 7h50–8h40 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "SEX 3ª Aula 8h55–9h45 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "SEX 3ª Aula 8h55–9h45 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "SEX 3ª Aula 8h55–9h45 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "SEX 3ª Aula 8h55–9h45 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "SEX 4ª Aula 9h45–10h35 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "SEX 4ª Aula 9h45–10h35 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "SEX 4ª Aula 9h45–10h35 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "SEX 4ª Aula 9h45–10h35 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "SEX 5ª Aula 10h35–11h15 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "SEX 5ª Aula 10h35–11h15 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "SEX 5ª Aula 10h35–11h15 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "SEX 5ª Aula 10h35–11h15 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "SEX 6ª Aula 12h15–13h15 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "SEX 6ª Aula 12h15–13h15 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "SEX 6ª Aula 12h15–13h15 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "SEX 6ª Aula 12h15–13h15 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "SEX 7ª Aula 13h15–13h45 | Disciplina",
+              "placeholder": "Ex: Língua Portuguesa"
+            },
+            {
+              "fieldLabel": "SEX 7ª Aula 13h15–13h45 | Tema",
+              "placeholder": "Ex: Leitura e interpretação"
+            },
+            {
+              "fieldLabel": "SEX 7ª Aula 13h15–13h45 | Descrição da aula",
+              "placeholder": "Contexto extra para o agente (opcional)"
+            },
+            {
+              "fieldLabel": "SEX 7ª Aula 13h15–13h45 | É continuação?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Não — aula nova"
+                  },
+                  {
+                    "option": "Sim — continuação da aula anterior"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {
+          "path": "eb7b44b0-0e9f-4065-92ed-058c734b2870"
+        }
+      },
+      "id": "e7e76ec7-95ef-48bf-b588-b02f090dd4cd",
+      "name": "Form: Rotina Semanal",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -3232,
+        16
+      ],
+      "webhookId": "eb7b44b0-0e9f-4065-92ed-058c734b2870",
+      "notes": "Formulário com 5 dias × 7 aulas × 3 campos (disciplina, tema, continuação) + observação do dia + semana + série = 107 campos no total."
+    },
+    {
+      "parameters": {
+        "jsCode": "const form = $input.first().json;\n\nconst qp = form.formQueryParameters || {};\nconst instance  = (qp.instancia || qp.instance  || form.instance  || '').trim();\nconst remoteJid = (qp.whatsapp  || qp.remoteJid || form.remoteJid || '').trim();\n\nconst professor_nome = (qp.professor_nome || form.professor_nome || 'Professor(a)').trim();\nconst escola         = (qp.escola         || form.escola         || '').trim();\nconst diretoria      = (qp.diretoria      || form.diretoria      || '').trim();\nconst endereco       = (qp.endereco       || form.endereco       || '').trim();\nconst email_telefone = (qp.email_telefone || form.email_telefone || '').trim();\n\nconst diaLabel = { seg:'SEGUNDA-FEIRA', ter:'TERÇA-FEIRA', qua:'QUARTA-FEIRA', qui:'QUINTA-FEIRA', sex:'SEXTA-FEIRA' };\nconst diaSigla = { seg:'SEG', ter:'TER', qua:'QUA', qui:'QUI', sex:'SEX' };\nconst aulaHor  = { 1:'7h–7h50', 2:'7h50–8h40', 3:'8h55–9h45', 4:'9h45–10h35', 5:'10h35–11h15', 6:'12h15–13h15', 7:'13h15–13h45' };\n\nconst obs = {\n  seg: (form['━━━ SEGUNDA-FEIRA ━━━'] || '').trim(),\n  ter: (form['━━━ TERÇA-FEIRA ━━━']   || '').trim(),\n  qua: (form['━━━ QUARTA-FEIRA ━━━']  || '').trim(),\n  qui: (form['━━━ QUINTA-FEIRA ━━━']  || '').trim(),\n  sex: (form['━━━ SEXTA-FEIRA ━━━']   || '').trim(),\n};\n\n// Leituras — BLOCO FIXO E INDEPENDENTE das aulas.\n// Não tem relação pedagógica com nenhuma aula específica: é só uma\n// leitura do dia. Fica só dentro de `meta`, nunca dentro de uma\n// aula individual, e nunca é enviado pra IA reescrever.\n// Se o professor preencheu -> vai exatamente como foi digitado.\n// Se não preencheu -> fica string vazia (sem placeholder nenhum).\nconst meta = {\n  instance, remoteJid, professor_nome, escola, diretoria, endereco, email_telefone,\n  serie:  (form['Série / Turma'] || '').trim(),\n  semana: (form['Semana (período)'] || '').trim(),\n  obs_seg: obs.seg, obs_ter: obs.ter, obs_qua: obs.qua, obs_qui: obs.qui, obs_sex: obs.sex,\n};\n\nfor (const slug of ['seg','ter','qua','qui','sex']) {\n  const sigla = diaSigla[slug];\n  meta[`${slug}_1_leitura`] = (form[`${sigla} — LEITURA DO DIA`]        || '').trim();\n  meta[`${slug}_1_autor`]   = (form[`${sigla} — LEITURA | Autor`]        || '').trim();\n  meta[`${slug}_1_genero`]  = (form[`${sigla} — LEITURA | Gênero textual`] || '').trim();\n}\n\nconst aulasAtivas = [];\n\nfor (const slug of ['seg','ter','qua','qui','sex']) {\n  const sigla = diaSigla[slug];\n\n  for (const num of [1, 2, 3, 4, 5, 6, 7]) {\n    const horario = aulaHor[num];\n    const base    = `${sigla} ${num}ª Aula ${horario}`;\n\n    const disciplina  = (form[`${base} | Disciplina`]        || '').trim();\n    const tema        = (form[`${base} | Tema`]              || '').trim();\n    const descricao   = (form[`${base} | Descrição da aula`] || '').trim();\n    const continuacao = (form[`${base} | É continuação?`]    || 'Não — aula nova').trim();\n\n    if (!disciplina && !tema) continue;\n\n    // IMPORTANTE: a aula NÃO carrega leitura/autor/genero.\n    // Esse bloco é independente e não passa pela IA.\n    aulasAtivas.push({\n      ...meta,\n      slot: `${slug}_${num}`,\n      dia: diaLabel[slug],\n      numero: num,\n      horario,\n      disciplina, tema, descricao,\n      continuacao,\n    });\n  }\n}\n\nreturn [{\n  json: {\n    ...meta,\n    aulas_ativas: aulasAtivas,\n    total_aulas:  aulasAtivas.length,\n  }\n}];\n"
+      },
+      "id": "574f6faf-dd16-49a0-873f-9ab8c1e5b052",
+      "name": "📦 Mapear Form → Aulas Ativas1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2992,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $json.instance }}",
+        "remoteJid": "={{ $json.remoteJid }}",
+        "messageText": "=⏳ Formulário recebido!\n\nEncontrei *{{ $json.total_aulas }} aulas* para a semana de *{{ $json.semana }}*.\n\nEstou consultando a base BNCC e gerando o conteúdo de cada aula. Isso pode levar cerca de 1 minuto... ☕",
+        "options_message": {
+          "delay": 500
+        }
+      },
+      "id": "1900443d-14ae-4b69-bd33-63e641c10470",
+      "name": "📨 Aviso: Processando1",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -2176,
+        16
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "5SpRQFZ2rZSgY3lO",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/5SpRQFZ2rZSgY3lO"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "professor": "={{ $item(\"0\").$node[\"📦 Montar Payload Final1\"].json[\"professor\"] }}",
+            "serie": "={{ $json.serie }}",
+            "escola": "={{ $json.escola }}",
+            "diretoria": "={{ $json.diretoria }}",
+            "endereco": "={{ $json.endereco }}",
+            "email_telefone": "={{ $json.email_telefone }}",
+            "semana": "={{ $json.semana }}",
+            "obs_seg": "={{ $json.obs_seg }}",
+            "obs_ter": "={{ $json.obs_ter }}",
+            "obs_qua": "={{ $json.obs_qua }}",
+            "obs_qui": "={{ $json.obs_qui }}",
+            "obs_sex": "={{ $json.obs_sex }}",
+            "instance": "={{ $json.instance }}",
+            "remoteJid": "={{ $json.remoteJid }}",
+            "seg_1_disciplina": "={{ $json.seg_1_disciplina }}",
+            "seg_1_conteudo": "={{ $json.seg_1_conteudo }}",
+            "seg_1_habilidades": "={{ $json.seg_1_habilidades }}",
+            "seg_1_objetivos": "={{ $json.seg_1_objetivos }}",
+            "seg_1_desenvolvimento": "={{ $json.seg_1_desenvolvimento }}",
+            "seg_2_disciplina": "={{ $json.seg_2_disciplina }}",
+            "seg_2_conteudo": "={{ $json.seg_2_conteudo }}",
+            "seg_2_habilidades": "={{ $json.seg_2_habilidades }}",
+            "seg_2_objetivos": "={{ $json.seg_2_objetivos }}",
+            "seg_2_desenvolvimento": "={{ $json.seg_2_desenvolvimento }}",
+            "seg_3_disciplina": "={{ $json.seg_3_disciplina }}",
+            "seg_3_conteudo": "={{ $json.seg_3_conteudo }}",
+            "seg_3_habilidades": "={{ $json.seg_3_habilidades }}",
+            "seg_3_objetivos": "={{ $json.seg_3_objetivos }}",
+            "seg_3_desenvolvimento": "={{ $json.seg_3_desenvolvimento }}",
+            "seg_4_disciplina": "={{ $json.seg_4_disciplina }}",
+            "seg_4_conteudo": "={{ $json.seg_4_conteudo }}",
+            "seg_4_habilidades": "={{ $json.seg_4_habilidades }}",
+            "seg_4_objetivos": "={{ $json.seg_4_objetivos }}",
+            "seg_4_desenvolvimento": "={{ $json.seg_4_desenvolvimento }}",
+            "seg_5_disciplina": "={{ $json.seg_5_disciplina }}",
+            "seg_5_conteudo": "={{ $json.seg_5_conteudo }}",
+            "seg_5_habilidades": "={{ $json.seg_5_habilidades }}",
+            "seg_5_objetivos": "={{ $json.seg_5_objetivos }}",
+            "seg_5_desenvolvimento": "={{ $json.seg_5_desenvolvimento }}",
+            "seg_6_disciplina": "={{ $json.seg_6_disciplina }}",
+            "seg_6_conteudo": "={{ $json.seg_6_conteudo }}",
+            "seg_6_habilidades": "={{ $json.seg_6_habilidades }}",
+            "seg_6_objetivos": "={{ $json.seg_6_objetivos }}",
+            "seg_6_desenvolvimento": "={{ $json.seg_6_desenvolvimento }}",
+            "seg_7_disciplina": "={{ $json.seg_7_disciplina }}",
+            "seg_7_conteudo": "={{ $json.seg_7_conteudo }}",
+            "seg_7_habilidades": "={{ $json.seg_7_habilidades }}",
+            "seg_7_objetivos": "={{ $json.seg_7_objetivos }}",
+            "seg_7_desenvolvimento": "={{ $json.seg_7_desenvolvimento }}",
+            "ter_1_disciplina": "={{ $json.ter_1_disciplina }}",
+            "ter_1_conteudo": "={{ $json.ter_1_conteudo }}",
+            "ter_1_habilidades": "={{ $json.ter_1_habilidades }}",
+            "ter_1_objetivos": "={{ $json.ter_1_objetivos }}",
+            "ter_1_desenvolvimento": "={{ $json.ter_1_desenvolvimento }}",
+            "ter_2_disciplina": "={{ $json.ter_2_disciplina }}",
+            "ter_2_conteudo": "={{ $json.ter_2_conteudo }}",
+            "ter_2_habilidades": "={{ $json.ter_2_habilidades }}",
+            "ter_2_objetivos": "={{ $json.ter_2_objetivos }}",
+            "ter_2_desenvolvimento": "={{ $json.ter_2_desenvolvimento }}",
+            "ter_3_disciplina": "={{ $json.ter_3_disciplina }}",
+            "ter_3_conteudo": "={{ $json.ter_3_conteudo }}",
+            "ter_3_habilidades": "={{ $json.ter_3_habilidades }}",
+            "ter_3_objetivos": "={{ $json.ter_3_objetivos }}",
+            "ter_3_desenvolvimento": "={{ $json.ter_3_desenvolvimento }}",
+            "ter_4_disciplina": "={{ $json.ter_4_disciplina }}",
+            "ter_4_conteudo": "={{ $json.ter_4_conteudo }}",
+            "ter_4_habilidades": "={{ $json.ter_4_habilidades }}",
+            "ter_4_objetivos": "={{ $json.ter_4_objetivos }}",
+            "ter_4_desenvolvimento": "={{ $json.ter_4_desenvolvimento }}",
+            "ter_5_disciplina": "={{ $json.ter_5_disciplina }}",
+            "ter_5_conteudo": "={{ $json.ter_5_conteudo }}",
+            "ter_5_habilidades": "={{ $json.ter_5_habilidades }}",
+            "ter_5_objetivos": "={{ $json.ter_5_objetivos }}",
+            "ter_5_desenvolvimento": "={{ $json.ter_5_desenvolvimento }}",
+            "ter_6_disciplina": "={{ $json.ter_6_disciplina }}",
+            "ter_6_conteudo": "={{ $json.ter_6_conteudo }}",
+            "ter_6_habilidades": "={{ $json.ter_6_habilidades }}",
+            "ter_6_objetivos": "={{ $json.ter_6_objetivos }}",
+            "ter_6_desenvolvimento": "={{ $json.ter_6_desenvolvimento }}",
+            "ter_7_disciplina": "={{ $json.ter_7_disciplina }}",
+            "ter_7_conteudo": "={{ $json.ter_7_conteudo }}",
+            "ter_7_habilidades": "={{ $json.ter_7_habilidades }}",
+            "ter_7_objetivos": "={{ $json.ter_7_objetivos }}",
+            "ter_7_desenvolvimento": "={{ $json.ter_7_desenvolvimento }}",
+            "qua_1_disciplina": "={{ $json.qua_1_disciplina }}",
+            "qua_1_conteudo": "={{ $json.qua_1_conteudo }}",
+            "qua_1_habilidades": "={{ $json.qua_1_habilidades }}",
+            "qua_1_objetivos": "={{ $json.qua_1_objetivos }}",
+            "qua_1_desenvolvimento": "={{ $json.qua_1_desenvolvimento }}",
+            "qua_2_disciplina": "={{ $json.qua_2_disciplina }}",
+            "qua_2_conteudo": "={{ $json.qua_2_conteudo }}",
+            "qua_2_habilidades": "={{ $json.qua_2_habilidades }}",
+            "qua_2_objetivos": "={{ $json.qua_2_objetivos }}",
+            "qua_2_desenvolvimento": "={{ $json.qua_2_desenvolvimento }}",
+            "qua_3_disciplina": "={{ $json.qua_3_disciplina }}",
+            "qua_3_conteudo": "={{ $json.qua_3_conteudo }}",
+            "qua_3_habilidades": "={{ $json.qua_3_habilidades }}",
+            "qua_3_objetivos": "={{ $json.qua_3_objetivos }}",
+            "qua_3_desenvolvimento": "={{ $json.qua_3_desenvolvimento }}",
+            "qua_4_disciplina": "={{ $json.qua_4_disciplina }}",
+            "qua_4_conteudo": "={{ $json.qua_4_conteudo }}",
+            "qua_4_habilidades": "={{ $json.qua_4_habilidades }}",
+            "qua_4_objetivos": "={{ $json.qua_4_objetivos }}",
+            "qua_4_desenvolvimento": "={{ $json.qua_4_desenvolvimento }}",
+            "qua_5_disciplina": "={{ $json.qua_5_disciplina }}",
+            "qua_5_conteudo": "={{ $json.qua_5_conteudo }}",
+            "qua_5_habilidades": "={{ $json.qua_5_habilidades }}",
+            "qua_5_objetivos": "={{ $json.qua_5_objetivos }}",
+            "qua_5_desenvolvimento": "={{ $json.qua_5_desenvolvimento }}",
+            "qua_6_disciplina": "={{ $json.qua_6_disciplina }}",
+            "qua_6_conteudo": "={{ $json.qua_6_conteudo }}",
+            "qua_6_habilidades": "={{ $json.qua_6_habilidades }}",
+            "qua_6_objetivos": "={{ $json.qua_6_objetivos }}",
+            "qua_6_desenvolvimento": "={{ $json.qua_6_desenvolvimento }}",
+            "qua_7_disciplina": "={{ $json.qua_7_disciplina }}",
+            "qua_7_conteudo": "={{ $json.qua_7_conteudo }}",
+            "qua_7_habilidades": "={{ $json.qua_7_habilidades }}",
+            "qua_7_objetivos": "={{ $json.qua_7_objetivos }}",
+            "qua_7_desenvolvimento": "={{ $json.qua_7_desenvolvimento }}",
+            "qui_1_disciplina": "={{ $json.qui_1_disciplina }}",
+            "qui_1_conteudo": "={{ $json.qui_1_conteudo }}",
+            "qui_1_habilidades": "={{ $json.qui_1_habilidades }}",
+            "qui_1_objetivos": "={{ $json.qui_1_objetivos }}",
+            "qui_1_desenvolvimento": "={{ $json.qui_1_desenvolvimento }}",
+            "qui_2_disciplina": "={{ $json.qui_2_disciplina }}",
+            "qui_2_conteudo": "={{ $json.qui_2_conteudo }}",
+            "qui_2_habilidades": "={{ $json.qui_2_habilidades }}",
+            "qui_2_objetivos": "={{ $json.qui_2_objetivos }}",
+            "qui_2_desenvolvimento": "={{ $json.qui_2_desenvolvimento }}",
+            "qui_3_disciplina": "={{ $json.qui_3_disciplina }}",
+            "qui_3_conteudo": "={{ $json.qui_3_conteudo }}",
+            "qui_3_habilidades": "={{ $json.qui_3_habilidades }}",
+            "qui_3_objetivos": "={{ $json.qui_3_objetivos }}",
+            "qui_3_desenvolvimento": "={{ $json.qui_3_desenvolvimento }}",
+            "qui_4_disciplina": "={{ $json.qui_4_disciplina }}",
+            "qui_4_conteudo": "={{ $json.qui_4_conteudo }}",
+            "qui_4_habilidades": "={{ $json.qui_4_habilidades }}",
+            "qui_4_objetivos": "={{ $json.qui_4_objetivos }}",
+            "qui_4_desenvolvimento": "={{ $json.qui_4_desenvolvimento }}",
+            "qui_5_disciplina": "={{ $json.qui_5_disciplina }}",
+            "qui_5_conteudo": "={{ $json.qui_5_conteudo }}",
+            "qui_5_habilidades": "={{ $json.qui_5_habilidades }}",
+            "qui_5_objetivos": "={{ $json.qui_5_objetivos }}",
+            "qui_5_desenvolvimento": "={{ $json.qui_5_desenvolvimento }}",
+            "qui_6_disciplina": "={{ $json.qui_6_disciplina }}",
+            "qui_6_conteudo": "={{ $json.qui_6_conteudo }}",
+            "qui_6_habilidades": "={{ $json.qui_6_habilidades }}",
+            "qui_6_objetivos": "={{ $json.qui_6_objetivos }}",
+            "qui_6_desenvolvimento": "={{ $json.qui_6_desenvolvimento }}",
+            "qui_7_disciplina": "={{ $json.qui_7_disciplina }}",
+            "qui_7_conteudo": "={{ $json.qui_7_conteudo }}",
+            "qui_7_habilidades": "={{ $json.qui_7_habilidades }}",
+            "qui_7_objetivos": "={{ $json.qui_7_objetivos }}",
+            "qui_7_desenvolvimento": "={{ $json.qui_7_desenvolvimento }}",
+            "sex_1_disciplina": "={{ $json.sex_1_disciplina }}",
+            "sex_1_conteudo": "={{ $json.sex_1_conteudo }}",
+            "sex_1_habilidades": "={{ $json.sex_1_habilidades }}",
+            "sex_1_objetivos": "={{ $json.sex_1_objetivos }}",
+            "sex_1_desenvolvimento": "={{ $json.sex_1_desenvolvimento }}",
+            "sex_2_disciplina": "={{ $json.sex_2_disciplina }}",
+            "sex_2_conteudo": "={{ $json.sex_2_conteudo }}",
+            "sex_2_habilidades": "={{ $json.sex_2_habilidades }}",
+            "sex_2_objetivos": "={{ $json.sex_2_objetivos }}",
+            "sex_2_desenvolvimento": "={{ $json.sex_2_desenvolvimento }}",
+            "sex_3_disciplina": "={{ $json.sex_3_disciplina }}",
+            "sex_3_conteudo": "={{ $json.sex_3_conteudo }}",
+            "sex_3_habilidades": "={{ $json.sex_3_habilidades }}",
+            "sex_3_objetivos": "={{ $json.sex_3_objetivos }}",
+            "sex_3_desenvolvimento": "={{ $json.sex_3_desenvolvimento }}",
+            "sex_4_disciplina": "={{ $json.sex_4_disciplina }}",
+            "sex_4_conteudo": "={{ $json.sex_4_conteudo }}",
+            "sex_4_habilidades": "={{ $json.sex_4_habilidades }}",
+            "sex_4_objetivos": "={{ $json.sex_4_objetivos }}",
+            "sex_4_desenvolvimento": "={{ $json.sex_4_desenvolvimento }}",
+            "sex_5_disciplina": "={{ $json.sex_5_disciplina }}",
+            "sex_5_conteudo": "={{ $json.sex_5_conteudo }}",
+            "sex_5_habilidades": "={{ $json.sex_5_habilidades }}",
+            "sex_5_objetivos": "={{ $json.sex_5_objetivos }}",
+            "sex_5_desenvolvimento": "={{ $json.sex_5_desenvolvimento }}",
+            "sex_6_disciplina": "={{ $json.sex_6_disciplina }}",
+            "sex_6_conteudo": "={{ $json.sex_6_conteudo }}",
+            "sex_6_habilidades": "={{ $json.sex_6_habilidades }}",
+            "sex_6_objetivos": "={{ $json.sex_6_objetivos }}",
+            "sex_6_desenvolvimento": "={{ $json.sex_6_desenvolvimento }}",
+            "sex_7_disciplina": "={{ $json.sex_7_disciplina }}",
+            "sex_7_conteudo": "={{ $json.sex_7_conteudo }}",
+            "sex_7_habilidades": "={{ $json.sex_7_habilidades }}",
+            "sex_7_objetivos": "={{ $json.sex_7_objetivos }}",
+            "sex_7_desenvolvimento": "={{ $json.sex_7_desenvolvimento }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "professor",
+              "displayName": "professor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "serie",
+              "displayName": "serie",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "escola",
+              "displayName": "escola",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "diretoria",
+              "displayName": "diretoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "endereco",
+              "displayName": "endereco",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "email_telefone",
+              "displayName": "email_telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "semana",
+              "displayName": "semana",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "obs_seg",
+              "displayName": "obs_seg",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "obs_ter",
+              "displayName": "obs_ter",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "obs_qua",
+              "displayName": "obs_qua",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "obs_qui",
+              "displayName": "obs_qui",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "obs_sex",
+              "displayName": "obs_sex",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "instance",
+              "displayName": "instance",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "remoteJid",
+              "displayName": "remoteJid",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_1_disciplina",
+              "displayName": "seg_1_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_1_conteudo",
+              "displayName": "seg_1_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_1_habilidades",
+              "displayName": "seg_1_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_1_objetivos",
+              "displayName": "seg_1_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_1_desenvolvimento",
+              "displayName": "seg_1_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_2_disciplina",
+              "displayName": "seg_2_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_2_conteudo",
+              "displayName": "seg_2_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_2_habilidades",
+              "displayName": "seg_2_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_2_objetivos",
+              "displayName": "seg_2_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_2_desenvolvimento",
+              "displayName": "seg_2_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_3_disciplina",
+              "displayName": "seg_3_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_3_conteudo",
+              "displayName": "seg_3_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_3_habilidades",
+              "displayName": "seg_3_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_3_objetivos",
+              "displayName": "seg_3_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_3_desenvolvimento",
+              "displayName": "seg_3_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_4_disciplina",
+              "displayName": "seg_4_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_4_conteudo",
+              "displayName": "seg_4_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_4_habilidades",
+              "displayName": "seg_4_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_4_objetivos",
+              "displayName": "seg_4_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_4_desenvolvimento",
+              "displayName": "seg_4_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_5_disciplina",
+              "displayName": "seg_5_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_5_conteudo",
+              "displayName": "seg_5_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_5_habilidades",
+              "displayName": "seg_5_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_5_objetivos",
+              "displayName": "seg_5_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_5_desenvolvimento",
+              "displayName": "seg_5_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_6_disciplina",
+              "displayName": "seg_6_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_6_conteudo",
+              "displayName": "seg_6_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_6_habilidades",
+              "displayName": "seg_6_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_6_objetivos",
+              "displayName": "seg_6_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_6_desenvolvimento",
+              "displayName": "seg_6_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_7_disciplina",
+              "displayName": "seg_7_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_7_conteudo",
+              "displayName": "seg_7_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_7_habilidades",
+              "displayName": "seg_7_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_7_objetivos",
+              "displayName": "seg_7_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "seg_7_desenvolvimento",
+              "displayName": "seg_7_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_1_disciplina",
+              "displayName": "ter_1_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_1_conteudo",
+              "displayName": "ter_1_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_1_habilidades",
+              "displayName": "ter_1_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_1_objetivos",
+              "displayName": "ter_1_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_1_desenvolvimento",
+              "displayName": "ter_1_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_2_disciplina",
+              "displayName": "ter_2_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_2_conteudo",
+              "displayName": "ter_2_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_2_habilidades",
+              "displayName": "ter_2_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_2_objetivos",
+              "displayName": "ter_2_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_2_desenvolvimento",
+              "displayName": "ter_2_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_3_disciplina",
+              "displayName": "ter_3_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_3_conteudo",
+              "displayName": "ter_3_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_3_habilidades",
+              "displayName": "ter_3_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_3_objetivos",
+              "displayName": "ter_3_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_3_desenvolvimento",
+              "displayName": "ter_3_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_4_disciplina",
+              "displayName": "ter_4_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_4_conteudo",
+              "displayName": "ter_4_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_4_habilidades",
+              "displayName": "ter_4_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_4_objetivos",
+              "displayName": "ter_4_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_4_desenvolvimento",
+              "displayName": "ter_4_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_5_disciplina",
+              "displayName": "ter_5_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_5_conteudo",
+              "displayName": "ter_5_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_5_habilidades",
+              "displayName": "ter_5_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_5_objetivos",
+              "displayName": "ter_5_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_5_desenvolvimento",
+              "displayName": "ter_5_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_6_disciplina",
+              "displayName": "ter_6_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_6_conteudo",
+              "displayName": "ter_6_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_6_habilidades",
+              "displayName": "ter_6_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_6_objetivos",
+              "displayName": "ter_6_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_6_desenvolvimento",
+              "displayName": "ter_6_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_7_disciplina",
+              "displayName": "ter_7_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_7_conteudo",
+              "displayName": "ter_7_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_7_habilidades",
+              "displayName": "ter_7_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_7_objetivos",
+              "displayName": "ter_7_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ter_7_desenvolvimento",
+              "displayName": "ter_7_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_1_disciplina",
+              "displayName": "qua_1_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_1_conteudo",
+              "displayName": "qua_1_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_1_habilidades",
+              "displayName": "qua_1_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_1_objetivos",
+              "displayName": "qua_1_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_1_desenvolvimento",
+              "displayName": "qua_1_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_2_disciplina",
+              "displayName": "qua_2_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_2_conteudo",
+              "displayName": "qua_2_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_2_habilidades",
+              "displayName": "qua_2_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_2_objetivos",
+              "displayName": "qua_2_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_2_desenvolvimento",
+              "displayName": "qua_2_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_3_disciplina",
+              "displayName": "qua_3_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_3_conteudo",
+              "displayName": "qua_3_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_3_habilidades",
+              "displayName": "qua_3_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_3_objetivos",
+              "displayName": "qua_3_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_3_desenvolvimento",
+              "displayName": "qua_3_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_4_disciplina",
+              "displayName": "qua_4_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_4_conteudo",
+              "displayName": "qua_4_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_4_habilidades",
+              "displayName": "qua_4_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_4_objetivos",
+              "displayName": "qua_4_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_4_desenvolvimento",
+              "displayName": "qua_4_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_5_disciplina",
+              "displayName": "qua_5_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_5_conteudo",
+              "displayName": "qua_5_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_5_habilidades",
+              "displayName": "qua_5_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_5_objetivos",
+              "displayName": "qua_5_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_5_desenvolvimento",
+              "displayName": "qua_5_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_6_disciplina",
+              "displayName": "qua_6_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_6_conteudo",
+              "displayName": "qua_6_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_6_habilidades",
+              "displayName": "qua_6_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_6_objetivos",
+              "displayName": "qua_6_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_6_desenvolvimento",
+              "displayName": "qua_6_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_7_disciplina",
+              "displayName": "qua_7_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_7_conteudo",
+              "displayName": "qua_7_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_7_habilidades",
+              "displayName": "qua_7_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_7_objetivos",
+              "displayName": "qua_7_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qua_7_desenvolvimento",
+              "displayName": "qua_7_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_1_disciplina",
+              "displayName": "qui_1_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_1_conteudo",
+              "displayName": "qui_1_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_1_habilidades",
+              "displayName": "qui_1_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_1_objetivos",
+              "displayName": "qui_1_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_1_desenvolvimento",
+              "displayName": "qui_1_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_2_disciplina",
+              "displayName": "qui_2_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_2_conteudo",
+              "displayName": "qui_2_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_2_habilidades",
+              "displayName": "qui_2_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_2_objetivos",
+              "displayName": "qui_2_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_2_desenvolvimento",
+              "displayName": "qui_2_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_3_disciplina",
+              "displayName": "qui_3_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_3_conteudo",
+              "displayName": "qui_3_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_3_habilidades",
+              "displayName": "qui_3_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_3_objetivos",
+              "displayName": "qui_3_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_3_desenvolvimento",
+              "displayName": "qui_3_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_4_disciplina",
+              "displayName": "qui_4_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_4_conteudo",
+              "displayName": "qui_4_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_4_habilidades",
+              "displayName": "qui_4_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_4_objetivos",
+              "displayName": "qui_4_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_4_desenvolvimento",
+              "displayName": "qui_4_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_5_disciplina",
+              "displayName": "qui_5_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_5_conteudo",
+              "displayName": "qui_5_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_5_habilidades",
+              "displayName": "qui_5_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_5_objetivos",
+              "displayName": "qui_5_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_5_desenvolvimento",
+              "displayName": "qui_5_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_6_disciplina",
+              "displayName": "qui_6_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_6_conteudo",
+              "displayName": "qui_6_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_6_habilidades",
+              "displayName": "qui_6_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_6_objetivos",
+              "displayName": "qui_6_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_6_desenvolvimento",
+              "displayName": "qui_6_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_7_disciplina",
+              "displayName": "qui_7_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_7_conteudo",
+              "displayName": "qui_7_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_7_habilidades",
+              "displayName": "qui_7_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_7_objetivos",
+              "displayName": "qui_7_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "qui_7_desenvolvimento",
+              "displayName": "qui_7_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_1_disciplina",
+              "displayName": "sex_1_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_1_conteudo",
+              "displayName": "sex_1_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_1_habilidades",
+              "displayName": "sex_1_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_1_objetivos",
+              "displayName": "sex_1_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_1_desenvolvimento",
+              "displayName": "sex_1_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_2_disciplina",
+              "displayName": "sex_2_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_2_conteudo",
+              "displayName": "sex_2_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_2_habilidades",
+              "displayName": "sex_2_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_2_objetivos",
+              "displayName": "sex_2_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_2_desenvolvimento",
+              "displayName": "sex_2_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_3_disciplina",
+              "displayName": "sex_3_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_3_conteudo",
+              "displayName": "sex_3_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_3_habilidades",
+              "displayName": "sex_3_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_3_objetivos",
+              "displayName": "sex_3_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_3_desenvolvimento",
+              "displayName": "sex_3_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_4_disciplina",
+              "displayName": "sex_4_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_4_conteudo",
+              "displayName": "sex_4_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_4_habilidades",
+              "displayName": "sex_4_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_4_objetivos",
+              "displayName": "sex_4_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_4_desenvolvimento",
+              "displayName": "sex_4_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_5_disciplina",
+              "displayName": "sex_5_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_5_conteudo",
+              "displayName": "sex_5_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_5_habilidades",
+              "displayName": "sex_5_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_5_objetivos",
+              "displayName": "sex_5_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_5_desenvolvimento",
+              "displayName": "sex_5_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_6_disciplina",
+              "displayName": "sex_6_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_6_conteudo",
+              "displayName": "sex_6_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_6_habilidades",
+              "displayName": "sex_6_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_6_objetivos",
+              "displayName": "sex_6_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_6_desenvolvimento",
+              "displayName": "sex_6_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_7_disciplina",
+              "displayName": "sex_7_disciplina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_7_conteudo",
+              "displayName": "sex_7_conteudo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_7_habilidades",
+              "displayName": "sex_7_habilidades",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_7_objetivos",
+              "displayName": "sex_7_objetivos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sex_7_desenvolvimento",
+              "displayName": "sex_7_desenvolvimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "id": "6e65bbd0-5aad-4eda-8d7c-3bff545eacfd",
+      "name": "🚀 Chamar WF3: Gerar DOCX1",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "notes": "⚠️ Substitua SUBSTITUIR_ID_WF3 pelo ID real do WF3 após importar."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepara o input para o nó de embeddings\n// Lê do Mapear Form (nó que tem aulas_ativas)\nconst dados = $('🔧 Enriquecer Dados do Professor1').first().json;\nconst aulas = dados.aulas_ativas || [];\n\n// Monta array de strings para embedding\nconst inputs = aulas.map(a =>\n  [a.disciplina, a.tema, a.serie].filter(Boolean).join(' ')\n);\n\nreturn [{ json: { ...dados, embedding_inputs: inputs } }];"
+      },
+      "id": "18edf45d-0068-4036-aae8-1b5b2f548ef6",
+      "name": "🔧 Preparar Embeddings1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1952,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/embeddings",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'text-embedding-3-small', input: $json.embedding_inputs }) }}",
+        "options": {}
+      },
+      "id": "87519cbe-8bdb-4e2b-a315-9ab3a7b9e62b",
+      "name": "🧮 OpenAI: Embeddings1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -1680,
+        16
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "wKQN5ZfmgHFPxzcF",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Recebe embeddings e monta um item por aula para busca BNCC\nconst resp = $input.first().json;\nconst embeddings = resp.data?.map(d => d.embedding) || [];\n\n// Recuperar dados originais do nó Mapear Form\nconst dados = $('🔧 Enriquecer Dados do Professor1').first().json;\nconst aulas = dados.aulas_ativas || [];\n\n// ============================================================\n// 🧹 NORMALIZAÇÃO DE SÉRIE E DISCIPLINA (mesma lógica do\n// Orquestrador, node \"🔍 Extrair Parâmetros\") — garante que o\n// filtro enviado ao Supabase bate com o texto salvo na tabela\n// bncc_oficial, independente de como o professor digitou no\n// formulário (com/sem acento, º vs °, colado, com turma, etc).\n// ============================================================\n\nfunction stripAccents(s) {\n  return (s || '').normalize('NFD').replace(/[\\u0300-\\u036f]/g, '');\n}\n\nfunction normalizarSerie(raw) {\n  const norm = stripAccents(raw).toLowerCase();\n  const ehMedio = /\\bserie\\b|\\bmedio\\b/.test(norm);\n\n  // Pega o primeiro dígito 1-9 presente no texto (ex: \"3ºANO A\" -> \"3\")\n  const digitoMatch = norm.match(/[1-9]/);\n  if (!digitoMatch) return raw; // não achou dígito — mantém original como fallback\n\n  const digito = digitoMatch[0];\n\n  if (ehMedio) {\n    const mapaMedio = { '1': '1ª série', '2': '2ª série', '3': '3ª série' };\n    return mapaMedio[digito] || raw;\n  }\n\n  const mapaFundamental = {\n    '1': '1º ano', '2': '2º ano', '3': '3º ano', '4': '4º ano', '5': '5º ano',\n    '6': '6º ano', '7': '7º ano', '8': '8º ano', '9': '9º ano',\n  };\n  return mapaFundamental[digito] || raw;\n}\n\n// Mapa de disciplinas -> nome EXATO como está salvo em bncc_oficial.componente\nconst mapaDisciplina = {\n  'matematica': 'Matemática',\n  'matematicas': 'Matemática',\n  'lingua portuguesa': 'Língua Portuguesa',\n  'portugues': 'Língua Portuguesa',\n  'alfabetizacao': 'Língua Portuguesa',\n  'literatura': 'Língua Portuguesa',\n  'redacao': 'Língua Portuguesa',\n  'leitura': 'Língua Portuguesa',\n  'ciencias': 'Ciências',\n  'historia': 'História',\n  'geografia': 'Geografia',\n  'ingles': 'Inglês',\n};\n\nfunction normalizarDisciplina(raw) {\n  const norm = stripAccents(raw).toLowerCase().trim();\n  if (mapaDisciplina[norm]) return mapaDisciplina[norm];\n\n  // tenta por inclusão (chave contida no texto, da mais longa pra mais curta)\n  const chaves = Object.keys(mapaDisciplina).sort((a, b) => b.length - a.length);\n  for (const k of chaves) {\n    if (norm.includes(k)) return mapaDisciplina[k];\n  }\n\n  // não mapeada (ex: \"MATIFIC\", \"TUTORIA\") — mantém original.\n  // É esperado que essas não achem habilidade BNCC mesmo.\n  return raw;\n}\n\nreturn aulas.map((aula, i) => {\n  const serieNormalizada = normalizarSerie(aula.serie);\n  const disciplinaNormalizada = normalizarDisciplina(aula.disciplina);\n\n  return {\n    json: {\n      query_embedding: embeddings[i] || [],\n      filtro_serie: serieNormalizada,\n      filtro_componente: disciplinaNormalizada,\n      limite_escopos: 2,\n      limite_bncc: 2,\n      _slot: aula.slot,\n      _disciplina: aula.disciplina,\n      _disciplina_normalizada: disciplinaNormalizada,\n      _tema: aula.tema,\n      _serie: aula.serie,\n      _serie_normalizada: serieNormalizada,\n      _dia: aula.dia,\n      _numero: aula.numero,\n      _continuacao: aula.continuacao,\n      _descricao: aula.descricao || '',\n      _leitura: aula.leitura || '',\n      _autor: aula.autor || '',\n      _genero: aula.genero || '',\n      _idx: i\n    }\n  };\n});"
+      },
+      "id": "f9517cb3-8bb3-49ff-9127-0e214573b0ef",
+      "name": "🔧 Montar Payloads BNCC1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1392,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://qpzhkadewumecogtkbis.supabase.co/rest/v1/rpc/busca_dupla_bncc",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ query_embedding: $json.query_embedding, filtro_serie: $json.filtro_serie, filtro_componente: $json.filtro_componente, limite_escopos: $json.limite_escopos, limite_bncc: $json.limite_bncc }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "id": "587e4b89-a11d-48f5-b9de-886f75a673c4",
+      "name": "🔎 Supabase: Busca BNCC1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -1120,
+        16
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Agrupa resultados BNCC por aula e monta o prompt para OpenAI\nconst dados = $('🔧 Enriquecer Dados do Professor1').first().json;\nconst aulas = dados.aulas_ativas || [];\nconst allItems = $input.all();\n\nconst safe = (v, fb='') => v == null ? fb : String(v).trim() || fb;\nconst TEXTO_NAO_ENCONTRADA = 'Habilidade não encontrada na base de dados';\n\nfunction tryParseArray(v) {\n  if (Array.isArray(v)) return v;\n  if (typeof v === 'string') {\n    try {\n      const p = JSON.parse(v);\n      if (Array.isArray(p)) return p;\n    } catch (e) { /* not JSON, ignore */ }\n  }\n  return null;\n}\n\nconst porAula = {}; // index (0..N-1) -> array de resultados bncc\nlet metodo = 'nenhum';\n\n// --- Camada 1: resposta em TEXTO BRUTO, 1 item de entrada = 1 item de\n// saída, na MESMA ordem que `aulas`. Este é o caminho principal desde\n// que o node Supabase foi configurado com responseFormat: \"text\".\nif (allItems.length === aulas.length) {\n  let ok = true;\n  const tentativa = {};\n  allItems.forEach((item, i) => {\n    // Com responseFormat \"text\" o corpo cru fica em item.json.data\n    const bruto = item.json && item.json.data !== undefined ? item.json.data : item.json;\n    const arr = tryParseArray(bruto);\n    if (arr === null) { ok = false; return; }\n    tentativa[i] = arr;\n  });\n  if (ok) {\n    Object.assign(porAula, tentativa);\n    metodo = 'texto_bruto_indexado';\n  }\n}\n\n// --- Camada 2: fallback via pairedItem nativo do n8n, caso a resposta\n// ainda tenha vindo splitada em múltiplos itens por algum motivo.\nif (metodo === 'nenhum') {\n  let usouPairedItem = true;\n  const tentativa = {};\n  for (const item of allItems) {\n    const idx = item.pairedItem && typeof item.pairedItem.item === 'number'\n      ? item.pairedItem.item\n      : null;\n    if (idx === null) { usouPairedItem = false; break; }\n    const linha = tryParseArray(item.json) ? null : item.json; // item já é 1 linha (objeto)\n    if (!tentativa[idx]) tentativa[idx] = [];\n    tentativa[idx].push(linha || item.json);\n  }\n  if (usouPairedItem) {\n    Object.assign(porAula, tentativa);\n    metodo = 'paired_item';\n  }\n}\n\n// --- Camada 3: último recurso — blocos sequenciais de tamanho fixo.\nif (metodo === 'nenhum') {\n  const porBloco = aulas.length ? Math.round(allItems.length / aulas.length) || 2 : 2;\n  allItems.forEach((item, pos) => {\n    const idx = Math.floor(pos / porBloco);\n    if (!porAula[idx]) porAula[idx] = [];\n    const bruto = item.json && item.json.data !== undefined ? item.json.data : item.json;\n    const arr = tryParseArray(bruto);\n    if (arr) { porAula[idx] = porAula[idx].concat(arr); }\n    else { porAula[idx].push(item.json); }\n  });\n  metodo = 'blocos_fixos';\n}\n\n// Mapa determinístico slot -> habilidades (código + descritor completo).\n// Esta é a ÚNICA fonte usada no documento final para o campo\n// \"habilidades\" — não depende da IA reescrever/copiar corretamente.\nconst habilidadesPorSlot = {};\n\nconst aulasPrompt = aulas.map((aula, i) => {\n  const bncc = porAula[i] || [];\n\n  const habs = [], ctxs = [];\n  bncc.forEach(r => {\n    if (r && r.fonte === 'bncc_oficial') {\n      const h = safe(r.codigo) + ': ' + safe(r.conteudo);\n      if (!habs.includes(h)) habs.push(h);\n    } else if (r && r.titulo) {\n      ctxs.push('[Exemplo] ' + safe(r.titulo) + ': ' + safe(r.conteudo));\n    }\n  });\n\n  habilidadesPorSlot[aula.slot] = habs.length ? habs.join(' | ') : TEXTO_NAO_ENCONTRADA;\n\n  return 'AULA ' + (i+1) + ' [' + aula.slot + ']:\\n' +\n    '- Disciplina: ' + aula.disciplina + '\\n' +\n    '- Tema: ' + aula.tema + '\\n' +\n    '- Série: ' + aula.serie + '\\n' +\n    '- Dia: ' + aula.dia + ' — ' + aula.numero + 'ª aula\\n' +\n    '- Continuação: ' + aula.continuacao + '\\n' +\n    (aula.descricao ? '- Contexto extra: ' + aula.descricao + '\\n' : '') +\n    '- Habilidades BNCC: ' + (habs.join(' | ') || 'Não localizada') + '\\n' +\n    '- Contexto: ' + (ctxs.join(' | ') || 'N/A');\n}).join('\\n\\n---\\n\\n');\n\nconst systemPrompt = `Você é especialista em planejamento pedagógico SEE-SP.\n\nREGRAS ABSOLUTAS:\n1. Use a(s) habilidade(s) BNCC de cada aula (campo \"Habilidades BNCC\" acima) como\n   referência pedagógica para escrever \"conteudo\", \"objetivos\" e \"desenvolvimento\" —\n   respeitando a Disciplina e o Tema informados para AQUELA aula. Se a habilidade\n   listada parecer de outra disciplina/tema, priorize a Disciplina e o Tema da\n   aula ao escrever o conteúdo (nunca invente uma disciplina diferente da\n   informada). NÃO copie a habilidade dentro desses campos, e NÃO invente códigos.\n2. Se continuação: conteúdo inicia com \"Dando continuidade,\"\n3. Responda APENAS com JSON válido — sem texto fora do JSON\n4. NÃO inclua leitura, autor ou gênero textual na resposta — isso é um bloco\n   separado e não faz parte do conteúdo das aulas.\n5. NÃO inclua o campo \"habilidades\" na sua resposta — ele é preenchido\n   automaticamente pelo sistema a partir da base de dados BNCC, fora do seu\n   escopo.\n\nPara CADA aula gere:\n- slot: exatamente como fornecido (ex: seg_1, qui_3)\n- disciplina, conteudo (2-3 tópicos verbos infinitivo),\n  objetivos (2 Bloom), desenvolvimento (1ª pessoa futuro, 8-12 linhas)\n\nFORMATO: {\"aulas\":[{\"slot\":\"seg_1\",\"disciplina\":\"...\",\"conteudo\":\"...\",\"objetivos\":\"...\",\"desenvolvimento\":\"...\"}]}`;\n\nreturn [{\n  json: {\n    _dados_originais: dados,\n    _total_aulas: aulas.length,\n    _habilidades_por_slot: habilidadesPorSlot,\n    _debug_metodo_agrupamento: metodo,\n    system: systemPrompt,\n    user: 'Gere conteúdo para ' + aulas.length + ' aulas:\\n\\n' + aulasPrompt + '\\n\\nResponda APENAS com o JSON.'\n  }\n}];\n"
+      },
+      "id": "9340aeb7-a192-40a5-b8f7-e27bc2ea5c3c",
+      "name": "🔧 Montar Prompt Batch1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -832,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'gpt-4.1-mini-2025-04-14', messages: [{role:'system',content:$json.system},{role:'user',content:$json.user}], temperature: 0.4, response_format: {type:'json_object'}, max_tokens: 8000 }) }}",
+        "options": {}
+      },
+      "id": "c21b0e40-8b0d-4ea1-acaf-55fa0ea55a2c",
+      "name": "🤖 OpenAI: Gerar Conteúdo1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -560,
+        16
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "wKQN5ZfmgHFPxzcF",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const resp = $input.first().json;\nconst prompt_no = $('🔧 Montar Prompt Batch1').first().json;\nconst dados = prompt_no._dados_originais;\nconst totalAulas = prompt_no._total_aulas;\nconst aulas = dados.aulas_ativas || [];\nconst habilidadesPorSlot = prompt_no._habilidades_por_slot || {};\n\nconst safe = (v, fb='') => v == null ? fb : String(v).trim() || fb;\n\nconst TEXTO_NAO_ENCONTRADA = 'Habilidade não encontrada na base de dados';\n\n// Parsear resposta OpenAI\nconst content = resp.choices?.[0]?.message?.content || '{}';\nlet parsed;\ntry { parsed = JSON.parse(content); }\ncatch(e) {\n  const m = content.match(/\\{[\\s\\S]*\\}/);\n  parsed = m ? JSON.parse(m[0]) : { aulas: [] };\n}\n\nconst aulasGeradas = parsed.aulas || [];\nconsole.log('[BATCH v4] ✅ ' + aulasGeradas.length + '/' + totalAulas + ' aulas geradas');\n\n// Montar payload de slots (SEM leitura/autor/genero — isso é bloco\n// fixo, tratado separadamente a partir de `dados`, nunca da IA).\n// O campo \"_habilidades\" vem SEMPRE do mapa determinístico\n// habilidadesPorSlot, nunca do texto gerado pela IA — garante\n// código + descritor completo (ou o texto padrão de não encontrada).\nconst dias = ['seg','ter','qua','qui','sex'];\nconst payload = {};\nfor (const d of dias) {\n  for (let n = 1; n <= 7; n++) {\n    const s = d + '_' + n;\n    payload[s + '_disciplina'] = '';\n    payload[s + '_conteudo'] = '';\n    payload[s + '_habilidades'] = habilidadesPorSlot[s] || '';\n    payload[s + '_objetivos'] = '';\n    payload[s + '_desenvolvimento'] = '';\n  }\n}\n\nfor (const ag of aulasGeradas) {\n  const s = ag.slot;\n  if (s) {\n    payload[s + '_disciplina']      = safe(ag.disciplina);\n    payload[s + '_conteudo']        = safe(ag.conteudo);\n    payload[s + '_habilidades']     = habilidadesPorSlot[s] || TEXTO_NAO_ENCONTRADA;\n    payload[s + '_objetivos']       = safe(ag.objetivos);\n    payload[s + '_desenvolvimento'] = safe(ag.desenvolvimento);\n  }\n}\n\n// Fallback para slots não retornados pela IA\nconst slotsGerados  = aulasGeradas.map(a => a.slot).filter(Boolean);\nconst slotsFaltando = aulas.map(a => a.slot).filter(s => !slotsGerados.includes(s));\nfor (const slot of slotsFaltando) {\n  const aula = aulas.find(a => a.slot === slot);\n  if (aula) {\n    payload[slot + '_disciplina']  = aula.disciplina;\n    payload[slot + '_conteudo']    = aula.tema;\n    payload[slot + '_habilidades'] = habilidadesPorSlot[slot] || TEXTO_NAO_ENCONTRADA;\n  }\n}\n\nconsole.log('[BATCH v4] Slots gerados: ' + slotsGerados.join(', '));\nconsole.log('[BATCH v4] Slots faltando: ' + (slotsFaltando.join(', ') || 'Nenhum'));\n\nreturn [{\n  json: {\n    professor:      dados.professor_nome || '',\n    serie:          dados.serie || '',\n    escola:         dados.escola || '',\n    diretoria:      dados.diretoria || '',\n    endereco:       dados.endereco || '',\n    email_telefone: dados.email_telefone || '',\n    semana:         dados.semana || '',\n    obs_seg: dados.obs_seg || '', obs_ter: dados.obs_ter || '',\n    obs_qua: dados.obs_qua || '', obs_qui: dados.obs_qui || '',\n    obs_sex: dados.obs_sex || '',\n    instance:       dados.instance || '',\n    remoteJid:      dados.remoteJid || '',\n    // Bloco de LEITURA — fixo e independente, exatamente como veio\n    // do formulário (vazio se o professor não preencheu, sem\n    // nenhum placeholder).\n    seg_1_leitura: dados.seg_1_leitura || '', seg_1_autor: dados.seg_1_autor || '', seg_1_genero: dados.seg_1_genero || '',\n    ter_1_leitura: dados.ter_1_leitura || '', ter_1_autor: dados.ter_1_autor || '', ter_1_genero: dados.ter_1_genero || '',\n    qua_1_leitura: dados.qua_1_leitura || '', qua_1_autor: dados.qua_1_autor || '', qua_1_genero: dados.qua_1_genero || '',\n    qui_1_leitura: dados.qui_1_leitura || '', qui_1_autor: dados.qui_1_autor || '', qui_1_genero: dados.qui_1_genero || '',\n    sex_1_leitura: dados.sex_1_leitura || '', sex_1_autor: dados.sex_1_autor || '', sex_1_genero: dados.sex_1_genero || '',\n    total_processado: aulasGeradas.length,\n    total_esperado:   totalAulas,\n    ...payload,\n  }\n}];\n"
+      },
+      "id": "d5cdc952-264c-4637-a606-f915fa20c4cd",
+      "name": "📦 Montar Payload Final1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -272,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "professores",
+        "limit": 1,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $json.remoteJid }}"
+            }
+          ]
+        }
+      },
+      "id": "8319090d-99f8-404f-a1e1-137717991efe",
+      "name": "🔍 Buscar Professor Supabase1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -2720,
+        16
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Junta os dados do formulário com os dados cadastrais do\n// professor vindos do Supabase (tabela \"professores\"),\n// buscados por telefone = remoteJid.\n//\n// Colunas reais da tabela (confirmadas no node\n// \"💾 Criar Usuário no Banco\" do Orquestrador):\n//   nome, email, telefone, \"Nome da escola\", \"Diretoria de ensino\"\n//\n// Não existe coluna de endereço nem campo combinado\n// email_telefone — construímos esse aqui a partir de email + telefone.\n\nconst dadosForm = $('📦 Mapear Form → Aulas Ativas1').first().json;\nconst registros = $input.all().map(i => i.json);\nconst professor = registros[0] || {};\n\nconst professorEncontrado = !!(professor.id || professor.telefone);\n\nconst nome      = professor['nome']            || dadosForm.professor_nome || 'Professor(a)';\nconst escola    = professor['Nome da escola']   || dadosForm.escola         || '';\nconst diretoria = professor['Diretoria de ensino'] || dadosForm.diretoria   || '';\nconst email     = professor['email']            || '';\nconst telefone  = professor['telefone']         || dadosForm.remoteJid     || '';\n\nconst emailTelefone = [email, telefone].filter(Boolean).join(' | ') || dadosForm.email_telefone || '';\n\nif (!professorEncontrado) {\n  console.log('[Buscar Professor] Nenhum professor encontrado para telefone: ' + dadosForm.remoteJid);\n}\n\nreturn [{\n  json: {\n    ...dadosForm,\n    professor_nome: nome,\n    escola,\n    diretoria,\n    email_telefone: emailTelefone,\n    // endereco: mantém o que já veio do form/querystring (não há\n    // coluna de endereço na tabela professores ainda)\n  }\n}];"
+      },
+      "id": "2a82eac4-e92d-4b7a-83c3-bc5ceebd130b",
+      "name": "🔧 Enriquecer Dados do Professor1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2464,
+        16
+      ]
+    }
+  ],
+  "pinData": {
+    "Form: Rotina Semanal": [
+      {
+        "json": {
+          "Semana (período)": "03/08 a 07/08",
+          "Série / Turma": "3 ° ano A",
+          "━━━ SEGUNDA-FEIRA ━━━": "",
+          "SEG — LEITURA DO DIA": "A lebre e a tartaruga",
+          "SEG — LEITURA | Autor": "Esopo",
+          "SEG — LEITURA | Gênero textual": "Fabula",
+          "SEG 1ª Aula 7h–7h50 | Disciplina": "Português",
+          "SEG 1ª Aula 7h–7h50 | Tema": "Leitura e interpretação",
+          "SEG 1ª Aula 7h–7h50 | Descrição da aula": "",
+          "SEG 1ª Aula 7h–7h50 | É continuação?": "Não — aula nova",
+          "SEG 2ª Aula 7h50–8h40 | Disciplina": "Português",
+          "SEG 2ª Aula 7h50–8h40 | Tema": "Leitura e interpretação",
+          "SEG 2ª Aula 7h50–8h40 | Descrição da aula": "",
+          "SEG 2ª Aula 7h50–8h40 | É continuação?": "Sim — continuação da aula anterior",
+          "SEG 3ª Aula 8h55–9h45 | Disciplina": "Matemática",
+          "SEG 3ª Aula 8h55–9h45 | Tema": "Soma e subtração",
+          "SEG 3ª Aula 8h55–9h45 | Descrição da aula": "",
+          "SEG 3ª Aula 8h55–9h45 | É continuação?": "Não — aula nova",
+          "SEG 4ª Aula 9h45–10h35 | Disciplina": "História",
+          "SEG 4ª Aula 9h45–10h35 | Tema": "Descobrimento do Brasil",
+          "SEG 4ª Aula 9h45–10h35 | Descrição da aula": "",
+          "SEG 4ª Aula 9h45–10h35 | É continuação?": "Não — aula nova",
+          "SEG 5ª Aula 10h35–11h15 | Disciplina": "Geografia",
+          "SEG 5ª Aula 10h35–11h15 | Tema": "Capitais do Brasil",
+          "SEG 5ª Aula 10h35–11h15 | Descrição da aula": "",
+          "SEG 5ª Aula 10h35–11h15 | É continuação?": "Não — aula nova",
+          "SEG 6ª Aula 12h15–13h15 | Disciplina": "",
+          "SEG 6ª Aula 12h15–13h15 | Tema": "",
+          "SEG 6ª Aula 12h15–13h15 | Descrição da aula": "",
+          "SEG 6ª Aula 12h15–13h15 | É continuação?": "",
+          "SEG 7ª Aula 13h15–13h45 | Disciplina": "",
+          "SEG 7ª Aula 13h15–13h45 | Tema": "",
+          "SEG 7ª Aula 13h15–13h45 | Descrição da aula": "",
+          "SEG 7ª Aula 13h15–13h45 | É continuação?": "",
+          "━━━ TERÇA-FEIRA ━━━": "",
+          "TER — LEITURA DO DIA": "A lebre e a tartaruga",
+          "TER — LEITURA | Autor": "Esopo",
+          "TER — LEITURA | Gênero textual": "Fábula",
+          "TER 1ª Aula 7h–7h50 | Disciplina": "Português",
+          "TER 1ª Aula 7h–7h50 | Tema": "Gramática",
+          "TER 1ª Aula 7h–7h50 | Descrição da aula": "",
+          "TER 1ª Aula 7h–7h50 | É continuação?": "Não — aula nova",
+          "TER 2ª Aula 7h50–8h40 | Disciplina": "Matemática",
+          "TER 2ª Aula 7h50–8h40 | Tema": "Números naturais",
+          "TER 2ª Aula 7h50–8h40 | Descrição da aula": "",
+          "TER 2ª Aula 7h50–8h40 | É continuação?": "Não — aula nova",
+          "TER 3ª Aula 8h55–9h45 | Disciplina": "História",
+          "TER 3ª Aula 8h55–9h45 | Tema": "Patrimônio cultural imaterial",
+          "TER 3ª Aula 8h55–9h45 | Descrição da aula": "",
+          "TER 3ª Aula 8h55–9h45 | É continuação?": "Não — aula nova",
+          "TER 4ª Aula 9h45–10h35 | Disciplina": "Geografia",
+          "TER 4ª Aula 9h45–10h35 | Tema": "Capitais do Brasil",
+          "TER 4ª Aula 9h45–10h35 | Descrição da aula": "",
+          "TER 4ª Aula 9h45–10h35 | É continuação?": "Não — aula nova",
+          "TER 5ª Aula 10h35–11h15 | Disciplina": "",
+          "TER 5ª Aula 10h35–11h15 | Tema": "",
+          "TER 5ª Aula 10h35–11h15 | Descrição da aula": "",
+          "TER 5ª Aula 10h35–11h15 | É continuação?": "",
+          "TER 6ª Aula 12h15–13h15 | Disciplina": "",
+          "TER 6ª Aula 12h15–13h15 | Tema": "",
+          "TER 6ª Aula 12h15–13h15 | Descrição da aula": "",
+          "TER 6ª Aula 12h15–13h15 | É continuação?": "",
+          "TER 7ª Aula 13h15–13h45 | Disciplina": "",
+          "TER 7ª Aula 13h15–13h45 | Tema": "",
+          "TER 7ª Aula 13h15–13h45 | Descrição da aula": "",
+          "TER 7ª Aula 13h15–13h45 | É continuação?": "",
+          "━━━ QUARTA-FEIRA ━━━": "",
+          "QUA — LEITURA DO DIA": "",
+          "QUA — LEITURA | Autor": "",
+          "QUA — LEITURA | Gênero textual": "",
+          "QUA 1ª Aula 7h–7h50 | Disciplina": "",
+          "QUA 1ª Aula 7h–7h50 | Tema": "",
+          "QUA 1ª Aula 7h–7h50 | Descrição da aula": "",
+          "QUA 1ª Aula 7h–7h50 | É continuação?": "",
+          "QUA 2ª Aula 7h50–8h40 | Disciplina": "",
+          "QUA 2ª Aula 7h50–8h40 | Tema": "",
+          "QUA 2ª Aula 7h50–8h40 | Descrição da aula": "",
+          "QUA 2ª Aula 7h50–8h40 | É continuação?": "",
+          "QUA 3ª Aula 8h55–9h45 | Disciplina": "",
+          "QUA 3ª Aula 8h55–9h45 | Tema": "",
+          "QUA 3ª Aula 8h55–9h45 | Descrição da aula": "",
+          "QUA 3ª Aula 8h55–9h45 | É continuação?": "",
+          "QUA 4ª Aula 9h45–10h35 | Disciplina": "",
+          "QUA 4ª Aula 9h45–10h35 | Tema": "",
+          "QUA 4ª Aula 9h45–10h35 | Descrição da aula": "",
+          "QUA 4ª Aula 9h45–10h35 | É continuação?": "",
+          "QUA 5ª Aula 10h35–11h15 | Disciplina": "",
+          "QUA 5ª Aula 10h35–11h15 | Tema": "",
+          "QUA 5ª Aula 10h35–11h15 | Descrição da aula": "",
+          "QUA 5ª Aula 10h35–11h15 | É continuação?": "",
+          "QUA 6ª Aula 12h15–13h15 | Disciplina": "",
+          "QUA 6ª Aula 12h15–13h15 | Tema": "",
+          "QUA 6ª Aula 12h15–13h15 | Descrição da aula": "",
+          "QUA 6ª Aula 12h15–13h15 | É continuação?": "",
+          "QUA 7ª Aula 13h15–13h45 | Disciplina": "",
+          "QUA 7ª Aula 13h15–13h45 | Tema": "",
+          "QUA 7ª Aula 13h15–13h45 | Descrição da aula": "",
+          "QUA 7ª Aula 13h15–13h45 | É continuação?": "",
+          "━━━ QUINTA-FEIRA ━━━": "",
+          "QUI — LEITURA DO DIA": "",
+          "QUI — LEITURA | Autor": "",
+          "QUI — LEITURA | Gênero textual": "",
+          "QUI 1ª Aula 7h–7h50 | Disciplina": "",
+          "QUI 1ª Aula 7h–7h50 | Tema": "",
+          "QUI 1ª Aula 7h–7h50 | Descrição da aula": "",
+          "QUI 1ª Aula 7h–7h50 | É continuação?": "",
+          "QUI 2ª Aula 7h50–8h40 | Disciplina": "",
+          "QUI 2ª Aula 7h50–8h40 | Tema": "",
+          "QUI 2ª Aula 7h50–8h40 | Descrição da aula": "",
+          "QUI 2ª Aula 7h50–8h40 | É continuação?": "",
+          "QUI 3ª Aula 8h55–9h45 | Disciplina": "",
+          "QUI 3ª Aula 8h55–9h45 | Tema": "",
+          "QUI 3ª Aula 8h55–9h45 | Descrição da aula": "",
+          "QUI 3ª Aula 8h55–9h45 | É continuação?": "",
+          "QUI 4ª Aula 9h45–10h35 | Disciplina": "",
+          "QUI 4ª Aula 9h45–10h35 | Tema": "",
+          "QUI 4ª Aula 9h45–10h35 | Descrição da aula": "",
+          "QUI 4ª Aula 9h45–10h35 | É continuação?": "",
+          "QUI 5ª Aula 10h35–11h15 | Disciplina": "",
+          "QUI 5ª Aula 10h35–11h15 | Tema": "",
+          "QUI 5ª Aula 10h35–11h15 | Descrição da aula": "",
+          "QUI 5ª Aula 10h35–11h15 | É continuação?": "",
+          "QUI 6ª Aula 12h15–13h15 | Disciplina": "",
+          "QUI 6ª Aula 12h15–13h15 | Tema": "",
+          "QUI 6ª Aula 12h15–13h15 | Descrição da aula": "",
+          "QUI 6ª Aula 12h15–13h15 | É continuação?": "",
+          "QUI 7ª Aula 13h15–13h45 | Disciplina": "",
+          "QUI 7ª Aula 13h15–13h45 | Tema": "",
+          "QUI 7ª Aula 13h15–13h45 | Descrição da aula": "",
+          "QUI 7ª Aula 13h15–13h45 | É continuação?": "",
+          "━━━ SEXTA-FEIRA ━━━": "",
+          "SEX — LEITURA DO DIA": "",
+          "SEX — LEITURA | Autor": "",
+          "SEX — LEITURA | Gênero textual": "",
+          "SEX 1ª Aula 7h–7h50 | Disciplina": "",
+          "SEX 1ª Aula 7h–7h50 | Tema": "",
+          "SEX 1ª Aula 7h–7h50 | Descrição da aula": "",
+          "SEX 1ª Aula 7h–7h50 | É continuação?": "",
+          "SEX 2ª Aula 7h50–8h40 | Disciplina": "",
+          "SEX 2ª Aula 7h50–8h40 | Tema": "",
+          "SEX 2ª Aula 7h50–8h40 | Descrição da aula": "",
+          "SEX 2ª Aula 7h50–8h40 | É continuação?": "",
+          "SEX 3ª Aula 8h55–9h45 | Disciplina": "",
+          "SEX 3ª Aula 8h55–9h45 | Tema": "",
+          "SEX 3ª Aula 8h55–9h45 | Descrição da aula": "",
+          "SEX 3ª Aula 8h55–9h45 | É continuação?": "",
+          "SEX 4ª Aula 9h45–10h35 | Disciplina": "",
+          "SEX 4ª Aula 9h45–10h35 | Tema": "",
+          "SEX 4ª Aula 9h45–10h35 | Descrição da aula": "",
+          "SEX 4ª Aula 9h45–10h35 | É continuação?": "",
+          "SEX 5ª Aula 10h35–11h15 | Disciplina": "",
+          "SEX 5ª Aula 10h35–11h15 | Tema": "",
+          "SEX 5ª Aula 10h35–11h15 | Descrição da aula": "",
+          "SEX 5ª Aula 10h35–11h15 | É continuação?": "",
+          "SEX 6ª Aula 12h15–13h15 | Disciplina": "",
+          "SEX 6ª Aula 12h15–13h15 | Tema": "",
+          "SEX 6ª Aula 12h15–13h15 | Descrição da aula": "",
+          "SEX 6ª Aula 12h15–13h15 | É continuação?": "",
+          "SEX 7ª Aula 13h15–13h45 | Disciplina": "",
+          "SEX 7ª Aula 13h15–13h45 | Tema": "",
+          "SEX 7ª Aula 13h15–13h45 | Descrição da aula": "",
+          "SEX 7ª Aula 13h15–13h45 | É continuação?": "",
+          "submittedAt": "2026-08-02T15:12:58.590-03:00",
+          "formMode": "production",
+          "formQueryParameters": {
+            "instancia": "whtas",
+            "whatsapp": "5519982097357@s.whatsapp.net"
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Form: Rotina Semanal": {
+      "main": [
+        [
+          {
+            "node": "📦 Mapear Form → Aulas Ativas1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📦 Mapear Form → Aulas Ativas1": {
+      "main": [
+        [
+          {
+            "node": "🔍 Buscar Professor Supabase1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📨 Aviso: Processando1": {
+      "main": [
+        [
+          {
+            "node": "🔧 Preparar Embeddings1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🚀 Chamar WF3: Gerar DOCX1": {
+      "main": [
+        [
+          {
+            "node": "Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔧 Preparar Embeddings1": {
+      "main": [
+        [
+          {
+            "node": "🧮 OpenAI: Embeddings1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🧮 OpenAI: Embeddings1": {
+      "main": [
+        [
+          {
+            "node": "🔧 Montar Payloads BNCC1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔧 Montar Payloads BNCC1": {
+      "main": [
+        [
+          {
+            "node": "🔎 Supabase: Busca BNCC1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔎 Supabase: Busca BNCC1": {
+      "main": [
+        [
+          {
+            "node": "🔧 Montar Prompt Batch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔧 Montar Prompt Batch1": {
+      "main": [
+        [
+          {
+            "node": "🤖 OpenAI: Gerar Conteúdo1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🤖 OpenAI: Gerar Conteúdo1": {
+      "main": [
+        [
+          {
+            "node": "📦 Montar Payload Final1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📦 Montar Payload Final1": {
+      "main": [
+        [
+          {
+            "node": "🚀 Chamar WF3: Gerar DOCX1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔍 Buscar Professor Supabase1": {
+      "main": [
+        [
+          {
+            "node": "🔧 Enriquecer Dados do Professor1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔧 Enriquecer Dados do Professor1": {
+      "main": [
+        [
+          {
+            "node": "📨 Aviso: Processando1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "5a6a0918-d74d-4b86-a535-6b30884aa92c",
+  "meta": {
+    "instanceId": "ea30732b7484dfb258074bf24d3a47b450ea4a84b2219075cce71f27330e65b9"
+  },
+  "nodeGroups": [],
+  "id": "VME8b0cKfgilfJgw",
+  "tags": []
+}

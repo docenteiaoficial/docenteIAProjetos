@@ -1,0 +1,1652 @@
+{
+  "name": "Docente - Orquestrador v2.6 (plano via formulário)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp-professor",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "8a6d8dd8-b4cb-48f0-adb0-fde5ff7a8991",
+      "name": "📥 Webhook Evolution API",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -4944,
+        464
+      ],
+      "webhookId": "whatsapp-professor"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"status\":200,\"message\":\"success\"}",
+        "options": {}
+      },
+      "id": "bcbd7f5a-ce4e-4a34-bac8-85015fc62146",
+      "name": "⚡ Respond 200",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        -4704,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cond-apikey",
+              "leftValue": "={{ $json.body.apikey }}",
+              "rightValue": "2C0B49A1FBA1-41D3-BAFC-49628455D770",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b96f6e15-dee6-4053-8083-de1ac405eb56",
+      "name": "🔐 C1: Validar API Key",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -4704,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"status\":401,\"message\":\"Unauthorized\"}",
+        "options": {}
+      },
+      "id": "d075df3e-b49e-4645-acf8-643ca1634fe2",
+      "name": "🚫 Responder 401",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        -4448,
+        752
+      ]
+    },
+    {
+      "parameters": {
+        "sessionId": "={{ $item(\"0\").$node[\"📥 Webhook Evolution API\"].json[\"body\"][\"data\"][\"key\"][\"remoteJid\"] }}",
+        "message": "={{ $item(\"0\").$node[\"🔐 C1: Validar API Key\"].json[\"body\"][\"data\"][\"message\"][\"conversation\"] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-message-debounce.messageDebounce",
+      "typeVersion": 1,
+      "position": [
+        -4448,
+        528
+      ],
+      "id": "bee77ed5-6709-42da-9331-3a1be6c98eaf",
+      "name": "Message Debounce",
+      "credentials": {
+        "redisApi": {
+          "id": "Ol7sDVRzXhmgmIkx",
+          "name": "Redis account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "pushName",
+              "value": "={{ $('🔐 C1: Validar API Key').item.json.body.data.pushName }}",
+              "type": "string"
+            },
+            {
+              "id": "a2",
+              "name": "instance",
+              "value": "={{ $('🔐 C1: Validar API Key').item.json.body.instance }}",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "remoteJid",
+              "value": "={{ $('🔐 C1: Validar API Key').item.json.body.data.key.remoteJid }}",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "fromMe",
+              "value": "={{ $('🔐 C1: Validar API Key').item.json.body.data.key.fromMe }}",
+              "type": "boolean"
+            },
+            {
+              "id": "a5",
+              "name": "messageType",
+              "value": "={{ $('🔐 C1: Validar API Key').item.json.body.data.messageType }}",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "conversation",
+              "value": "={{ $json.fullMessage || $('🔐 C1: Validar API Key').item.json.body.data.message?.extendedTextMessage?.text || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "a7",
+              "name": "date_time",
+              "value": "={{ DateTime.fromISO($('📥 Webhook Evolution API').item.json.body.date_time).setZone('America/Sao_Paulo').toFormat('dd/MM/yyyy, HH:mm') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fa66d954-d9de-4735-a11e-6442d777be6a",
+      "name": "📋 Normalizar Payload",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -4208,
+        528
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cond-fromme",
+              "leftValue": "={{ $json.fromMe }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "0e4234db-c634-4677-8106-e7ff93e7d65a",
+      "name": "🔐 C1b: Ignorar fromMe",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -3904,
+        544
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cond-type",
+              "leftValue": "={{ $json.messageType }}",
+              "rightValue": "conversation",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "3fd3b68e-997d-4665-adda-461b2d8fea68",
+      "name": "🔐 C2: Filtro messageType",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -3664,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cond-type2",
+              "leftValue": "={{ $json.messageType }}",
+              "rightValue": "extendedTextMessage",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "d11be3ed-0d5a-490b-901d-d137f7fe4fea",
+      "name": "🔐 C2b: Filtro extendedText",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -3424,
+        672
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const jid = $('📋 Normalizar Payload').item.json.remoteJid;\nconst instancia = $('📋 Normalizar Payload').item.json.instance;\nconst agora = Date.now();\nconst JANELA_MS = 60 * 1000;\nconst MAX_MSGS = 10;\n\nconst conversation = $('📋 Normalizar Payload').item.json.conversation || '';\n\nlet rateLimitData;\ntry { rateLimitData = $input.item.json; } catch (e) { rateLimitData = null; }\n\nlet contador = rateLimitData?.contador || 0;\nlet janela_inicio = rateLimitData?.janela_inicio ? new Date(rateLimitData.janela_inicio).getTime() : agora;\nlet violacoes = rateLimitData?.violacoes || 0;\n\nif ((agora - janela_inicio) > JANELA_MS) {\n  contador = 0;\n  janela_inicio = agora;\n  violacoes = 0;\n}\n\ncontador += 1;\nconst bloqueado = contador > MAX_MSGS;\nif (bloqueado) violacoes += 1;\n\nreturn {\n  jid, instancia, contador,\n  janela_inicio: new Date(janela_inicio).toISOString(),\n  violacoes, bloqueado,\n  deve_prosseguir: !bloqueado,\n  conversation\n};"
+      },
+      "id": "ad86b46e-a3b0-4957-b72d-b99f14fe658f",
+      "name": "🔐 C3: Rate Limit",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3184,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cond-rl",
+              "leftValue": "={{ $json.deve_prosseguir }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c686a5b3-5fab-4117-8a5b-99f5691a5fff",
+      "name": "🔐 C3: Passou Rate Limit?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -2944,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('📋 Normalizar Payload').item.json.instance }}",
+        "remoteJid": "={{ $('📋 Normalizar Payload').item.json.remoteJid }}",
+        "messageText": "⚠️ Muitas mensagens em pouco tempo. Aguarde um momento antes de continuar.",
+        "options_message": {}
+      },
+      "id": "72116da2-33d8-405f-a21b-ffc026ba1b0e",
+      "name": "🚫 Aviso Rate Limit",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -2704,
+        704
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const jid = $('📋 Normalizar Payload').item.json.remoteJid;\nconst instancia = $('📋 Normalizar Payload').item.json.instance;\nconst raw = $('🔐 C3: Rate Limit').item.json?.conversation || $('📋 Normalizar Payload').item.json.conversation || '';\nconst mensagem = String(raw || '');\n\nif (mensagem.length > 2000) {\n  return { bloqueado: true, tipo_violacao: 'TAMANHO_EXCEDIDO', jid, instancia,\n    payload_resumido: mensagem.substring(0, 200),\n    mensagem_usuario: 'Mensagem muito longa. Por favor, seja mais breve.',\n    conversation: mensagem, deve_prosseguir: false };\n}\n\nconst normalizar = (str) => str.normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').toLowerCase();\nconst norm = normalizar(mensagem);\nconst padroes = [\n  { regex: /ignore\\s*(as)?\\s instru/i, label: 'INJECTION_IGNORE' },\n  { regex: /esqueca\\s (as)?\\s instru/i, label: 'INJECTION_ESQUECA' },\n  { regex: /revel[ae]\\s (o)?\\s*(seu)?\\s*(prompt|system)/i, label: 'INJECTION_REVELAR' },\n  { regex: /voce\\s e\\s (agora|um)\\s*(root|admin|hacker|gpt|claude)/i, label: 'INJECTION_ROLEPLAY' },\n  { regex: /\\b(DROP|DELETE|INSERT|UPDATE|SELECT)\\s+/i, label: 'INJECTION_SQL' },\n  { regex: /act\\s as|jailbreak|dan\\s mode|developer\\s mode/i, label: 'INJECTION_JAILBREAK' },\n  { regex: /novo\\s prompt|ignore\\s tudo|finja\\s que|pretenda\\s ser/i, label: 'INJECTION_FINJA' }\n];\n\nfor (const p of padroes) {\n  if (p.regex.test(norm)) {\n    return { bloqueado: true, tipo_violacao: p.label, jid, instancia,\n      payload_resumido: mensagem.substring(0, 200),\n      mensagem_usuario: 'Não consigo processar essa mensagem.',\n      conversation: mensagem, deve_prosseguir: false };\n  }\n}\n\nreturn { bloqueado: false, tipo_violacao: null, jid, instancia,\n  mensagem_limpa: mensagem, conversation: mensagem, deve_prosseguir: true };"
+      },
+      "id": "55a8db4d-218f-4715-8541-59fac44c40cc",
+      "name": "🔐 C4: Sanitizar Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2704,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cond-san",
+              "leftValue": "={{ $json.deve_prosseguir }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a0d0eaf7-cfbf-44ad-9484-4335f8f4b121",
+      "name": "🔐 C4: Passou Sanitização?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -2464,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('📋 Normalizar Payload').item.json.instance }}",
+        "remoteJid": "={{ $('📋 Normalizar Payload').item.json.remoteJid }}",
+        "messageText": "={{ $('🔐 C4: Sanitizar Input').item.json.mensagem_usuario || 'Não consigo processar essa mensagem.' }}",
+        "options_message": {}
+      },
+      "id": "8def7551-9938-41c8-b0b2-ae11810a4abc",
+      "name": "🚫 Aviso Sanitização",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -2464,
+        704
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "professores",
+        "limit": 1,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $('📋 Normalizar Payload').item.json.remoteJid }}"
+            }
+          ]
+        }
+      },
+      "id": "4dd1dd44-3a33-4178-8dc6-3bc5feac9fe2",
+      "name": "🔍 Buscar Professor",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -2224,
+        544
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const professor = $input.item.json;\nconst agora = new Date();\n\nconst professor_existe = !!(professor.id || professor.telefone);\n\nif (!professor_existe) {\n  return {\n    professor_existe: false,\n    acesso_liberado: false,\n    status_assinatura: null,\n    professor_nome: $('📋 Normalizar Payload').item.json.pushName,\n    professor\n  };\n}\n\nconst status = professor.status_assinatura || 'bloqueado';\nconst professor_nome = professor.nome || $('📋 Normalizar Payload').item.json.pushName;\n\nlet acesso_liberado = false;\nlet trial_expirado = false;\n\nif (status === 'trial') {\n  const trialExpira = professor.trial_expira_em ? new Date(professor.trial_expira_em) : null;\n  if (trialExpira && trialExpira >= agora) {\n    acesso_liberado = true;\n  } else {\n    trial_expirado = true;\n    acesso_liberado = false;\n  }\n} else if (status === 'ativo') {\n  acesso_liberado = true;\n} else if (status === 'atrasado') {\n  const dataVenc = professor.data_vencimento ? new Date(professor.data_vencimento) : null;\n  const diasAtraso = dataVenc ? Math.floor((agora - dataVenc) / (1000 * 60 * 60 * 24)) : 99;\n  acesso_liberado = diasAtraso <= 3;\n} else {\n  acesso_liberado = false;\n}\n\nreturn {\n  professor_existe,\n  acesso_liberado,\n  status_assinatura: trial_expirado ? 'bloqueado' : status,\n  professor_nome,\n  data_vencimento: professor.data_vencimento,\n  trial_expira_em: professor.trial_expira_em,\n  stripe_customer_id: professor.stripe_customer_id,\n  professor\n};"
+      },
+      "id": "101148d4-c105-46a8-8b63-c5960978bc7d",
+      "name": "⚙️ Checar Status",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1984,
+        544
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cond-existe",
+              "leftValue": "={{ $json.professor_existe }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "6fcaea94-2d69-4822-a73c-b781f1de089a",
+      "name": "⑂ Professor Existe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -1792,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('📋 Normalizar Payload').item.json.instance }}",
+        "remoteJid": "={{ $('📋 Normalizar Payload').item.json.remoteJid }}",
+        "messageText": "=Olá {{ $('📋 Normalizar Payload').item.json.pushName }}! 👋\n\nIdentificamos que você ainda não tem cadastro no DocenteIA. Clique no link para se cadastrar:\n\nhttps://n8n.docenteia.com.br/form/cadastro-docenteia?whatsapp={{ $('📋 Normalizar Payload').item.json.remoteJid }}&instancia={{ $('📋 Normalizar Payload').item.json.instance }}",
+        "options_message": {}
+      },
+      "id": "37363c9f-1c13-4486-b22f-a77f809490df",
+      "name": "📨 Envia Link Cadastro",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -1568,
+        800
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cond-ativo",
+              "leftValue": "={{ $json.acesso_liberado }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f818f6a2-585b-431e-81a3-338ddc092e2f",
+      "name": "⑂ Assinatura Ativa?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -1600,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://n8n.docenteia.com.br/webhook/gerar-checkout",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"remoteJid\": \"{{ $('📋 Normalizar Payload').item.json.remoteJid }}\",\n  \"instance\": \"{{ $('📋 Normalizar Payload').item.json.instance }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1280,
+        800
+      ],
+      "id": "a787fe13-9fb2-4c9f-8377-ff8df733f362",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "const msg = $('📋 Normalizar Payload').item.json.conversation || '';\nconst norm = msg.normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').toLowerCase().trim();\n\n// ─── CÓDIGO BNCC → PLANO ───\nconst codigoBNCC = /\\b(EF|EM)\\d{2}[A-Z]{2,3}\\d{2,3}\\b/i;\nif (codigoBNCC.test(msg)) {\n  return { intencao: 'plano_aula', confianca: 0.98, motivo: 'codigo_bncc_detectado', deve_prosseguir: true, conversation: msg };\n}\n\n// ─── ROTINA SEMANAL ───\nconst rotinaKeywords = /\\b(rotina|rotina semanal|planejamento semanal|grade horaria|horario de aulas|semana de aulas|rotin)\\b/i;\nif (rotinaKeywords.test(norm)) {\n  return { intencao: 'rotina', confianca: 0.95, motivo: 'keyword_rotina', deve_prosseguir: true, conversation: msg };\n}\n\n// ─── RESPOSTA PÓS-PLANO ───\nconst respostaPosPlano = /^(sim|s|yes|quero|pode|claro|com certeza|manda|vai|top|ok|otimo|por favor|pfv|pf|obrigad|valeu|show|legal|gostei|dica|dicas|me da|me manda)[\\s!?.]?$/i;\nif (respostaPosPlano.test(norm)) {\n  return { intencao: 'pos_plano', confianca: 0.95, motivo: 'resposta_curta_pos_plano', deve_prosseguir: true, conversation: msg };\n}\n\n// ─── SAUDAÇÕES PURAS ───\nif (/^(oi|ola|bom dia|boa tarde|boa noite|tudo bem|tudo bom|hello|hi|eai|e ai|hey)[\\s!?.]?$/.test(norm)) {\n  return { intencao: 'chat', confianca: 0.99, motivo: 'saudacao_pura', deve_prosseguir: true, conversation: msg };\n}\n\n// ─── PLANO DE AULA (antes de atividade, protege \"plano com atividade\") ───\nconst planoExplicito = /plano\\s(de\\s*)?(aula|semanal|aulas)|planejamento\\s*(semanal|de\\s aula|da\\s semana)|planejar\\s*(a\\s*)?aula/i;\nconst verbosCriacao = /(criar|gerar|fazer|montar|preparar|elaborar|preciso\\s de|quero|me\\s (ajuda|faz|gera|cria|monta))\\s*(um\\s*)?(plano|aula|sequencia|roteiro|planejamento)/i;\nconst temSerie = /\\b(\\d+[°º\\u00B0]?\\s*(ano|serie)|[1-3][aª]\\s serie|ensino\\s medio|fund(amental)?\\s*[12]|ef\\s*\\d|em\\s*\\d)\\b/i;\nconst temDisciplina = /\\b(matematica|portugues|historia|geografia|ciencias|biologia|fisica|quimica|ingles|arte|educacao\\s fisica|filosofia|sociologia|lingua\\s portuguesa|literatura|redacao|alfabetizacao)\\b/i;\nconst padraoEstruturado = temSerie.test(norm) && temDisciplina.test(norm);\nconst temSemana = /semana|proxima\\s semana|\\d{1,2}\\/\\d{1,2}|segunda|terca|quarta|quinta|sexta/i;\nconst padraoSemana = temSemana.test(norm) && temDisciplina.test(norm);\nconst frasesProfessor = /preciso\\s(de\\s*)?(um\\s*)?(plano|aula)|me\\s ajuda\\s(com|a|no|na)|o\\s que\\s(posso|devo)\\s*(ensinar|trabalhar|dar)|tema\\s*(para|de)\\s*(aula|hoje|amanha)|conteudo\\s*(para|de)\\s aula|montar\\s(uma\\s*)?aula|fazer\\s*(uma\\s*)?aula/i;\n\nif (planoExplicito.test(norm) || verbosCriacao.test(norm) || padraoEstruturado || padraoSemana || frasesProfessor.test(norm)) {\n  return { intencao: 'plano_aula', confianca: 0.92, motivo: 'intencao_plano_detectada', deve_prosseguir: true, conversation: msg };\n}\n\n// ─── ATIVIDADE ILUSTRADA → FORM (absorve o antigo \"material de apoio\") ───\nconst atividadeKeywords = /\\b(atividade|exercicio|exercicios|lista|prova|avaliacao|questao|questoes|material|apoio|imprimir)\\b/i;\nif (atividadeKeywords.test(norm)) {\n  return { intencao: 'atividade_ilustrada', confianca: 0.93, motivo: 'keyword_atividade_form', deve_prosseguir: true, conversation: msg };\n}\n\n// ─── DICAS PEDAGÓGICAS ───\nconst dicasKeywords = /^dicas?[\\s!?.]?$|dica\\s*(de\\s*)?(ensino|aula|pedagogia|didatica)|como\\s*(ensinar|trabalhar|abordar|explicar)/i;\nif (dicasKeywords.test(norm)) {\n  return { intencao: 'chat', confianca: 0.90, motivo: 'keyword_dicas', deve_prosseguir: true, conversation: msg };\n}\n\n// ─── FORA DE ESCOPO ───\nconst foraEscopo = /\\b(novela|politica partidaria|receita culinaria|moda|celebridade|fofoca|bitcoin|bolsa de valores)\\b/i;\nif (foraEscopo.test(norm)) {\n  return { intencao: 'fora_de_escopo', confianca: 0.85, motivo: 'topico_nao_pedagogico', deve_prosseguir: false, conversation: msg };\n}\n\n// ─── DEFAULT ─\nreturn { intencao: 'chat', confianca: 0.75, motivo: 'default_chat_pedagogico', deve_prosseguir: true, conversation: msg };"
+      },
+      "id": "6d3f1e79-71db-42c1-ae80-c5cd02728b72",
+      "name": "🔐 C5: Gatekeeper de Intenção",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1264,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cond-gate",
+              "leftValue": "={{ $json.deve_prosseguir }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4eed0c59-3dc2-4941-92b2-d4d18599c159",
+      "name": "🔐 C5: Passou Gatekeeper?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -1024,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('📋 Normalizar Payload').item.json.instance }}",
+        "remoteJid": "={{ $('📋 Normalizar Payload').item.json.remoteJid }}",
+        "messageText": "😊 Aqui consigo te ajudar com planos de aula, atividades, BNCC e estratégias de ensino.\n\nQuer criar um plano de aula agora? Digite plano que te envio o formulário! 📋",
+        "options_message": {}
+      },
+      "id": "602e46b5-f6d1-4ea9-aefc-6d824a9c1e6f",
+      "name": "🚫 Aviso Fora de Escopo",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        880
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.intencao }}",
+                    "rightValue": "plano_aula",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "b79a960d-2a9e-44d4-a110-cdd2eccebaf0"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "plano_aula"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.intencao }}",
+                    "rightValue": "chat",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "013f7e1b-271e-45aa-98b0-f8d8f569b94c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "chat"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.intencao }}",
+                    "rightValue": "pos_plano",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "pos-plano-case-001"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "pos_plano"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e3261158-aaee-40fc-aa41-24befa92fff7",
+                    "leftValue": "={{ $json.intencao }}",
+                    "rightValue": "rotina",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "name": "filter.operator.equals"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "rotina"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "fe52e147-9de5-4b50-a599-33a1add9ca2c",
+                    "leftValue": "={{ $json.intencao }}",
+                    "rightValue": "=atividade_ilustrada",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "atividade_ilustrada"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "id": "587ecc73-b6b7-47c9-9e5a-0498362cf835",
+      "name": "⑂ Switch: Tipo de Tarefa",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -800,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "MEw8hmMg8iLNAUd1",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/MEw8hmMg8iLNAUd1"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "instance": "={{ $('📋 Normalizar Payload').item.json.instance }}",
+            "remoteJid": "={{ $('📋 Normalizar Payload').item.json.remoteJid }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "instance",
+              "displayName": "instance",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "remoteJid",
+              "displayName": "remoteJid",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0469d0b9-6e14-4018-8c0f-0514aba9d4a1",
+      "name": "Chamar: Plano Form Trigger",
+      "notes": "Se após importar o workflow A o ID mudar, selecione aqui o workflow 'DocenteIA — Plano Form Trigger v1' manualmente."
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "bFwRhKjW9vKo9QCt",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/bFwRhKjW9vKo9QCt"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "instance": "={{ $('📋 Normalizar Payload').item.json.instance }}",
+            "remoteJid": "={{ $('📋 Normalizar Payload').item.json.remoteJid }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "instance",
+              "displayName": "instance",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "remoteJid",
+              "displayName": "remoteJid",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        272
+      ],
+      "id": "6f655b1c-7eec-46d6-965a-2e2f07cc9ac8",
+      "name": "Chamar: Gerador de Rotina (WF1)"
+    },
+    {
+      "parameters": {
+        "jsCode": "const msg = $('📋 Normalizar Payload').item.json.conversation;\nconst nome = $('⚙️ Checar Status').item.json.professor_nome || $('📋 Normalizar Payload').item.json.pushName;\nconst instancia = $('📋 Normalizar Payload').first().json.instance;\nconst contato = $('📋 Normalizar Payload').first().json.remoteJid;\nreturn { mensagem: msg, professor_nome: nome, remoteJid: contato, instance: instancia };"
+      },
+      "id": "f4b6d133-0f74-4d90-b8b6-67e1b120af3a",
+      "name": "📝 Prep: Chat Pedagógico",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -192,
+        736
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list"
+        },
+        "builtInTools": {},
+        "options": {
+          "maxTokens": 600,
+          "temperature": 0.5
+        }
+      },
+      "id": "a9396687-d024-40f9-a7ac-9fdac239adff",
+      "name": "Model: Chat (gpt-4o-mini)",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -64,
+        944
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "wKQN5ZfmgHFPxzcF",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('📋 Normalizar Payload').item.json.instance }} {{ $('📋 Normalizar Payload').item.json.remoteJid }} plano",
+        "sessionTTL": 3600,
+        "contextWindowLength": 10
+      },
+      "id": "d5ba38ec-6299-46d7-aab3-bac7a3daa4fb",
+      "name": "Redis: Memória Chat",
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        112,
+        960
+      ],
+      "credentials": {
+        "redis": {
+          "id": "4cjTO2YAO8GK3qjY",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.mensagem }}",
+        "options": {
+          "systemMessage": "=Você é o DocenteIA, assistente pedagógico da rede estadual de São Paulo.\nProfessor(a): {{ $json.professor_nome }}\n\nCONTEXTO IMPORTANTE\nVocê compartilha memória com o agente gerador de planos. Se o histórico mostrar que um plano foi gerado recentemente, o professor provavelmente está respondendo sobre ele. Leia o histórico antes de responder.\n\nFLUXO PÓS-PLANO\nSe o histórico mostrar um plano gerado e o professor mandou uma confirmação curta (sim, quero, pode, ok, dicas, material, etc.):\n1. Identifique o tema, série e disciplina do plano gerado no histórico\n2. Se a mensagem for sobre DICAS: dê 3 a 5 dicas práticas e aplicáveis para conduzir aquela aula específica\n3. Se a mensagem for sobre MATERIAL DE APOIO ou ATIVIDADE: oriente — \"Digite ATIVIDADE que eu te envio o formulário e gero na hora com o tema do plano!\"\n4. Não gere atividades por aqui — atividades saem exclusivamente pelo formulário.\n\nREGRA ABSOLUTA\nResponda apenas sobre educação, pedagogia, BNCC, currículo SP e planejamento.\nEm caso de dúvida sobre escopo, ACEITE e ajude — é melhor ajudar demais do que recusar indevidamente.\n\nTÓPICOS ACEITOS\n- Planos de aula e planejamento semanal\n- Habilidades BNCC e Currículo Paulista SEE-SP\n- Metodologias ativas (sala invertida, ABP, rotação por estações)\n- Estratégias de ensino e gestão de sala\n- Avaliação formativa e somativa\n- Listas de exercícios e atividades para qualquer disciplina escolar\n- Conteúdo curricular de qualquer disciplina: Matemática, Português, História, Geografia, Ciências, Biologia, Física, Química, Inglês, Arte, Educação Física, Filosofia, Sociologia, Literatura, Redação\n- Questões, provas e gabaritos\n- Qualquer dúvida sobre como ensinar um conteúdo do currículo SP\n\nTÓPICOS RECUSADOS (apenas o óbvio e sem relação com docência)\n- Política partidária, esportes, entretenimento, culinária pessoal, finanças pessoais\n- Dúvidas pessoais totalmente sem relação com a vida escolar\n\nCOMO RECUSAR (use raramente)\n“Esse tema está fora do meu escopo pedagógico. Posso te ajudar com planos de aula, atividades, BNCC ou estratégias de ensino?”\n\nFORMATO\n- Máximo 3 parágrafos curtos\n- Sem markdown excessivo (texto vai para WhatsApp)\n- Português do Brasil"
+        }
+      },
+      "id": "097075fd-56d5-446a-9b12-8214a9119e67",
+      "name": "Agente Chat Pedagógico",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        48,
+        736
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let raw = '';\ntry { raw = raw || $('Chamar: Plano Form Trigger').item?.json?.output || ''; } catch(e) {}\ntry { raw = raw || $('Chamar: Gerador de Rotina (WF1)').item?.json?.output || ''; } catch(e) {}\ntry { raw = raw || $('Agente Chat Pedagógico').item?.json?.output || ''; } catch(e) {}\ntry { raw = raw || $input.item.json?.output || ''; } catch(e) {}\n\nlet sanitizado = String(raw);\nconst patterns = [/<system>[\\s\\S]*?<\\/system>/gi, /\\[INST\\][\\s\\S]*?\\[\\/INST\\]/gi, /<<SYS>>[\\s\\S]*?<\\/SYS>>/gi];\nfor (const p of patterns) sanitizado = sanitizado.replace(p, '');\n\nconst urlRegex = /https?:\\/\\/([\\w\\-.]+)(\\/[^\\s]*)?/gi;\nsanitizado = sanitizado.replace(urlRegex, (match, domain) => {\n  const permitidos = ['google.com', 'docs.google.com', 'drive.google.com', 'n8n.docenteia.com.br', 'docenteia.com.br'];\n  return permitidos.some(d => domain.endsWith(d)) ? match : '[link removido]';\n});\n\nif (sanitizado.length > 4000) sanitizado = sanitizado.substring(0, 3997) + '...';\nreturn { output_sanitizado: sanitizado.trim() };"
+      },
+      "id": "e2d925ee-d6bb-42d0-8ff6-b3d575865162",
+      "name": "🔐 C6: Sanitizar Output",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('📋 Normalizar Payload').item.json.instance }}",
+        "remoteJid": "={{ $('📋 Normalizar Payload').item.json.remoteJid }}",
+        "messageText": "={{ $json.output_sanitizado }}",
+        "options_message": {
+          "delay": 2000,
+          "linkPreview": true
+        }
+      },
+      "id": "d04c1765-d613-4cc4-ac67-d625b50bb88c",
+      "name": "📨 Envia Resposta Final",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        928,
+        272
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "security_events",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "jid",
+              "fieldValue": "={{ $json.jid || $('📋 Normalizar Payload').item.json.remoteJid }}"
+            },
+            {
+              "fieldId": "camada",
+              "fieldValue": "={{ $json.camada || 'GERAL' }}"
+            },
+            {
+              "fieldId": "tipo_violacao",
+              "fieldValue": "={{ $json.tipo_violacao || 'DESCONHECIDO' }}"
+            },
+            {
+              "fieldId": "payload_resumido",
+              "fieldValue": "={{ $json.payload_resumido || '' }}"
+            },
+            {
+              "fieldId": "instancia",
+              "fieldValue": "={{ $json.instancia || $('📋 Normalizar Payload').item.json.instance }}"
+            }
+          ]
+        }
+      },
+      "id": "49114fef-62c6-484f-86c5-d6b24b0bae31",
+      "name": "🔐 C7: Log Segurança",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -2224,
+        704
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "SKsneKPNEGeIQYM7",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/SKsneKPNEGeIQYM7",
+          "cachedResultName": "Atividade-form-trigger"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "instance": "={{ $json.instance }}",
+            "remoteJid": "={{ $json.remoteJid }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "instance",
+              "displayName": "instance",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "remoteJid",
+              "displayName": "remoteJid",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        64,
+        512
+      ],
+      "id": "6cf71fec-f85e-452a-8d78-7d1fed6f20db",
+      "name": "Chamar: Gerador de atividades"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8dbfd972-0f49-430f-a819-0d3ae794b0e1",
+              "name": "instance",
+              "value": "={{ $('📋 Normalizar Payload').item.json.instance }}",
+              "type": "string"
+            },
+            {
+              "id": "a739e776-e3d1-404b-9fcf-97053aff4804",
+              "name": "remoteJid",
+              "value": "={{ $('📋 Normalizar Payload').item.json.remoteJid }}",
+              "type": "string"
+            },
+            {
+              "id": "ed0dd144-329d-481d-9180-85068719f30e",
+              "name": "conversation",
+              "value": "={{ $('📋 Normalizar Payload').item.json.conversation }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -224,
+        528
+      ],
+      "id": "bfee2064-fbcd-4a6b-b4da-da178ca5548f",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {
+    "📥 Webhook Evolution API": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.docenteia.com.br",
+            "user-agent": "axios/1.13.2",
+            "content-length": "1443",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "n8n.docenteia.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "b1c112de2b22",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "whtas",
+            "data": {
+              "key": {
+                "remoteJid": "5519982097357@s.whatsapp.net",
+                "remoteJidAlt": "5519982097357@s.whatsapp.net",
+                "fromMe": false,
+                "id": "AC46BD8A4D5A9983055777FB45D74A12",
+                "participant": "",
+                "addressingMode": "lid"
+              },
+              "pushName": "Alex Cardoso",
+              "status": "DELIVERY_ACK",
+              "message": {
+                "conversation": "Ola",
+                "messageContextInfo": {
+                  "threadId": [],
+                  "deviceListMetadata": {
+                    "senderKeyIndexes": [],
+                    "recipientKeyIndexes": [],
+                    "senderKeyHash": {
+                      "0": 191,
+                      "1": 143,
+                      "2": 237,
+                      "3": 209,
+                      "4": 108,
+                      "5": 60,
+                      "6": 255,
+                      "7": 242,
+                      "8": 147,
+                      "9": 221
+                    },
+                    "senderTimestamp": {
+                      "low": 1788275934,
+                      "high": 0,
+                      "unsigned": true
+                    },
+                    "recipientKeyHash": {
+                      "0": 75,
+                      "1": 79,
+                      "2": 40,
+                      "3": 228,
+                      "4": 216,
+                      "5": 54,
+                      "6": 57,
+                      "7": 19,
+                      "8": 108,
+                      "9": 185
+                    },
+                    "recipientTimestamp": {
+                      "low": 1787696572,
+                      "high": 0,
+                      "unsigned": true
+                    }
+                  },
+                  "deviceListMetadataVersion": 2,
+                  "messageSecret": {
+                    "0": 73,
+                    "1": 166,
+                    "2": 191,
+                    "3": 1,
+                    "4": 130,
+                    "5": 92,
+                    "6": 105,
+                    "7": 84,
+                    "8": 96,
+                    "9": 155,
+                    "10": 95,
+                    "11": 0,
+                    "12": 31,
+                    "13": 233,
+                    "14": 218,
+                    "15": 111,
+                    "16": 138,
+                    "17": 128,
+                    "18": 57,
+                    "19": 119,
+                    "20": 152,
+                    "21": 109,
+                    "22": 111,
+                    "23": 105,
+                    "24": 29,
+                    "25": 2,
+                    "26": 113,
+                    "27": 78,
+                    "28": 65,
+                    "29": 195,
+                    "30": 17,
+                    "31": 149
+                  }
+                }
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1788732946,
+              "instanceId": "3b46dfe2-7310-4eb7-adb2-950e50e87d0e",
+              "source": "android"
+            },
+            "destination": "https://n8n.docenteia.com.br/webhook/whatsapp-professor",
+            "date_time": "2026-09-06T19:15:46.145Z",
+            "sender": "5514991743146@s.whatsapp.net",
+            "server_url": "https://evolution.docenteia.com.br",
+            "apikey": "2C0B49A1FBA1-41D3-BAFC-49628455D770"
+          },
+          "webhookUrl": "https://n8n.docenteia.com.br/webhook/whatsapp-professor",
+          "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "📥 Webhook Evolution API": {
+      "main": [
+        [
+          {
+            "node": "🔐 C1: Validar API Key",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "⚡ Respond 200",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔐 C1: Validar API Key": {
+      "main": [
+        [
+          {
+            "node": "Message Debounce",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "🚫 Responder 401",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message Debounce": {
+      "main": [
+        [
+          {
+            "node": "📋 Normalizar Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📋 Normalizar Payload": {
+      "main": [
+        [
+          {
+            "node": "🔐 C1b: Ignorar fromMe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔐 C1b: Ignorar fromMe": {
+      "main": [
+        [
+          {
+            "node": "🔐 C2: Filtro messageType",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔐 C2: Filtro messageType": {
+      "main": [
+        [
+          {
+            "node": "🔐 C3: Rate Limit",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "🔐 C2b: Filtro extendedText",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔐 C2b: Filtro extendedText": {
+      "main": [
+        [
+          {
+            "node": "🔐 C3: Rate Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔐 C3: Rate Limit": {
+      "main": [
+        [
+          {
+            "node": "🔐 C3: Passou Rate Limit?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔐 C3: Passou Rate Limit?": {
+      "main": [
+        [
+          {
+            "node": "🔐 C4: Sanitizar Input",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "🚫 Aviso Rate Limit",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "🔐 C7: Log Segurança",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔐 C4: Sanitizar Input": {
+      "main": [
+        [
+          {
+            "node": "🔐 C4: Passou Sanitização?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔐 C4: Passou Sanitização?": {
+      "main": [
+        [
+          {
+            "node": "🔍 Buscar Professor",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "🚫 Aviso Sanitização",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "🔐 C7: Log Segurança",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔍 Buscar Professor": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Checar Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Checar Status": {
+      "main": [
+        [
+          {
+            "node": "⑂ Professor Existe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⑂ Professor Existe?": {
+      "main": [
+        [
+          {
+            "node": "⑂ Assinatura Ativa?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "📨 Envia Link Cadastro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⑂ Assinatura Ativa?": {
+      "main": [
+        [
+          {
+            "node": "🔐 C5: Gatekeeper de Intenção",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔐 C5: Gatekeeper de Intenção": {
+      "main": [
+        [
+          {
+            "node": "🔐 C5: Passou Gatekeeper?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔐 C5: Passou Gatekeeper?": {
+      "main": [
+        [
+          {
+            "node": "⑂ Switch: Tipo de Tarefa",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "🚫 Aviso Fora de Escopo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⑂ Switch: Tipo de Tarefa": {
+      "main": [
+        [
+          {
+            "node": "Chamar: Plano Form Trigger",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "📝 Prep: Chat Pedagógico",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "📝 Prep: Chat Pedagógico",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Chamar: Gerador de Rotina (WF1)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chamar: Plano Form Trigger": {
+      "main": [
+        [
+          {
+            "node": "🔐 C6: Sanitizar Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chamar: Gerador de Rotina (WF1)": {
+      "main": [
+        [
+          {
+            "node": "🔐 C6: Sanitizar Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📝 Prep: Chat Pedagógico": {
+      "main": [
+        [
+          {
+            "node": "Agente Chat Pedagógico",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Model: Chat (gpt-4o-mini)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agente Chat Pedagógico",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis: Memória Chat": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agente Chat Pedagógico",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente Chat Pedagógico": {
+      "main": [
+        [
+          {
+            "node": "🔐 C6: Sanitizar Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔐 C6: Sanitizar Output": {
+      "main": [
+        [
+          {
+            "node": "📨 Envia Resposta Final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chamar: Gerador de atividades": {
+      "main": [
+        [
+          {
+            "node": "🔐 C6: Sanitizar Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Chamar: Gerador de atividades",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "22d8798b-ee80-4e1a-a796-a080f91dcc59",
+  "meta": {
+    "instanceId": "ea30732b7484dfb258074bf24d3a47b450ea4a84b2219075cce71f27330e65b9"
+  },
+  "nodeGroups": [],
+  "id": "En2C6mtrYvZftKFY",
+  "tags": []
+}

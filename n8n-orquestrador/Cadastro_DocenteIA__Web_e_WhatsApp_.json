@@ -1,0 +1,206 @@
+{
+  "name": "Cadastro DocenteIA (Web e WhatsApp)",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "DocenteIA - Cadastro",
+        "formDescription": "Menos papelada, Mais vida pessoal.\nFaça seu cadastro rápido abaixo.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Nome",
+              "placeholder": "Digite seu nome completo",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "E-mail",
+              "placeholder": "Digite seu E-mail",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Nome da escola que trabalha",
+              "placeholder": "Digite o nome da escola",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Diretoria a que pertence",
+              "placeholder": "Digite qual a sua Diretoria",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "path": "cadastro-docenteia",
+          "customCss": ":root {\n--font-family: 'Inter', 'Open Sans', sans-serif;\n--color-background: #F4F7FF;\n--color-card-bg: #ffffff;\n--color-focus-border: #6E59FF;\n--color-submit-btn-bg: #4F46E5;\n--color-submit-btn-text: #ffffff;\n--border-radius-card: 12px;\n}"
+        }
+      },
+      "id": "e131e427-924a-4e9c-8101-a730c74fd757",
+      "name": "📝 Form Trigger (Cadastro)",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        -144,
+        -144
+      ],
+      "webhookId": "14e60397-7834-45da-a7c0-1b092f79a594"
+    },
+    {
+      "parameters": {
+        "jsCode": "const formData = $input.item.json;\nconst params = formData.formQueryParameters || {};\n\n// 1. Pega WhatsApp DIRETO DA URL (O professor não digita, vem do link do Bot)\nlet whatsRaw = params.whatsapp || '';\n\n// Garante que o JID esteja completo para o Supabase e Evolution API\nlet remoteJid = whatsRaw;\nif (whatsRaw && !whatsRaw.includes('@s.whatsapp.net')) {\n  let whatsClean = String(whatsRaw).replace(/\\D/g, '');\n  remoteJid = `${whatsClean}@s.whatsapp.net`;\n}\n\nlet instancia = params.instancia || 'whtas';\n\n// 2. Pega resto dos dados do formulário\nlet nome = formData.Nome || '';\nlet email = formData['E-mail'] || '';\nlet escola = formData['Nome da escola que trabalha'] || '';\nlet diretoria = formData['Diretoria a que pertence'] || '';\n\n// Calcula trial (3 dias)\nlet trialDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];\n\nreturn {\n  json: {\n    nome,\n    email,\n    telefone: remoteJid, // Salva o JID completo no banco, igual ao Orquestrador\n    remoteJid,\n    escola,\n    diretoria,\n    instancia,\n    trial_expira_em: trialDate\n  }\n};"
+      },
+      "id": "44755b5b-5447-4c17-89a2-91c831d088f8",
+      "name": "⚙️ Formatar e Unificar Dados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        96,
+        -144
+      ]
+    },
+    {
+      "parameters": {
+        "tableId": "professores",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $json.nome }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $json.email }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $json.telefone }}"
+            },
+            {
+              "fieldId": "Nome da escola",
+              "fieldValue": "={{ $json.escola }}"
+            },
+            {
+              "fieldId": "Diretoria de ensino",
+              "fieldValue": "={{ $json.diretoria }}"
+            },
+            {
+              "fieldId": "trial_expira_em",
+              "fieldValue": "={{ $json.trial_expira_em }}"
+            },
+            {
+              "fieldId": "status_assinatura",
+              "fieldValue": "trial"
+            },
+            {
+              "fieldId": "instancia",
+              "fieldValue": "={{ $json.instancia }}"
+            }
+          ]
+        }
+      },
+      "id": "48dcc0dc-8994-4101-9a00-d2d8346352e6",
+      "name": "💾 Criar Usuário no Banco",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        336,
+        -144
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $json.instancia }}",
+        "remoteJid": "={{ $item(\"0\").$node[\"💾 Criar Usuário no Banco\"].json[\"telefone\"] }}",
+        "messageText": "==Olá, {{ $json.nome }}! 🎉 Seja bem-vinda ao DocenteIA!\n\nAgora você tem 3 dias de teste, aqui vai um guia rápido pra você aproveitar ao máximo:\n\n📋 PLANO DE AULA\nDigite: Plano\nVocê receberá um formulário rápido (série, disciplina e tema) — eu monto a semana completa (seg a sex) com habilidades BNCC.\n\n📅 ROTINA SEMANAL\nDigite: Rotina\nVocê receberá um formulário — é só preencher os campos.\n\n📚 ATIVIDADES ILUSTRADAS\nDigite: Atividade\nVocê receberá um formulário (série, disciplina, tema, ilustração) — eu gero o DOCX prontinho para imprimir.\n\n💡 DICAS PEDAGÓGICAS\nDigite: Dicas + o que você precisa\nEx: Dicas para ensinar equações para alunos com dificuldade\n\nPode me mandar qualquer mensagem — estou aqui pra te ajudar! 😊",
+        "options_message": {}
+      },
+      "id": "b6d79e94-e49f-4fdf-ba15-caa55be19cde",
+      "name": "📨 Envia Boas-vindas",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        576,
+        -144
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "📝 Form Trigger (Cadastro)": [
+      {
+        "json": {
+          "Nome": "Alex Avelino Cardoso",
+          "E-mail": "Avelinotecnologia@gmail.com",
+          "Nome da escola que trabalha": "test",
+          "Diretoria a que pertence": "Presidente Alves",
+          "submittedAt": "2026-08-05T10:06:50.781-03:00",
+          "formMode": "production",
+          "formQueryParameters": {
+            "whatsapp": "5519982097357@s.whatsapp.net"
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "📝 Form Trigger (Cadastro)": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Formatar e Unificar Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Formatar e Unificar Dados": {
+      "main": [
+        [
+          {
+            "node": "💾 Criar Usuário no Banco",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "💾 Criar Usuário no Banco": {
+      "main": [
+        [
+          {
+            "node": "📨 Envia Boas-vindas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "6f2058f8-a704-4924-9f65-58b6fd44411f",
+  "meta": {
+    "instanceId": "ea30732b7484dfb258074bf24d3a47b450ea4a84b2219075cce71f27330e65b9"
+  },
+  "nodeGroups": [],
+  "id": "FkN6XSN6iYmBVBwD",
+  "tags": []
+}

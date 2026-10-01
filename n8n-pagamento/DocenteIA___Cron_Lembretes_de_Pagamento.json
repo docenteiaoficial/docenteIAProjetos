@@ -1,0 +1,578 @@
+{
+  "name": "DocenteIA — Cron Lembretes de Pagamento",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "professores",
+        "limit": 500,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "status_assinatura",
+              "condition": "eq",
+              "keyValue": "atrasado"
+            }
+          ]
+        }
+      },
+      "id": "134d54f6-567a-4bb2-b52e-6138f7d36d32",
+      "name": "🔍 Buscar Atrasados",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -768,
+        48
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "professores",
+        "limit": 500,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "status_assinatura",
+              "condition": "eq",
+              "keyValue": "trial"
+            }
+          ]
+        }
+      },
+      "id": "b2d69c76-53c8-45a9-879a-0c3ce6a68550",
+      "name": "🔍 Buscar Trials",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -784,
+        400
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Filtra atrasados com mais de 3 dias de atraso → bloquear\n// Filtra atrasados com menos de 3 dias → lembrete\nconst professores = $input.all();\nconst agora = new Date();\nconst resultado = [];\n\nfor (const item of professores) {\n  const prof = item.json;\n  if (!prof.telefone) continue;\n\n  const dataVenc = prof.data_vencimento ? new Date(prof.data_vencimento) : null;\n  const diasAtraso = dataVenc ? Math.floor((agora - dataVenc) / (1000 * 60 * 60 * 24)) : 0;\n\n  resultado.push({\n    id: prof.id,\n    nome: prof.nome || 'Professor(a)',\n    telefone: prof.telefone,\n    instancia: prof.instancia || 'docenteia',\n    email: prof.email || '',\n    dias_atraso: diasAtraso,\n    deve_bloquear: diasAtraso > 3,\n    deve_lembrar: diasAtraso <= 3,\n    data_vencimento: prof.data_vencimento\n  });\n}\n\nreturn resultado;"
+      },
+      "id": "08e36bfc-1be3-452f-b8b8-a91e25f718dd",
+      "name": "⚙️ Classificar Atrasados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -528,
+        48
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Filtra trials que vencem amanhã\nconst professores = $input.all();\nconst agora = new Date();\nconst amanha = new Date(agora.getTime() + 24 * 60 * 60 * 1000);\nconst resultado = [];\n\nfor (const item of professores) {\n  const prof = item.json;\n  if (!prof.telefone) continue;\n\n  const trialExpira = prof.trial_expira_em ? new Date(prof.trial_expira_em) : null;\n  if (!trialExpira) continue;\n\n  const diffDias = Math.floor((trialExpira - agora) / (1000 * 60 * 60 * 24));\n\n  // Avisa quando faltam 1 ou 2 dias\n  if (diffDias >= 0 && diffDias <= 2) {\n    resultado.push({\n      id: prof.id,\n      nome: prof.nome || 'Professor(a)',\n      telefone: prof.telefone,\n      instancia: prof.instancia || 'docenteia',\n      dias_restantes: diffDias,\n      trial_expira_em: prof.trial_expira_em\n    });\n  }\n\n  // Expirou → bloquear\n  if (diffDias < 0) {\n    resultado.push({\n      id: prof.id,\n      nome: prof.nome || 'Professor(a)',\n      telefone: prof.telefone,\n      instancia: prof.instancia || 'docenteia',\n      dias_restantes: diffDias,\n      trial_expira_em: prof.trial_expira_em,\n      deve_bloquear: true\n    });\n  }\n}\n\nreturn resultado;"
+      },
+      "id": "76603314-f20c-4644-be89-4416205dd24a",
+      "name": "⚙️ Classificar Trials",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -512,
+        416
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.deve_bloquear }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4297fc20-5e7b-4498-aa9a-e92eb35ef469",
+      "name": "⑂ Bloquear ou Lembrar? (atrasado)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -288,
+        48
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "c2",
+              "leftValue": "={{ $json.deve_bloquear }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c909487f-514b-493b-bbdf-1e6792ec8bab",
+      "name": "⑂ Bloquear ou Avisar? (trial)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -272,
+        416
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "professores",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $json.id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "status_assinatura",
+              "fieldValue": "bloqueado"
+            }
+          ]
+        }
+      },
+      "id": "5cd81e97-766d-4558-ae07-eeb33239d148",
+      "name": "💾 Bloquear Atrasado",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        -144
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "professores",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $json.id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "status_assinatura",
+              "fieldValue": "bloqueado"
+            }
+          ]
+        }
+      },
+      "id": "34465445-2085-4279-97f4-9068e4febb06",
+      "name": "💾 Bloquear Trial Expirado",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        400
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $json.instancia }}",
+        "remoteJid": "={{ $json.telefone }}",
+        "messageText": "=⛔ Olá {{ $json.nome }}!\n\nSeu acesso ao DocenteIA foi suspenso por falta de pagamento ({{ $json.dias_atraso }} dias em atraso).\n\nPara reativar agora, clique aqui:\n👉 \nbilling.stripe.com/p/login/4gMdRb3W74Ne52A2pH0ZW00\n\nAssim que o pagamento for confirmado, seu acesso volta automaticamente! 🔓",
+        "options_message": {}
+      },
+      "id": "6c8c8731-832e-4e24-84c6-e811c8d73653",
+      "name": "📨 Aviso Bloqueio (atrasado)",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        384,
+        -144
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $json.instancia }}",
+        "remoteJid": "={{ $json.telefone }}",
+        "messageText": "=⛔ Olá {{ $json.nome }}!\n\nSeu período de teste do DocenteIA expirou.\n\nPara continuar criando planos de aula e materiais com IA, assine agora\nPlano mensal: R$ 79,90/mês 📚",
+        "options_message": {}
+      },
+      "id": "1033154f-697f-45e5-8335-4e908801aeec",
+      "name": "📨 Aviso Bloqueio (trial)",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        400,
+        400
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $json.instancia }}",
+        "remoteJid": "={{ $json.telefone }}",
+        "messageText": "=⚠️ Olá {{ $json.nome }}!\n\nSua assinatura DocenteIA está com pagamento em aberto há {{ $json.dias_atraso }} dia(s).\n\nSeu acesso ainda está ativo, mas será suspenso em breve se o pagamento não for regularizado.\n\nAtualizar agora:\n👉\nbilling.stripe.com/p/login/4gMdRb3W74Ne52A2pH0ZW00",
+        "options_message": {}
+      },
+      "id": "9ba595ca-990d-4606-9f09-abe830a7e244",
+      "name": "📨 Lembrete Pagamento (atrasado)",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        256,
+        176
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $item(\"1\").$node[\"⑂ Bloquear ou Avisar? (trial)\"].json[\"instancia\"] }}",
+        "remoteJid": "={{ $json.telefone }}",
+        "messageText": "=⏳ Olá {{ $json.nome }}!\n\nSeu período de teste do DocenteIA {{ $json.dias_restantes === 0 ? 'encerra hoje' : 'encerra em ' + $json.dias_restantes + ' dia(s)' }}.\n\n\nQue tal experimentar agora mesmo? É super rápido. Me mande no WhatsApp:\n\n📋 *PLANO DE AULA*\n_Plano de aula\n3º ano\nMatemática\nMedidas de Capacidade_\n\nÉ só copiar, colar e adaptar para a sua turma! \n\nQualquer dúvida, estou por aqui. 😊",
+        "options_message": {}
+      },
+      "id": "9c0e5d4a-ece5-45cd-a9b6-41259f41c4de",
+      "name": "📨 Lembrete Trial Expirando",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        160,
+        656
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "=0 8 * * *"
+            }
+          ]
+        }
+      },
+      "id": "56514ebd-a02a-408b-9db1-1d57d72d0cbc",
+      "name": "⏰ Cron 8h Diário",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1040,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "id": "1e8e22e2-e0cf-4d9a-82d4-12a4df692f88",
+      "name": " Wait (Anti-Spam)",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -16,
+        656
+      ],
+      "webhookId": "b7a702d3-f0a7-42ef-b101-2e80db4d7719"
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "id": "9ddb9637-8933-4384-aad9-2b97e2691368",
+      "name": " Wait (Anti-Spam)1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        400
+      ],
+      "webhookId": "b7a702d3-f0a7-42ef-b101-2e80db4d7719"
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "id": "a76c242e-2a9e-4809-ba9e-03aa654ed621",
+      "name": " Wait (Anti-Spam)2",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -16,
+        176
+      ],
+      "webhookId": "b7a702d3-f0a7-42ef-b101-2e80db4d7719"
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "id": "82b3bc69-958d-45b4-b2e2-6a8675eda186",
+      "name": " Wait (Anti-Spam)3",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        176,
+        -144
+      ],
+      "webhookId": "b7a702d3-f0a7-42ef-b101-2e80db4d7719"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "🔍 Buscar Atrasados": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Classificar Atrasados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔍 Buscar Trials": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Classificar Trials",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Classificar Atrasados": {
+      "main": [
+        [
+          {
+            "node": "⑂ Bloquear ou Lembrar? (atrasado)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Classificar Trials": {
+      "main": [
+        [
+          {
+            "node": "⑂ Bloquear ou Avisar? (trial)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⑂ Bloquear ou Lembrar? (atrasado)": {
+      "main": [
+        [
+          {
+            "node": "💾 Bloquear Atrasado",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": " Wait (Anti-Spam)2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⑂ Bloquear ou Avisar? (trial)": {
+      "main": [
+        [
+          {
+            "node": "💾 Bloquear Trial Expirado",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": " Wait (Anti-Spam)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "💾 Bloquear Atrasado": {
+      "main": [
+        [
+          {
+            "node": " Wait (Anti-Spam)3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "💾 Bloquear Trial Expirado": {
+      "main": [
+        [
+          {
+            "node": " Wait (Anti-Spam)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⏰ Cron 8h Diário": {
+      "main": [
+        [
+          {
+            "node": "🔍 Buscar Atrasados",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "🔍 Buscar Trials",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    " Wait (Anti-Spam)": {
+      "main": [
+        [
+          {
+            "node": "📨 Lembrete Trial Expirando",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    " Wait (Anti-Spam)1": {
+      "main": [
+        [
+          {
+            "node": "📨 Aviso Bloqueio (trial)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    " Wait (Anti-Spam)2": {
+      "main": [
+        [
+          {
+            "node": "📨 Lembrete Pagamento (atrasado)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    " Wait (Anti-Spam)3": {
+      "main": [
+        [
+          {
+            "node": "📨 Aviso Bloqueio (atrasado)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "a01e64fd-a500-4957-b5d2-d63a438db2d2",
+  "meta": {
+    "instanceId": "ea30732b7484dfb258074bf24d3a47b450ea4a84b2219075cce71f27330e65b9"
+  },
+  "nodeGroups": [],
+  "id": "avYWrZBNogTeoVEu",
+  "tags": []
+}

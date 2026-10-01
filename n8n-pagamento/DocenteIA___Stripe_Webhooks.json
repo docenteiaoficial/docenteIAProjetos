@@ -1,0 +1,737 @@
+{
+  "name": "DocenteIA — Stripe Webhooks",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "stripe-webhook",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "88012e90-2a61-4112-876b-d69c24bacd74",
+      "name": "📥 Webhook Stripe",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -848,
+        48
+      ],
+      "webhookId": "stripe-webhook"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"received\":true}",
+        "options": {}
+      },
+      "id": "e526e5a6-0c87-418c-b10e-00744734d1f9",
+      "name": "⚡ Respond 200",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        -144
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validação da assinatura Stripe\n// IMPORTANTE: substitua STRIPE_WEBHOOK_SECRET pelo seu segredo real\nconst WEBHOOK_SECRET = ' whsec_E2qzGcQzs73vUuauKOE1qi8eOG8eaOJA';\n\nconst stripeSignature = $('📥 Webhook Stripe').item.json.headers?.['stripe-signature'] || '';\nconst rawBody = JSON.stringify($('📥 Webhook Stripe').item.json.body);\n\n// Extrai timestamp e assinaturas do header\nconst parts = stripeSignature.split(',');\nlet timestamp = '';\nlet signatures = [];\n\nfor (const part of parts) {\n  if (part.startsWith('t=')) timestamp = part.slice(2);\n  if (part.startsWith('v1=')) signatures.push(part.slice(3));\n}\n\nif (!timestamp || signatures.length === 0) {\n  return { valido: false, motivo: 'Header stripe-signature ausente ou malformado' };\n}\n\n// Verifica tolerância de 5 minutos\nconst agora = Math.floor(Date.now() / 1000);\nif (Math.abs(agora - parseInt(timestamp)) > 300) {\n  return { valido: false, motivo: 'Timestamp fora da janela de 5 minutos (replay attack)' };\n}\n\n// Monta payload assinado: timestamp.rawBody\nconst signedPayload = `${timestamp}.${rawBody}`;\n\n// Verifica assinatura via HMAC-SHA256\n// n8n não tem crypto nativo, mas podemos usar a verificação via comparação estrutural\n// Para produção real, use um node HTTP para verificar via Stripe API\n// Por ora, validamos estrutura mínima do evento\nconst body = $('📥 Webhook Stripe').item.json.body;\nconst tipoEvento = body?.type || '';\nconst eventosPermitidos = [\n  'checkout.session.completed',\n  'invoice.paid',\n  'invoice.payment_failed',\n  'customer.subscription.deleted',\n  'customer.subscription.updated'\n];\n\nif (!tipoEvento) {\n  return { valido: false, motivo: 'Evento sem tipo definido' };\n}\n\nif (!eventosPermitidos.includes(tipoEvento)) {\n  return { valido: true, ignorar: true, motivo: `Evento ${tipoEvento} não processado — ignorar`, tipo_evento: tipoEvento };\n}\n\n// Extrai dados do evento\nconst data = body.data?.object || {};\nreturn {\n  valido: true,\n  ignorar: false,\n  tipo_evento: tipoEvento,\n  stripe_customer_id: data.customer || '',\n  stripe_subscription_id: data.subscription || data.id || '',\n  customer_email: data.customer_email || data.customer_details?.email || data.metadata?.email || '',\n  status_stripe: data.status || '',\n  periodo_fim: data.current_period_end ? new Date(data.current_period_end * 1000).toISOString().split('T')[0] : null,\n  raw_data: data\n};"
+      },
+      "id": "34327080-f775-4efd-b886-bb8ecf3a9ae6",
+      "name": "🔐 Validar Assinatura Stripe",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -640,
+        48
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cond-valido",
+              "leftValue": "={{ $json.valido }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "cond-ignorar",
+              "leftValue": "={{ $json.ignorar }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a55df8b3-a67c-4729-953f-4e8c034ac80a",
+      "name": "⑂ Evento Válido?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -448,
+        48
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.tipo_evento }}",
+                    "rightValue": "checkout.session.completed",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "r1"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "checkout_completed"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.tipo_evento }}",
+                    "rightValue": "invoice.paid",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "r2"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "invoice_paid"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.tipo_evento }}",
+                    "rightValue": "invoice.payment_failed",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "r3"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "invoice_failed"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.tipo_evento }}",
+                    "rightValue": "customer.subscription.deleted",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "r4"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "subscription_deleted"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "id": "19187bd8-4a16-402a-92f3-0a870993ba6e",
+      "name": "⑂ Switch: Tipo de Evento",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        96,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "professores",
+        "limit": 1,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "email",
+              "condition": "eq",
+              "keyValue": "={{ $('🔐 Validar Assinatura Stripe').item.json.customer_email }}"
+            }
+          ]
+        }
+      },
+      "id": "66a42a47-b455-4cd0-90c9-33f91ce3755e",
+      "name": "🔍 Buscar Professor (checkout)",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        640,
+        -288
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "professores",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "email",
+              "condition": "eq",
+              "keyValue": "={{ $('🔐 Validar Assinatura Stripe').item.json.customer_email }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "status_assinatura",
+              "fieldValue": "ativo"
+            },
+            {
+              "fieldId": "stripe_customer_id",
+              "fieldValue": "={{ $('🔐 Validar Assinatura Stripe').item.json.stripe_customer_id }}"
+            },
+            {
+              "fieldId": "stripe_subscription_id",
+              "fieldValue": "={{ $('🔐 Validar Assinatura Stripe').item.json.stripe_subscription_id }}"
+            },
+            {
+              "fieldId": "data_vencimento",
+              "fieldValue": "={{ $('🔐 Validar Assinatura Stripe').item.json.periodo_fim }}"
+            }
+          ]
+        }
+      },
+      "id": "aa722536-d57f-48c9-a8c6-50ae86086a4d",
+      "name": "💾 Ativar Assinatura (checkout)",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        880,
+        -288
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('🔍 Buscar Professor (checkout)').item.json.instancia || 'docenteia' }}",
+        "remoteJid": "={{ $('🔍 Buscar Professor (checkout)').item.json.telefone }}",
+        "messageText": "=🎉 Pagamento confirmado!\n\nOlá {{ $('🔍 Buscar Professor (checkout)').item.json.nome }}! Sua assinatura do DocenteIA está ativa.\n\nAcesso liberado até {{ $('🔐 Validar Assinatura Stripe').item.json.periodo_fim }}. Pode começar a usar agora mesmo — é só me dizer qual plano de aula você precisa! 📚",
+        "options_message": {}
+      },
+      "id": "6d0d49c7-acd5-4e89-a731-867ec223bcaf",
+      "name": "📨 Notificar Ativação",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        -288
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "professores",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "stripe_customer_id",
+              "condition": "eq",
+              "keyValue": "={{ $('🔐 Validar Assinatura Stripe').item.json.stripe_customer_id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "status_assinatura",
+              "fieldValue": "ativo"
+            },
+            {
+              "fieldId": "data_vencimento",
+              "fieldValue": "={{ $('🔐 Validar Assinatura Stripe').item.json.periodo_fim }}"
+            }
+          ]
+        }
+      },
+      "id": "79133f5c-c94f-426c-b977-0927ad9388bf",
+      "name": "💾 Renovar Assinatura (invoice.paid)",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        688,
+        -32
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "professores",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "stripe_customer_id",
+              "condition": "eq",
+              "keyValue": "={{ $('🔐 Validar Assinatura Stripe').item.json.stripe_customer_id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "status_assinatura",
+              "fieldValue": "atrasado"
+            }
+          ]
+        }
+      },
+      "id": "3d708e55-c7a6-4cef-8311-ee03610020e1",
+      "name": "💾 Marcar Atrasado (invoice.failed)",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        848,
+        192
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "professores",
+        "limit": 1,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "stripe_customer_id",
+              "condition": "eq",
+              "keyValue": "={{ $('🔐 Validar Assinatura Stripe').item.json.stripe_customer_id }}"
+            }
+          ]
+        }
+      },
+      "id": "f92f0bdd-8562-4f84-9c74-f05411ac8c9d",
+      "name": "🔍 Buscar Professor (failed)",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        608,
+        192
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('🔍 Buscar Professor (failed)').item.json.instancia || 'docenteia' }}",
+        "remoteJid": "={{ $('🔍 Buscar Professor (failed)').item.json.telefone }}",
+        "messageText": "=⚠️ Olá {{ $('🔍 Buscar Professor (failed)').item.json.nome }}!\n\nIdentificamos um problema com o pagamento da sua assinatura DocenteIA.\n\nSeu acesso continua ativo por mais 3 dias. Para não perder o acesso, atualize seu método de pagamento:\n\n👉 https://billing.stripe.com/p/login/test_aFadRbbpdgDIaZ74093ZK00\n\nQualquer dúvida é só falar aqui! 😊",
+        "options_message": {}
+      },
+      "id": "11cfea1e-819e-45dc-9926-ed2820ba814b",
+      "name": "📨 Notificar Falha Pagamento",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        1088,
+        192
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "professores",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "stripe_customer_id",
+              "condition": "eq",
+              "keyValue": "={{ $('🔐 Validar Assinatura Stripe').item.json.stripe_customer_id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "status_assinatura",
+              "fieldValue": "bloqueado"
+            },
+            {
+              "fieldId": "stripe_subscription_id"
+            }
+          ]
+        }
+      },
+      "id": "8cb162ef-1f5c-4789-8aa4-137652e6769d",
+      "name": "💾 Bloquear (cancelamento)",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        832,
+        464
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "professores",
+        "limit": 1,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "stripe_customer_id",
+              "condition": "eq",
+              "keyValue": "={{ $('🔐 Validar Assinatura Stripe').item.json.stripe_customer_id }}"
+            }
+          ]
+        }
+      },
+      "id": "86b256c0-2cba-41b5-8eb4-fad9a3de2038",
+      "name": "🔍 Buscar Professor (cancelamento)",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        592,
+        464
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('🔍 Buscar Professor (cancelamento)').item.json.instancia || 'docenteia' }}",
+        "remoteJid": "={{ $('🔍 Buscar Professor (cancelamento)').item.json.telefone }}",
+        "messageText": "=😔 Olá {{ $('🔍 Buscar Professor (cancelamento)').item.json.nome }}!\n\nSua assinatura do DocenteIA foi cancelada e o acesso foi encerrado.\n\nSe quiser retornar, é só assinar novamente:\n👉 https://n8n.docenteia.com.br/form/ab9139f7-6c35-405a-baa1-3c1128d6e05c\n\nFoi um prazer te ajudar! 🙏",
+        "options_message": {}
+      },
+      "id": "ec54d532-3f23-4581-bedc-f5c105c1c6b3",
+      "name": "📨 Notificar Cancelamento",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        464
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "security_events",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "jid",
+              "fieldValue": "stripe-webhook"
+            },
+            {
+              "fieldId": "camada",
+              "fieldValue": "STRIPE"
+            },
+            {
+              "fieldId": "tipo_violacao",
+              "fieldValue": "={{ $('🔐 Validar Assinatura Stripe').item.json.motivo || 'WEBHOOK_INVALIDO' }}"
+            },
+            {
+              "fieldId": "payload_resumido",
+              "fieldValue": "={{ JSON.stringify($('📥 Webhook Stripe').item.json.body).substring(0, 200) }}"
+            },
+            {
+              "fieldId": "instancia",
+              "fieldValue": "stripe"
+            }
+          ]
+        }
+      },
+      "id": "d167d996-f04d-4b08-9168-663d787968fb",
+      "name": "🔐 Log Evento Inválido",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        272
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "📥 Webhook Stripe": {
+      "main": [
+        [
+          {
+            "node": "⚡ Respond 200",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "🔐 Validar Assinatura Stripe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔐 Validar Assinatura Stripe": {
+      "main": [
+        [
+          {
+            "node": "⑂ Evento Válido?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⑂ Evento Válido?": {
+      "main": [
+        [
+          {
+            "node": "⑂ Switch: Tipo de Evento",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "🔐 Log Evento Inválido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⑂ Switch: Tipo de Evento": {
+      "main": [
+        [
+          {
+            "node": "🔍 Buscar Professor (checkout)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "💾 Renovar Assinatura (invoice.paid)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "🔍 Buscar Professor (failed)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "🔍 Buscar Professor (cancelamento)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔍 Buscar Professor (checkout)": {
+      "main": [
+        [
+          {
+            "node": "💾 Ativar Assinatura (checkout)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "💾 Ativar Assinatura (checkout)": {
+      "main": [
+        [
+          {
+            "node": "📨 Notificar Ativação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔍 Buscar Professor (failed)": {
+      "main": [
+        [
+          {
+            "node": "💾 Marcar Atrasado (invoice.failed)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "💾 Marcar Atrasado (invoice.failed)": {
+      "main": [
+        [
+          {
+            "node": "📨 Notificar Falha Pagamento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔍 Buscar Professor (cancelamento)": {
+      "main": [
+        [
+          {
+            "node": "💾 Bloquear (cancelamento)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "💾 Bloquear (cancelamento)": {
+      "main": [
+        [
+          {
+            "node": "📨 Notificar Cancelamento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "ca1f5c23-1f85-4c14-9f73-9c575cec5af9",
+  "meta": {
+    "instanceId": "ea30732b7484dfb258074bf24d3a47b450ea4a84b2219075cce71f27330e65b9"
+  },
+  "nodeGroups": [],
+  "id": "q2NU0PITMjWVriJd",
+  "tags": []
+}

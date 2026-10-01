@@ -1,0 +1,2005 @@
+{
+  "name": "gerar_conteudo_aula_v2",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "professor"
+            },
+            {
+              "name": "serie"
+            },
+            {
+              "name": "escola"
+            },
+            {
+              "name": "diretoria"
+            },
+            {
+              "name": "endereco"
+            },
+            {
+              "name": "email_telefone"
+            },
+            {
+              "name": "semana"
+            },
+            {
+              "name": "obs_seg"
+            },
+            {
+              "name": "obs_ter"
+            },
+            {
+              "name": "obs_qua"
+            },
+            {
+              "name": "obs_qui"
+            },
+            {
+              "name": "obs_sex"
+            },
+            {
+              "name": "instance"
+            },
+            {
+              "name": "remoteJid"
+            },
+            {
+              "name": "seg_1_disciplina"
+            },
+            {
+              "name": "seg_1_conteudo"
+            },
+            {
+              "name": "seg_1_habilidades"
+            },
+            {
+              "name": "seg_1_objetivos"
+            },
+            {
+              "name": "seg_1_desenvolvimento"
+            },
+            {
+              "name": "seg_2_disciplina"
+            },
+            {
+              "name": "seg_2_conteudo"
+            },
+            {
+              "name": "seg_2_habilidades"
+            },
+            {
+              "name": "seg_2_objetivos"
+            },
+            {
+              "name": "seg_2_desenvolvimento"
+            },
+            {
+              "name": "seg_3_disciplina"
+            },
+            {
+              "name": "seg_3_conteudo"
+            },
+            {
+              "name": "seg_3_habilidades"
+            },
+            {
+              "name": "seg_3_objetivos"
+            },
+            {
+              "name": "seg_3_desenvolvimento"
+            },
+            {
+              "name": "seg_4_disciplina"
+            },
+            {
+              "name": "seg_4_conteudo"
+            },
+            {
+              "name": "seg_4_habilidades"
+            },
+            {
+              "name": "seg_4_objetivos"
+            },
+            {
+              "name": "seg_4_desenvolvimento"
+            },
+            {
+              "name": "seg_5_disciplina"
+            },
+            {
+              "name": "seg_5_conteudo"
+            },
+            {
+              "name": "seg_5_habilidades"
+            },
+            {
+              "name": "seg_5_objetivos"
+            },
+            {
+              "name": "seg_5_desenvolvimento"
+            },
+            {
+              "name": "seg_6_disciplina"
+            },
+            {
+              "name": "seg_6_conteudo"
+            },
+            {
+              "name": "seg_6_habilidades"
+            },
+            {
+              "name": "seg_6_objetivos"
+            },
+            {
+              "name": "seg_6_desenvolvimento"
+            },
+            {
+              "name": "seg_7_disciplina"
+            },
+            {
+              "name": "seg_7_conteudo"
+            },
+            {
+              "name": "seg_7_habilidades"
+            },
+            {
+              "name": "seg_7_objetivos"
+            },
+            {
+              "name": "seg_7_desenvolvimento"
+            },
+            {
+              "name": "ter_1_disciplina"
+            },
+            {
+              "name": "ter_1_conteudo"
+            },
+            {
+              "name": "ter_1_habilidades"
+            },
+            {
+              "name": "ter_1_objetivos"
+            },
+            {
+              "name": "ter_1_desenvolvimento"
+            },
+            {
+              "name": "ter_2_disciplina"
+            },
+            {
+              "name": "ter_2_conteudo"
+            },
+            {
+              "name": "ter_2_habilidades"
+            },
+            {
+              "name": "ter_2_objetivos"
+            },
+            {
+              "name": "ter_2_desenvolvimento"
+            },
+            {
+              "name": "ter_3_disciplina"
+            },
+            {
+              "name": "ter_3_conteudo"
+            },
+            {
+              "name": "ter_3_habilidades"
+            },
+            {
+              "name": "ter_3_objetivos"
+            },
+            {
+              "name": "ter_3_desenvolvimento"
+            },
+            {
+              "name": "ter_4_disciplina"
+            },
+            {
+              "name": "ter_4_conteudo"
+            },
+            {
+              "name": "ter_4_habilidades"
+            },
+            {
+              "name": "ter_4_objetivos"
+            },
+            {
+              "name": "ter_4_desenvolvimento"
+            },
+            {
+              "name": "ter_5_disciplina"
+            },
+            {
+              "name": "ter_5_conteudo"
+            },
+            {
+              "name": "ter_5_habilidades"
+            },
+            {
+              "name": "ter_5_objetivos"
+            },
+            {
+              "name": "ter_5_desenvolvimento"
+            },
+            {
+              "name": "ter_6_disciplina"
+            },
+            {
+              "name": "ter_6_conteudo"
+            },
+            {
+              "name": "ter_6_habilidades"
+            },
+            {
+              "name": "ter_6_objetivos"
+            },
+            {
+              "name": "ter_6_desenvolvimento"
+            },
+            {
+              "name": "ter_7_disciplina"
+            },
+            {
+              "name": "ter_7_conteudo"
+            },
+            {
+              "name": "ter_7_habilidades"
+            },
+            {
+              "name": "ter_7_objetivos"
+            },
+            {
+              "name": "ter_7_desenvolvimento"
+            },
+            {
+              "name": "qua_1_disciplina"
+            },
+            {
+              "name": "qua_1_conteudo"
+            },
+            {
+              "name": "qua_1_habilidades"
+            },
+            {
+              "name": "qua_1_objetivos"
+            },
+            {
+              "name": "qua_1_desenvolvimento"
+            },
+            {
+              "name": "qua_2_disciplina"
+            },
+            {
+              "name": "qua_2_conteudo"
+            },
+            {
+              "name": "qua_2_habilidades"
+            },
+            {
+              "name": "qua_2_objetivos"
+            },
+            {
+              "name": "qua_2_desenvolvimento"
+            },
+            {
+              "name": "qua_3_disciplina"
+            },
+            {
+              "name": "qua_3_conteudo"
+            },
+            {
+              "name": "qua_3_habilidades"
+            },
+            {
+              "name": "qua_3_objetivos"
+            },
+            {
+              "name": "qua_3_desenvolvimento"
+            },
+            {
+              "name": "qua_4_disciplina"
+            },
+            {
+              "name": "qua_4_conteudo"
+            },
+            {
+              "name": "qua_4_habilidades"
+            },
+            {
+              "name": "qua_4_objetivos"
+            },
+            {
+              "name": "qua_4_desenvolvimento"
+            },
+            {
+              "name": "qua_5_disciplina"
+            },
+            {
+              "name": "qua_5_conteudo"
+            },
+            {
+              "name": "qua_5_habilidades"
+            },
+            {
+              "name": "qua_5_objetivos"
+            },
+            {
+              "name": "qua_5_desenvolvimento"
+            },
+            {
+              "name": "qua_6_disciplina"
+            },
+            {
+              "name": "qua_6_conteudo"
+            },
+            {
+              "name": "qua_6_habilidades"
+            },
+            {
+              "name": "qua_6_objetivos"
+            },
+            {
+              "name": "qua_6_desenvolvimento"
+            },
+            {
+              "name": "qua_7_disciplina"
+            },
+            {
+              "name": "qua_7_conteudo"
+            },
+            {
+              "name": "qua_7_habilidades"
+            },
+            {
+              "name": "qua_7_objetivos"
+            },
+            {
+              "name": "qua_7_desenvolvimento"
+            },
+            {
+              "name": "qui_1_disciplina"
+            },
+            {
+              "name": "qui_1_conteudo"
+            },
+            {
+              "name": "qui_1_habilidades"
+            },
+            {
+              "name": "qui_1_objetivos"
+            },
+            {
+              "name": "qui_1_desenvolvimento"
+            },
+            {
+              "name": "qui_2_disciplina"
+            },
+            {
+              "name": "qui_2_conteudo"
+            },
+            {
+              "name": "qui_2_habilidades"
+            },
+            {
+              "name": "qui_2_objetivos"
+            },
+            {
+              "name": "qui_2_desenvolvimento"
+            },
+            {
+              "name": "qui_3_disciplina"
+            },
+            {
+              "name": "qui_3_conteudo"
+            },
+            {
+              "name": "qui_3_habilidades"
+            },
+            {
+              "name": "qui_3_objetivos"
+            },
+            {
+              "name": "qui_3_desenvolvimento"
+            },
+            {
+              "name": "qui_4_disciplina"
+            },
+            {
+              "name": "qui_4_conteudo"
+            },
+            {
+              "name": "qui_4_habilidades"
+            },
+            {
+              "name": "qui_4_objetivos"
+            },
+            {
+              "name": "qui_4_desenvolvimento"
+            },
+            {
+              "name": "qui_5_disciplina"
+            },
+            {
+              "name": "qui_5_conteudo"
+            },
+            {
+              "name": "qui_5_habilidades"
+            },
+            {
+              "name": "qui_5_objetivos"
+            },
+            {
+              "name": "qui_5_desenvolvimento"
+            },
+            {
+              "name": "qui_6_disciplina"
+            },
+            {
+              "name": "qui_6_conteudo"
+            },
+            {
+              "name": "qui_6_habilidades"
+            },
+            {
+              "name": "qui_6_objetivos"
+            },
+            {
+              "name": "qui_6_desenvolvimento"
+            },
+            {
+              "name": "qui_7_disciplina"
+            },
+            {
+              "name": "qui_7_conteudo"
+            },
+            {
+              "name": "qui_7_habilidades"
+            },
+            {
+              "name": "qui_7_objetivos"
+            },
+            {
+              "name": "qui_7_desenvolvimento"
+            },
+            {
+              "name": "sex_1_disciplina"
+            },
+            {
+              "name": "sex_1_conteudo"
+            },
+            {
+              "name": "sex_1_habilidades"
+            },
+            {
+              "name": "sex_1_objetivos"
+            },
+            {
+              "name": "sex_1_desenvolvimento"
+            },
+            {
+              "name": "sex_2_disciplina"
+            },
+            {
+              "name": "sex_2_conteudo"
+            },
+            {
+              "name": "sex_2_habilidades"
+            },
+            {
+              "name": "sex_2_objetivos"
+            },
+            {
+              "name": "sex_2_desenvolvimento"
+            },
+            {
+              "name": "sex_3_disciplina"
+            },
+            {
+              "name": "sex_3_conteudo"
+            },
+            {
+              "name": "sex_3_habilidades"
+            },
+            {
+              "name": "sex_3_objetivos"
+            },
+            {
+              "name": "sex_3_desenvolvimento"
+            },
+            {
+              "name": "sex_4_disciplina"
+            },
+            {
+              "name": "sex_4_conteudo"
+            },
+            {
+              "name": "sex_4_habilidades"
+            },
+            {
+              "name": "sex_4_objetivos"
+            },
+            {
+              "name": "sex_4_desenvolvimento"
+            },
+            {
+              "name": "sex_5_disciplina"
+            },
+            {
+              "name": "sex_5_conteudo"
+            },
+            {
+              "name": "sex_5_habilidades"
+            },
+            {
+              "name": "sex_5_objetivos"
+            },
+            {
+              "name": "sex_5_desenvolvimento"
+            },
+            {
+              "name": "sex_6_disciplina"
+            },
+            {
+              "name": "sex_6_conteudo"
+            },
+            {
+              "name": "sex_6_habilidades"
+            },
+            {
+              "name": "sex_6_objetivos"
+            },
+            {
+              "name": "sex_6_desenvolvimento"
+            },
+            {
+              "name": "sex_7_disciplina"
+            },
+            {
+              "name": "sex_7_conteudo"
+            },
+            {
+              "name": "sex_7_habilidades"
+            },
+            {
+              "name": "sex_7_objetivos"
+            },
+            {
+              "name": "sex_7_desenvolvimento"
+            },
+            {
+              "name": "seg_1_leitura"
+            },
+            {
+              "name": "seg_1_autor"
+            },
+            {
+              "name": "seg_1_genero"
+            },
+            {
+              "name": "ter_1_leitura"
+            },
+            {
+              "name": "ter_1_autor"
+            },
+            {
+              "name": "ter_1_genero"
+            },
+            {
+              "name": "qua_1_leitura"
+            },
+            {
+              "name": "qua_1_autor"
+            },
+            {
+              "name": "qua_1_genero"
+            },
+            {
+              "name": "qui_1_leitura"
+            },
+            {
+              "name": "qui_1_autor"
+            },
+            {
+              "name": "qui_1_genero"
+            },
+            {
+              "name": "sex_1_leitura"
+            },
+            {
+              "name": "sex_1_autor"
+            },
+            {
+              "name": "sex_1_genero"
+            }
+          ]
+        }
+      },
+      "id": "a5cdc0db-69bf-48ab-8232-b88e919a212d",
+      "name": "▶️ When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "value": "1xVcUo5MyjlYHiXfvT7hon5aKNaAE6tVthf_DyqX9yKk",
+          "mode": "id"
+        },
+        "name": "=Rotina - {{ $json.professor }} - {{ $json.semana }}",
+        "options": {}
+      },
+      "id": "6b00236e-7ed2-425b-b192-e98cb7436318",
+      "name": "📄 Copia Template",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        240,
+        0
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "KEagKKMnotHtHqUf",
+          "name": "Google Drive account"
+        }
+      },
+      "notes": "⚠️ Substitua SUBSTITUIR_ID_TEMPLATE_ROTINA_GDOCS pelo ID do Google Docs template da rotina."
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('📄 Copia Template').item.json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "replaceAll",
+              "text": "{{professor}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.professor }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{serie}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.serie }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{escola}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.escola }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{diretoria}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.diretoria }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{endereco}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.endereco }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{email_telefone}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.email_telefone }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{semana}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.semana }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{obs_seg}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.obs_seg }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{obs_ter}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.obs_ter }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{obs_qua}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.obs_qua }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{obs_qui}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.obs_qui }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{obs_sex}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.obs_sex }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_1_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_1_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_1_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_1_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_1_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_1_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_1_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_1_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_1_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_1_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_2_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_2_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_2_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_2_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_2_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_2_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_2_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_2_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_2_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_2_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_3_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_3_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_3_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_3_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_3_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_3_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_3_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_3_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_3_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_3_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_4_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_4_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_4_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_4_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_4_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_4_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_4_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_4_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_4_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_4_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_5_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_5_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_5_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_5_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_5_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_5_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_5_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_5_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_5_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_5_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_6_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_6_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_6_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_6_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_6_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_6_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_6_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_6_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_6_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_6_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_7_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_7_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_7_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_7_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_7_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_7_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_7_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_7_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_7_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_7_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_1_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_1_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_1_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_1_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_1_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_1_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_1_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_1_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_1_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_1_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_2_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_2_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_2_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_2_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_2_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_2_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_2_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_2_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_2_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_2_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_3_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_3_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_3_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_3_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_3_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_3_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_3_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_3_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_3_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_3_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_4_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_4_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_4_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_4_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_4_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_4_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_4_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_4_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_4_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_4_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_5_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_5_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_5_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_5_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_5_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_5_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_5_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_5_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_5_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_5_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_6_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_6_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_6_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_6_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_6_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_6_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_6_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_6_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_6_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_6_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_7_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_7_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_7_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_7_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_7_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_7_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_7_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_7_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_7_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_7_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_1_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_1_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_1_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_1_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_1_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_1_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_1_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_1_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_1_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_1_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_2_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_2_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_2_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_2_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_2_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_2_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_2_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_2_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_2_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_2_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_3_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_3_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_3_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_3_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_3_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_3_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_3_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_3_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_3_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_3_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_4_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_4_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_4_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_4_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_4_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_4_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_4_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_4_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_4_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_4_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_5_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_5_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_5_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_5_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_5_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_5_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_5_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_5_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_5_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_5_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_6_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_6_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_6_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_6_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_6_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_6_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_6_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_6_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_6_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_6_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_7_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_7_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_7_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_7_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_7_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_7_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_7_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_7_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_7_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_7_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_1_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_1_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_1_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_1_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_1_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_1_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_1_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_1_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_1_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_1_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_2_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_2_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_2_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_2_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_2_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_2_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_2_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_2_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_2_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_2_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_3_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_3_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_3_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_3_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_3_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_3_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_3_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_3_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_3_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_3_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_4_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_4_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_4_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_4_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_4_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_4_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_4_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_4_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_4_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_4_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_5_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_5_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_5_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_5_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_5_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_5_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_5_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_5_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_5_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_5_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_6_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_6_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_6_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_6_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_6_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_6_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_6_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_6_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_6_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_6_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_7_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_7_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_7_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_7_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_7_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_7_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_7_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_7_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_7_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_7_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_1_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_1_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_1_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_1_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_1_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_1_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_1_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_1_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_1_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_1_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_2_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_2_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_2_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_2_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_2_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_2_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_2_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_2_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_2_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_2_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_3_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_3_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_3_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_3_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_3_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_3_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_3_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_3_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_3_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_3_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_4_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_4_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_4_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_4_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_4_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_4_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_4_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_4_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_4_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_4_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_5_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_5_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_5_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_5_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_5_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_5_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_5_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_5_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_5_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_5_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_6_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_6_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_6_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_6_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_6_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_6_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_6_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_6_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_6_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_6_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_7_disciplina}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_7_disciplina }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_7_conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_7_conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_7_habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_7_habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_7_objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_7_objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_7_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_7_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_1_leitura}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_1_leitura }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_1_autor}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_1_autor }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{seg_1_genero}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.seg_1_genero }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_1_leitura}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_1_leitura }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_1_autor}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_1_autor }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ter_1_genero}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ter_1_genero }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_1_leitura}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_1_leitura }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_1_autor}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_1_autor }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qua_1_genero}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qua_1_genero }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_1_leitura}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_1_leitura }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_1_autor}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_1_autor }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{qui_1_genero}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.qui_1_genero }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_1_leitura}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_1_leitura }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_1_autor}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_1_autor }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{sex_1_genero}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.sex_1_genero }}"
+            }
+          ]
+        }
+      },
+      "id": "97917916-ed50-4fad-b6c2-c115950dde7b",
+      "name": "✏️ Preenche Template",
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        480,
+        0
+      ],
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "VsXbbmp2WoLB4Iur",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://www.googleapis.com/drive/v3/files/{{ $('📄 Copia Template').item.json.id }}/export?mimeType=application%2Fvnd.openxmlformats-officedocument.wordprocessingml.document",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleDriveOAuth2Api",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "11375af0-3ed3-41fe-8013-eba936d4a6c2",
+      "name": "⬇️ Exportar como DOCX",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        720,
+        0
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "KEagKKMnotHtHqUf",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "=Rotina - {{ $('▶️ When Executed by Another Workflow').item.json.professor }} - {{ $('▶️ When Executed by Another Workflow').item.json.semana }}.docx",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "10CxEaOGVXxQ_o4-dGDHrfEV01BNGvcIh",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "id": "9e61732e-2b3e-44cb-bf9c-74aad8530b9f",
+      "name": "📤 Upload DOCX no Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        960,
+        0
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "KEagKKMnotHtHqUf",
+          "name": "Google Drive account"
+        }
+      },
+      "notes": "⚠️ Substitua SUBSTITUIR_ID_PASTA_ROTINAS pelo ID da pasta de destino no Drive."
+    },
+    {
+      "parameters": {
+        "operation": "deleteFile",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('📄 Copia Template').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "id": "64cf4a17-43e3-49bf-a1d6-65e665bfa7c2",
+      "name": "🗑️ Deletar Google Doc",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1200,
+        0
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "KEagKKMnotHtHqUf",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://www.googleapis.com/drive/v3/files/{{ $('📤 Upload DOCX no Drive').item.json.id }}/permissions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleDriveOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"role\": \"reader\",\n  \"type\": \"anyone\"\n}",
+        "options": {}
+      },
+      "id": "42d21a7f-44bf-41b8-81fe-9d481874bf74",
+      "name": "🔓 Tornar Público",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1440,
+        0
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "KEagKKMnotHtHqUf",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const docId = $('📤 Upload DOCX no Drive').first().json.id;\nconst p = $('▶️ When Executed by Another Workflow').first().json;\nreturn [{\n  json: {\n    sucesso: true,\n    link_download: `https://drive.google.com/uc?export=download&id=${docId}`,\n    instance: p.instance,\n    remoteJid: p.remoteJid,\n    professor: p.professor,\n    semana: p.semana\n  }\n}];"
+      },
+      "id": "8e56456d-6126-44bd-baa6-598b82440978",
+      "name": "🔗 Montar Link Download",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1680,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "operation": "send-document",
+        "instanceName": "={{ $json.instance }}",
+        "remoteJid": "={{ $json.remoteJid }}",
+        "media": "={{ $json.link_download }}",
+        "fileName": "document.docx",
+        "options_message": {}
+      },
+      "id": "fea5f4a5-a1b5-4220-83a6-de48756398db",
+      "name": "📲 Enviar DOCX WhatsApp",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        0
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('🔗 Montar Link Download').item.json.instance }}",
+        "remoteJid": "={{ $('🔗 Montar Link Download').item.json.remoteJid }}",
+        "messageText": "=✅ *Rotina semanal gerada com sucesso!*\n\n📅 Semana: {{ $('🔗 Montar Link Download').item.json.semana }}\n👩‍🏫 Professor(a): {{ $('🔗 Montar Link Download').item.json.professor }}\n\nO arquivo DOCX foi enviado acima 👆 com habilidades BNCC, objetivos e desenvolvimento de cada aula.\n\nPosso te ajudar com mais alguma coisa?\n• Digite *plano* para gerar um plano de aula\n• Digite *rotina* para gerar uma nova rotina",
+        "options_message": {
+          "delay": 500
+        }
+      },
+      "id": "313a7c07-1b27-46f5-8ffa-a4f54752dc8b",
+      "name": "💬 Confirmação Final",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        2160,
+        0
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { output: '✅ Rotina semanal criada e enviada com sucesso!' } }];"
+      },
+      "id": "f7826dd0-b618-4418-8bdc-5efa28721f8f",
+      "name": "↩️ Retorno Final",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2400,
+        0
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "▶️ When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "📄 Copia Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📄 Copia Template": {
+      "main": [
+        [
+          {
+            "node": "✏️ Preenche Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✏️ Preenche Template": {
+      "main": [
+        [
+          {
+            "node": "⬇️ Exportar como DOCX",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⬇️ Exportar como DOCX": {
+      "main": [
+        [
+          {
+            "node": "📤 Upload DOCX no Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📤 Upload DOCX no Drive": {
+      "main": [
+        [
+          {
+            "node": "🗑️ Deletar Google Doc",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🗑️ Deletar Google Doc": {
+      "main": [
+        [
+          {
+            "node": "🔓 Tornar Público",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔓 Tornar Público": {
+      "main": [
+        [
+          {
+            "node": "🔗 Montar Link Download",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔗 Montar Link Download": {
+      "main": [
+        [
+          {
+            "node": "📲 Enviar DOCX WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📲 Enviar DOCX WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "💬 Confirmação Final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "💬 Confirmação Final": {
+      "main": [
+        [
+          {
+            "node": "↩️ Retorno Final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "f8ac80b6-88fc-4bf1-9c72-10b848d7d14c",
+  "meta": {
+    "instanceId": "ea30732b7484dfb258074bf24d3a47b450ea4a84b2219075cce71f27330e65b9"
+  },
+  "nodeGroups": [],
+  "id": "5SpRQFZ2rZSgY3lO",
+  "tags": []
+}

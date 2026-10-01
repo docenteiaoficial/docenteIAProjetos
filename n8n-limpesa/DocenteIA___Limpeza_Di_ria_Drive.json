@@ -1,0 +1,264 @@
+{
+  "name": "DocenteIA — Limpeza Diária Drive",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 2
+            }
+          ]
+        }
+      },
+      "id": "1861d13f-b63d-4c6c-bdfc-485957437a82",
+      "name": "⏰ Cron: Todo dia às 2h",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -896,
+        -176
+      ],
+      "notes": "Executa todo dia às 2h da manhã (horário do servidor). Ajuste conforme seu fuso."
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "'10CxEaOGVXxQ_o4-dGDHrfEV01BNGvcIh' in parents and trashed = false",
+        "returnAll": true,
+        "filter": {},
+        "options": {
+          "fields": [
+            "id",
+            "mimeType",
+            "name"
+          ]
+        }
+      },
+      "id": "5f65e90b-0f2c-4aa9-82d5-db6f2c5247e7",
+      "name": "📂 Listar Arquivos da Pasta",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -656,
+        -176
+      ],
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "KEagKKMnotHtHqUf",
+          "name": "Google Drive account"
+        }
+      },
+      "notes": "Lista todos os arquivos na pasta PLANOS_GERADOS. Substituir SUBSTITUIR_ID_PASTA_PLANOS_GERADOS pelo ID real."
+    },
+    {
+      "parameters": {
+        "jsCode": "const agora = Date.now();\nconst LIMITE_MS = 24 * 60 * 60 * 1000;\n\n// Tenta pegar de $json.files (HTTP Request) ou $input.all() (nó nativo)\nlet arquivos = [];\n\ntry {\n  const files = $input.first().json?.files;\n  if (Array.isArray(files) && files.length > 0) {\n    arquivos = files;\n  } else {\n    arquivos = $input.all().map(i => i.json);\n  }\n} catch(e) {\n  arquivos = $input.all().map(i => i.json);\n}\n\n// Se não tem createdTime, exclui mesmo (arquivo sem data = seguro deletar)\nconst paraExcluir = arquivos.filter(f => {\n  if (!f.createdTime) return true;\n  const criado = new Date(f.createdTime).getTime();\n  return (agora - criado) > LIMITE_MS;\n});\n\nif (paraExcluir.length === 0) {\n  return [{ json: { nada_para_excluir: true, total: 0 } }];\n}\n\nreturn paraExcluir.map(f => ({\n  json: {\n    nada_para_excluir: false,\n    file_id: f.id,\n    file_name: f.name,\n    criado_em: f.createdTime || 'sem data'\n  }\n}));"
+      },
+      "id": "a980b82c-a8c7-4f48-9351-111fb6174399",
+      "name": "🔍 Filtrar Arquivos Antigos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        -176
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cond-nada",
+              "leftValue": "={{ $json.nada_para_excluir }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "69668dcf-0e1a-46e7-83ec-a10688c9ea92",
+      "name": "⑂ Tem Arquivos para Excluir?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -144,
+        -176
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "deleteFile",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.file_id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "id": "56a90d15-790d-4c14-a4ef-16acb1989b8b",
+      "name": "🗑️ Deletar Arquivo",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        176,
+        -64
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "KEagKKMnotHtHqUf",
+          "name": "Google Drive account"
+        }
+      },
+      "notes": "Deleta cada arquivo com mais de 24h. Executa em loop para cada item retornado pelo filtro."
+    },
+    {
+      "parameters": {
+        "tableId": "security_events",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "jid",
+              "fieldValue": "sistema"
+            },
+            {
+              "fieldId": "camada",
+              "fieldValue": "LIMPEZA_DRIVE"
+            },
+            {
+              "fieldId": "tipo_violacao",
+              "fieldValue": "LIMPEZA_AUTOMATICA"
+            },
+            {
+              "fieldId": "payload_resumido",
+              "fieldValue": "={{ 'Arquivos deletados: ' + $input.all().length }}"
+            },
+            {
+              "fieldId": "instancia",
+              "fieldValue": "cron"
+            }
+          ]
+        }
+      },
+      "id": "aaf2f3a4-d871-438f-8490-5be8bcd44b5d",
+      "name": "📝 Log Limpeza",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        416,
+        -64
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      },
+      "notes": "Registra quantos arquivos foram deletados no log de segurança existente."
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { status: 'Nenhum arquivo para excluir hoje.', timestamp: new Date().toISOString() } }];"
+      },
+      "id": "bd3f8ab0-d90d-47fa-b409-bc0e0ad313e5",
+      "name": "✅ Log: Nada para Excluir",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        160,
+        -320
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "⏰ Cron: Todo dia às 2h": {
+      "main": [
+        [
+          {
+            "node": "📂 Listar Arquivos da Pasta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📂 Listar Arquivos da Pasta": {
+      "main": [
+        [
+          {
+            "node": "🔍 Filtrar Arquivos Antigos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔍 Filtrar Arquivos Antigos": {
+      "main": [
+        [
+          {
+            "node": "⑂ Tem Arquivos para Excluir?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⑂ Tem Arquivos para Excluir?": {
+      "main": [
+        [
+          {
+            "node": "✅ Log: Nada para Excluir",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "🗑️ Deletar Arquivo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🗑️ Deletar Arquivo": {
+      "main": [
+        [
+          {
+            "node": "📝 Log Limpeza",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "ca17aa6e-5d8f-4084-8f93-aff9f58af267",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ea30732b7484dfb258074bf24d3a47b450ea4a84b2219075cce71f27330e65b9"
+  },
+  "nodeGroups": [],
+  "id": "YGEEnd1LCjg085gz",
+  "tags": []
+}

@@ -1,0 +1,514 @@
+{
+  "name": "DocenteIA — Criar Plano de Aula (Google Docs → DOCX) v3.1",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "professor"
+            },
+            {
+              "name": "componente_curricular"
+            },
+            {
+              "name": "ano_serie"
+            },
+            {
+              "name": "semana"
+            },
+            {
+              "name": "unidade_tematica"
+            },
+            {
+              "name": "objeto_conhecimento"
+            },
+            {
+              "name": "titulo_aula"
+            },
+            {
+              "name": "conteudo"
+            },
+            {
+              "name": "objetivos"
+            },
+            {
+              "name": "habilidades"
+            },
+            {
+              "name": "aprendizagem_essencial"
+            },
+            {
+              "name": "metodologia"
+            },
+            {
+              "name": "recursos_didaticos"
+            },
+            {
+              "name": "estrategias_desenvolvimento"
+            },
+            {
+              "name": "criterios_avaliacao"
+            },
+            {
+              "name": "referencias"
+            },
+            {
+              "name": "instance"
+            },
+            {
+              "name": "remoteJid"
+            }
+          ]
+        }
+      },
+      "id": "0e4aa222-470c-4b39-9329-5f4c59c97df2",
+      "name": "▶️ When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "value": "1ZYm1y2Jo4KcLFYVfWABCjOkM913EYPCTUJ0qyyDWB3Q",
+          "mode": "id"
+        },
+        "name": "=Plano - {{ $json.professor }} - {{ $json.semana }}",
+        "options": {}
+      },
+      "id": "b92f76ea-2e19-49f9-ba52-00e44b545132",
+      "name": "📄 Copia Template",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        240,
+        0
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "KEagKKMnotHtHqUf",
+          "name": "Google Drive account"
+        }
+      },
+      "notes": "Template fica em pasta separada (TEMPLATES). Cópia vai para pasta PLANOS_GERADOS. Substituir SUBSTITUIR_ID_PASTA_PLANOS_GERADOS pelo ID real da pasta."
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('📄 Copia Template').item.json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "replaceAll",
+              "text": "{{professor}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.professor }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{componente_curricular}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.componente_curricular }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{ano_serie}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.ano_serie }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{semana}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.semana }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{unidade_tematica}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.unidade_tematica }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{objeto_conhecimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.objeto_conhecimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{titulo_aula}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.titulo_aula }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{conteudo}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.conteudo }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{objetivos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.objetivos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{habilidades}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.habilidades }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{aprendizagem_essencial}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.aprendizagem_essencial }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{metodologia}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.metodologia }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{recursos_didaticos}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.recursos_didaticos }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{estrategias_desenvolvimento}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.estrategias_desenvolvimento }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{criterios_avaliacao}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.criterios_avaliacao }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{referencias}}",
+              "replaceText": "={{ $('▶️ When Executed by Another Workflow').item.json.referencias }}"
+            }
+          ]
+        }
+      },
+      "id": "a289a060-4a71-4d2e-8ca1-7530ef90e6d9",
+      "name": "✏️ Preenche os Campos",
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        480,
+        0
+      ],
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "VsXbbmp2WoLB4Iur",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://www.googleapis.com/drive/v3/files/{{ $('📄 Copia Template').item.json.id }}/export?mimeType=application%2Fvnd.openxmlformats-officedocument.wordprocessingml.document",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleDriveOAuth2Api",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "41b57354-7de8-4ab0-820e-9df16b580d49",
+      "name": "⬇️ Exportar como DOCX",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        720,
+        0
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "KEagKKMnotHtHqUf",
+          "name": "Google Drive account"
+        }
+      },
+      "notes": "Exporta o Google Doc preenchido como .docx via Drive Export API. Retorna o binário do arquivo."
+    },
+    {
+      "parameters": {
+        "name": "=Plano - {{ $('▶️ When Executed by Another Workflow').item.json.professor }} - {{ $('▶️ When Executed by Another Workflow').item.json.semana }}.docx",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "10CxEaOGVXxQ_o4-dGDHrfEV01BNGvcIh",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "id": "dd620240-2663-43bb-841e-be58be8f6105",
+      "name": "📤 Upload DOCX no Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        960,
+        0
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "KEagKKMnotHtHqUf",
+          "name": "Google Drive account"
+        }
+      },
+      "notes": "Faz upload do .docx gerado na pasta PLANOS_GERADOS. Arquivo nomeado com professor e semana."
+    },
+    {
+      "parameters": {
+        "operation": "deleteFile",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('📄 Copia Template').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "id": "5f4587b5-33e8-44e8-bfbe-ad1d4e9e1d6d",
+      "name": "🗑️ Deletar Google Doc",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1200,
+        0
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "KEagKKMnotHtHqUf",
+          "name": "Google Drive account"
+        }
+      },
+      "notes": "Apaga o Google Doc intermediário após exportar para DOCX. Só o .docx fica salvo na pasta."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://www.googleapis.com/drive/v3/files/{{ $('📤 Upload DOCX no Drive').item.json.id }}/permissions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleDriveOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"role\": \"reader\",\n  \"type\": \"anyone\"\n}",
+        "options": {}
+      },
+      "id": "62928e0f-ad9d-493a-8ac4-4ada258ee200",
+      "name": "🔓 Tornar Público (download)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1424,
+        32
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "KEagKKMnotHtHqUf",
+          "name": "Google Drive account"
+        }
+      },
+      "notes": "Torna o .docx público para que o professor possa baixar direto pelo link sem precisar logar no Google."
+    },
+    {
+      "parameters": {
+        "jsCode": "const docId = $('📤 Upload DOCX no Drive').first().json.id;\nconst docName = $('📤 Upload DOCX no Drive').first().json.name;\nconst professor = $('▶️ When Executed by Another Workflow').first().json.professor;\nconst semana = $('▶️ When Executed by Another Workflow').first().json.semana;\nconst instance = $('▶️ When Executed by Another Workflow').first().json.instance;\nconst remoteJid = $('▶️ When Executed by Another Workflow').first().json.remoteJid;\n\nconst linkDownload = `https://drive.google.com/uc?export=download&id=${docId}`;\n\nreturn [{\n  json: {\n    sucesso: true,\n    doc_id: docId,\n    doc_name: docName,\n    link_download: linkDownload,\n    instance,\n    remoteJid,\n    professor,\n    semana,\n    output: `✅ Plano de aula gerado com sucesso! O arquivo está sendo enviado...`\n  }\n}];"
+      },
+      "id": "7bf84764-697a-40be-9a8a-69a977d3dbc9",
+      "name": "↩️ Retorno para o Agente",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1696,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "operation": "send-document",
+        "instanceName": "={{ $json.instance }}",
+        "remoteJid": "={{ $json.remoteJid }}",
+        "media": "={{ $json.link_download }}",
+        "fileName": "document.docx",
+        "options_message": {}
+      },
+      "id": "cd6416b5-1391-4e70-bcf3-42a413d2d518",
+      "name": "📲 Enviar Arquivo WhatsApp",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        0
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      },
+      "notes": "Envia o .docx diretamente para o WhatsApp do professor via Evolution API sendMedia."
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { output: '✅ Plano de aula criado e enviado com sucesso para o seu WhatsApp!' } }];"
+      },
+      "id": "6d251d23-aa30-4271-a386-6047eb4605b6",
+      "name": "↩️ Retorno Final",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2160,
+        0
+      ]
+    }
+  ],
+  "pinData": {
+    "▶️ When Executed by Another Workflow": [
+      {
+        "json": {
+          "professor": "Alex Avelino Cardoso",
+          "componente_curricular": "Matemática",
+          "ano_serie": "6º ano",
+          "semana": "07/09 a 11/09",
+          "unidade_tematica": "Álgebra",
+          "objeto_conhecimento": "Revisão – Generalização de padrões numéricos e algébricos",
+          "titulo_aula": "Composição de números naturais",
+          "conteudo": "Identificação de padrões numéricos, uso de variáveis, generalização de sequências.",
+          "objetivos": "Desenvolver a habilidade de identificar sequências numéricas, compreender a utilização de variáveis, e generalizar padrões.",
+          "habilidades": "(EF03MA10) Identificar regularidades em sequências ordenadas de números naturais, resultantes da realização de adições ou subtrações sucessivas, por um mesmo número, descrever uma regra de formação da sequência e determinar elementos faltantes ou seguintes. (EF06MA05) Classificar números naturais em primos e compostos, estabelecer relações entre números, expressas pelos termos “é múltiplo de”, “é divisor de”, “é fator de”, e estabelecer, por meio de investigações, critérios de divisibilidade por 2, 3, 4, 5, 6, 8, 9, 10, 100 e 1000.",
+          "aprendizagem_essencial": "Compreensão de padrões numéricos e uso de variáveis para expressão de generalizações.",
+          "metodologia": "Aula expositiva, exercícios práticos, uso de tecnologia para visualização de sequências numéricas.",
+          "recursos_didaticos": "Quadro, projetor, caderno de exercícios, calculadoras, software de matemática.",
+          "estrategias_desenvolvimento": "AULAS 1 E 2 — PADRÕES NUMÉRICOS E VARIÁVEIS\n\nMOMENTO 1 -- INTRODUÇÃO AOS PADRÕES NUMÉRICOS\nIniciarei a aula apresentando sequências numéricas simples e desafiando os alunos a identificarem os padrões. Questionarei: \"O que vocês percebem de comum nessas sequências?\" e \"Como poderíamos prever o próximo número?\". Incentivarei a exploração livre e a hipótese antes de formalizar conceitos.\n\nFornecerei exemplos concretos, como 2, 4, 6, 8 → padrão de adição de 2; 5, 10, 15, 20 → multiplicação por 5. Refletiremos sobre como essas sequências aparecem no cotidiano, como na contagem de passos ou repetição de tarefas.\n\nRegistrarei no quadro os padrões descobertos, pedindo aos alunos que anotem:\n> 2, 4, 6, 8... (adição de 2)\n> 5, 10, 15, 20... (multiplicação por 5)\n\nPara alunos que encontrarem dificuldades, utilizarei jogos de contagem e atividades em grupo para facilitar a percepção dos padrões.\n\nMOMENTO 2 -- EXPLORANDO A UTILIZAÇÃO DE VARIÁVEIS\nApresentarei o conceito de variável como uma ferramenta para generalizar padrões numéricos. Explicarei que as variáveis podem representar qualquer número dentro de uma sequência, facilitando previsões.\n\nUsaremos exemplos práticos, como n + 2 para a sequência 2, 4, 6, 8, e discutiremos como as variáveis ajudam a simplificar expressões complexas. Perguntarei: \"Como as variáveis podem nos ajudar a entender melhor os números?\".\n\nColocarei no quadro exemplos claros e acessíveis, e assegurarei que todos os alunos compreendam antes de avançar:\n> n + 2; n = 2, 4, 6, 8...\n\nAos alunos com dificuldades, oferecerei apoio adicional através de exemplos visuais e manipulativos, como cartas e fichas numéricas.\n\nMOMENTO 3 -- DESCOBRINDO SEQUÊNCIAS COMPLEXAS\nApós a introdução, desafierei os alunos a identificar padrões em sequências mais complexas, como 3, 9, 27, 81, que envolvem multiplicação sucessiva. Questionarei: \"Qual é o padrão aqui e como poderíamos expressá-lo com variáveis?\".\n\nTrabalharemos em grupos para estimular a colaboração e o compartilhamento de ideias. Incentivarei os alunos a explicar seus raciocínios e verificarem a compreensão mútua.\n\n> Expressão: 3^n para a sequência 3, 9, 27, 81...\n\nPara consolidar o aprendizado, usarei desafios de lógica e problemas reais para aplicar os conceitos estudados. Registrarei na lousa as descobertas para referência.\n\nMOMENTO 4 -- APLICAÇÃO EM PROBLEMAS REAIS\nCom base nos conceitos adquiridos, os alunos aplicarão o uso de padrões e variáveis em problemas do dia a dia, como planejamento de finanças ou organização de eventos. Explicarei como essas habilidades são valiosas além da sala de aula.\n\nDarei um problema prático, como \"Se uma planta cresce 5cm por semana, quanto terá crescido após 10 semanas?\" e incentivarei os alunos a resolverem usando variáveis e padrões.\n\n> Cálculo: Crescimento = 5n, n = 10\n\nOferecerei suporte individualizado a alunos que precisarem de ajuda extra, garantindo que todos compreendam o processo antes de prosseguir.\n\nMOMENTO 5 -- REFLEXÃO SOBRE A UTILIDADE DOS PADRÕES\nPromoverei uma discussão reflexiva sobre a importância de reconhecer padrões e usar variáveis na matemática e outras disciplinas. Perguntarei: \"Como essas ferramentas podem facilitar a resolução de problemas?\".\n\nOs alunos compartilharão suas experiências e insights, e faremos uma síntese coletiva das ideias discutidas. Encorajarei o uso contínuo dessas técnicas em suas vidas diárias, como em jogos ou planejamento pessoal.\n\n> Reflexão: \"Padronização e variáveis nos ajudam a organizar e prever!\"\n\nPara alunos que ainda não se sentem confortáveis, proporcionarei exemplos adicionais e atividades práticas para reforçar a compreensão.\n\nMOMENTO 6 -- ESTRATÉGIAS DE RESOLUÇÃO DE PROBLEMAS\nFocaremos em estratégias para resolver problemas envolvendo padrões e variáveis, como quebra-cabeças matemáticos e equações simples. Apresentarei diferentes abordagens para soluções, incentivando a criatividade.\n\nOs alunos trabalharão em pares, explorando estratégias e discutindo suas descobertas. Questionarei: \"Quais passos você seguiu para resolver este desafio?\" e promoverei uma troca de ideias aberta.\n\n> Estratégia: Identificar o padrão, aplicar a variável, verificar o resultado\n\nPara aqueles que precisarem de assistência adicional, oferecerei suporte individualizado e explicações detalhadas.\n\nMOMENTO 7 -- AVALIAÇÃO E AJUSTES\nAplicarei uma avaliação formativa para medir a compreensão dos alunos sobre os conceitos abordados. Isso incluirá questões de múltipla escolha e problemas dissertativos.\n\nApós a avaliação, discutirei os resultados com a turma, identificando áreas de melhoria e celebrando os sucessos. Proporcionarei feedback construtivo e sugestões de estudo adicionais.\n\n> Revisão: Analisar erros, reforçar conceitos, planejar o aprimoramento\n\nPara alunos que necessitarem de apoio, disponibilizarei recursos de revisão e sessões de tutoria.\n\nMOMENTO FINAL -- CORREÇÃO MEDIADA E CONSOLIDAÇÃO\nRevisarei todos os conceitos abordados, destacando as conexões entre padrões numéricos e o uso de variáveis. Perguntarei: \"Qual foi a maior descoberta durante essas aulas?\" para estimular a reflexão e o autoentendimento.\n\nUtilizarei exemplos adicionais para garantir que todos os alunos compreendam os conceitos-chave e sua aplicação prática. Encorajarei a prática contínua e o aprendizado autônomo.\n\n> Consolidação: Revisão e reforço dos padrões e variáveis\n\nEncerrando com uma atividade de resumo, os alunos terão a oportunidade de aplicar o que aprenderam através de problemas desafiadores e reflexões sobre o aprendizado adquirido.\n\nATIVIDADES ADAPTADAS\nPRÉ-SILÁBICO -- VISUALIZAÇÃO DE SEQUÊNCIAS: Usarei imagens e objetos físicos para representar sequências, facilitando o entendimento dos alunos que ainda desenvolvem habilidades de leitura e escrita.\nSILÁBICO-ALFABÉTICO: Utilizarei atividades que relacionem palavras e números, fortalecendo a associação entre a linguagem e a matemática.",
+          "criterios_avaliacao": "Capacidade de identificar padrões, uso de variáveis para generalização, aplicação prática dos conceitos.",
+          "referencias": "LEMOV, Doug. Aula nota 10 3.0: 63 técnicas para melhorar a gestão da sala de aula. Porto Alegre: Penso, 2023. ROSENSHINE, B. “Principles of instruction”. American Educator, 2012. SÃO PAULO. Secretaria da Educação. Currículo Paulista: etapa Anos Finais, 2019.",
+          "instance": "whtas",
+          "remoteJid": "5519982097357@s.whatsapp.net"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "▶️ When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "📄 Copia Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📄 Copia Template": {
+      "main": [
+        [
+          {
+            "node": "✏️ Preenche os Campos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✏️ Preenche os Campos": {
+      "main": [
+        [
+          {
+            "node": "⬇️ Exportar como DOCX",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⬇️ Exportar como DOCX": {
+      "main": [
+        [
+          {
+            "node": "📤 Upload DOCX no Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📤 Upload DOCX no Drive": {
+      "main": [
+        [
+          {
+            "node": "🗑️ Deletar Google Doc",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🗑️ Deletar Google Doc": {
+      "main": [
+        [
+          {
+            "node": "🔓 Tornar Público (download)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔓 Tornar Público (download)": {
+      "main": [
+        [
+          {
+            "node": "↩️ Retorno para o Agente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "↩️ Retorno para o Agente": {
+      "main": [
+        [
+          {
+            "node": "📲 Enviar Arquivo WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📲 Enviar Arquivo WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "↩️ Retorno Final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "06b5b48b-f044-41fb-915b-1210e70c1e9b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ea30732b7484dfb258074bf24d3a47b450ea4a84b2219075cce71f27330e65b9"
+  },
+  "nodeGroups": [],
+  "id": "1b9FFfui580VoB9F",
+  "tags": []
+}

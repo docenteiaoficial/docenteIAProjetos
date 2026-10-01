@@ -1,0 +1,167 @@
+{
+  "name": "DocenteIA — Plano Form Trigger v1",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "instance"
+            },
+            {
+              "name": "remoteJid"
+            }
+          ]
+        }
+      },
+      "id": "cf5a4370-127c-49de-a23b-5ef110bfcf34",
+      "name": "▶️ Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\nconst instance = (input.instance || '').trim();\nconst remoteJid = (input.remoteJid || '').trim();\n\nif (!instance || !remoteJid) {\n  throw new Error(`Parâmetros insuficientes — instance: '${instance}', remoteJid: '${remoteJid}'`);\n}\n\nreturn [{ json: { instance, remoteJid } }];"
+      },
+      "id": "ef407f12-10dd-45fe-b965-fd7d7036870b",
+      "name": "✅ Validar Inputs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        256,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "professores",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $json.remoteJid }}"
+            }
+          ]
+        }
+      },
+      "id": "b24c5a27-341b-4c7e-ad37-f4d5b96bcd8b",
+      "name": "🔍 Buscar Professor Supabase",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        496,
+        0
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "0rCAcHMiMIvLQHTk",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ ($item(\"0\").$node[\"🔍 Buscar Professor Supabase\"].json[\"instancia\"] || $('✅ Validar Inputs').item.json.instance) }}",
+        "remoteJid": "={{ ($item(\"0\").$node[\"🔍 Buscar Professor Supabase\"].json[\"telefone\"] || $('✅ Validar Inputs').item.json.remoteJid) }}",
+        "messageText": "=📋 *Gerador de Plano de Aula*\n\nOlá, {{ $item(\"0\").$node[\"🔍 Buscar Professor Supabase\"].json[\"nome\"] || 'Professor(a)' }}! 👋\n\nPara criar seu plano semanal (segunda a sexta), acesse o formulário abaixo e informe:\n• Série\n• Disciplina\n• Tema\n• Descrição da aula (opcional — contexto extra para a IA)\nhttps://n8n.docenteia.com.br/form/d90ff736-8ea1-4ab2-8e6e-cae3aa6ea155?instancia={{ encodeURIComponent($json.instancia || $('✅ Validar Inputs').item.json.instance) }}&whatsapp={{ encodeURIComponent($json.telefone || $('✅ Validar Inputs').item.json.remoteJid) }}\n\n⏱️ Leva menos de 1 minuto. Assim que enviar, gero seu plano completo com habilidades BNCC e envio aqui! 📄",
+        "options_message": {
+          "delay": 500
+        }
+      },
+      "id": "b719d97e-b4f5-4aa8-8ca0-a0bda9f8a296",
+      "name": "📨 Enviar Link WhatsApp",
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        736,
+        0
+      ],
+      "credentials": {
+        "evolutionApi": {
+          "id": "E5czxP4X6XtC7nAs",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { output: '📋 Perfeito! Te enviei o link do formulário do plano de aula. É só preencher série, disciplina e tema que eu monto a semana completa (seg a sex) com habilidades BNCC! 📝' } }];"
+      },
+      "id": "5e33e51b-e4be-407b-8af0-112b1d3e7142",
+      "name": "↩️ Retorno ao Orquestrador",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        976,
+        0
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "▶️ Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "✅ Validar Inputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✅ Validar Inputs": {
+      "main": [
+        [
+          {
+            "node": "🔍 Buscar Professor Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔍 Buscar Professor Supabase": {
+      "main": [
+        [
+          {
+            "node": "📨 Enviar Link WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📨 Enviar Link WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "↩️ Retorno ao Orquestrador",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "827a894c-12ac-4c3e-8e46-494372b45855",
+  "meta": {
+    "instanceId": "ea30732b7484dfb258074bf24d3a47b450ea4a84b2219075cce71f27330e65b9"
+  },
+  "nodeGroups": [],
+  "id": "MEw8hmMg8iLNAUd1",
+  "tags": []
+}
